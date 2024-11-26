@@ -1,0 +1,21 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/action/detail/monitor__type_support.cpp.o"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/action/detail/monitor__type_support.cpp.o.d"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/msg/detail/db__type_support.cpp.o"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/msg/detail/db__type_support.cpp.o.d"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/srv/detail/order__type_support.cpp.o"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/srv/detail/order__type_support.cpp.o.d"
+  "libb4_serv_robot_interface__rosidl_typesupport_introspection_cpp.pdb"
+  "libb4_serv_robot_interface__rosidl_typesupport_introspection_cpp.so"
+  "rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/action/detail/monitor__rosidl_typesupport_introspection_cpp.hpp"
+  "rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/action/detail/monitor__type_support.cpp"
+  "rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/msg/detail/db__rosidl_typesupport_introspection_cpp.hpp"
+  "rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/msg/detail/db__type_support.cpp"
+  "rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_introspection_cpp.hpp"
+  "rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/srv/detail/order__type_support.cpp"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

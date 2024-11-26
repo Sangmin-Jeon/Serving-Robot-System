@@ -1,5 +1,0 @@
-[console_scripts]
-monitor = B4ServRobot.monitor:main
-order = B4ServRobot.order:main
-robot = B4ServRobot.robot:main
-

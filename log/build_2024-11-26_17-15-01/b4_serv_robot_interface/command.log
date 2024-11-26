@@ -1,0 +1,6 @@
+Invoking command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface -DCMAKE_INSTALL_PREFIX=/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface
+Invoked command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface -DCMAKE_INSTALL_PREFIX=/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface
+Invoking command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface -- -j8 -l8
+Invoked command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface -- -j8 -l8
+Invoking command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface
+Invoked command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface

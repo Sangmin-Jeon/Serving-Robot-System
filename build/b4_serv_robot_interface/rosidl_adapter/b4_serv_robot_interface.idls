@@ -1,0 +1,3 @@
+/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface:msg/DB.idl
+/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface:srv/Order.idl
+/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface:action/Monitor.idl

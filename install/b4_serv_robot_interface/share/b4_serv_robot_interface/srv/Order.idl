@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from b4_serv_robot_interface/srv/Order.srv
+// generated code does not contain a copyright notice
+
+
+module b4_serv_robot_interface {
+  module srv {
+    struct Order_Request {
+      string table_num;
+
+      sequence<string> order_info;
+    };
+    struct Order_Response {
+      boolean is_order;
+    };
+  };
+};

@@ -1,0 +1,45 @@
+[0.746s] Invoking command in '/home/rokey/B4ServRobot_ws/src/b4_serv_robot': PYTHONPATH=/home/rokey/B4ServRobot_ws/build/b4_serv_robot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/b4_serv_robot build --build-base /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build install --record /home/rokey/B4ServRobot_ws/build/b4_serv_robot/install.log --single-version-externally-managed install_data
+[1.008s] running egg_info
+[1.009s] creating ../../build/b4_serv_robot/b4_serv_robot.egg-info
+[1.009s] writing ../../build/b4_serv_robot/b4_serv_robot.egg-info/PKG-INFO
+[1.009s] writing dependency_links to ../../build/b4_serv_robot/b4_serv_robot.egg-info/dependency_links.txt
+[1.009s] writing entry points to ../../build/b4_serv_robot/b4_serv_robot.egg-info/entry_points.txt
+[1.009s] writing requirements to ../../build/b4_serv_robot/b4_serv_robot.egg-info/requires.txt
+[1.010s] writing top-level names to ../../build/b4_serv_robot/b4_serv_robot.egg-info/top_level.txt
+[1.011s] writing manifest file '../../build/b4_serv_robot/b4_serv_robot.egg-info/SOURCES.txt'
+[1.013s] reading manifest file '../../build/b4_serv_robot/b4_serv_robot.egg-info/SOURCES.txt'
+[1.013s] writing manifest file '../../build/b4_serv_robot/b4_serv_robot.egg-info/SOURCES.txt'
+[1.013s] running build
+[1.013s] running build_py
+[1.014s] creating /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build
+[1.014s] creating /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib
+[1.014s] creating /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot
+[1.014s] copying b4_serv_robot/order.py -> /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot
+[1.014s] copying b4_serv_robot/monitor.py -> /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot
+[1.014s] copying b4_serv_robot/robot.py -> /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot
+[1.014s] copying b4_serv_robot/__init__.py -> /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot
+[1.014s] running install
+[1.014s] running install_lib
+[1.015s] creating /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot
+[1.015s] copying /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot/order.py -> /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot
+[1.015s] copying /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot/monitor.py -> /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot
+[1.015s] copying /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot/robot.py -> /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot
+[1.015s] copying /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build/lib/b4_serv_robot/__init__.py -> /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot
+[1.016s] byte-compiling /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot/order.py to order.cpython-310.pyc
+[1.016s] byte-compiling /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot/monitor.py to monitor.cpython-310.pyc
+[1.017s] byte-compiling /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot/robot.py to robot.cpython-310.pyc
+[1.017s] byte-compiling /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot/__init__.py to __init__.cpython-310.pyc
+[1.017s] running install_data
+[1.017s] creating /home/rokey/B4ServRobot_ws/install/b4_serv_robot/share/ament_index
+[1.017s] creating /home/rokey/B4ServRobot_ws/install/b4_serv_robot/share/ament_index/resource_index
+[1.017s] creating /home/rokey/B4ServRobot_ws/install/b4_serv_robot/share/ament_index/resource_index/packages
+[1.017s] copying resource/b4_serv_robot -> /home/rokey/B4ServRobot_ws/install/b4_serv_robot/share/ament_index/resource_index/packages
+[1.017s] copying package.xml -> /home/rokey/B4ServRobot_ws/install/b4_serv_robot/share/b4_serv_robot
+[1.017s] running install_egg_info
+[1.019s] Copying ../../build/b4_serv_robot/b4_serv_robot.egg-info to /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages/b4_serv_robot-0.0.0-py3.10.egg-info
+[1.020s] running install_scripts
+[1.042s] Installing monitor script to /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/b4_serv_robot
+[1.042s] Installing order script to /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/b4_serv_robot
+[1.042s] Installing robot script to /home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/b4_serv_robot
+[1.042s] writing list of installed files to '/home/rokey/B4ServRobot_ws/build/b4_serv_robot/install.log'
+[1.067s] Invoked command in '/home/rokey/B4ServRobot_ws/src/b4_serv_robot' returned '0': PYTHONPATH=/home/rokey/B4ServRobot_ws/build/b4_serv_robot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/rokey/B4ServRobot_ws/install/b4_serv_robot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/b4_serv_robot build --build-base /home/rokey/B4ServRobot_ws/build/b4_serv_robot/build install --record /home/rokey/B4ServRobot_ws/build/b4_serv_robot/install.log --single-version-externally-managed install_data

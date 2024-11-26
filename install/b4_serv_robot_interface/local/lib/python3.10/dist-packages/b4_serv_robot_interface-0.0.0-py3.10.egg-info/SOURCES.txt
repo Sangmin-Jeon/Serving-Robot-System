@@ -1,0 +1,6 @@
+setup.py
+b4_serv_robot_interface/__init__.py
+b4_serv_robot_interface.egg-info/PKG-INFO
+b4_serv_robot_interface.egg-info/SOURCES.txt
+b4_serv_robot_interface.egg-info/dependency_links.txt
+b4_serv_robot_interface.egg-info/top_level.txt

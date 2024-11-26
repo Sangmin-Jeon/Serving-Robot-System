@@ -1,0 +1,12 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from b4_serv_robot_interface/msg/DB.msg
+// generated code does not contain a copyright notice
+
+
+module b4_serv_robot_interface {
+  module msg {
+    struct DB {
+      sequence<string> order_info;
+    };
+  };
+};

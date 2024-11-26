@@ -1,0 +1,4 @@
+source;share/b4_serv_robot_interface/local_setup.bash
+source;share/b4_serv_robot_interface/local_setup.dsv
+source;share/b4_serv_robot_interface/local_setup.sh
+source;share/b4_serv_robot_interface/local_setup.zsh

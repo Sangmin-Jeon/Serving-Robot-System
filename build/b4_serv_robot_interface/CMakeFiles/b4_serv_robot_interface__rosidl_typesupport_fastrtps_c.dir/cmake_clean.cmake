@@ -1,0 +1,21 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/action/detail/monitor__type_support_c.cpp.o"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/action/detail/monitor__type_support_c.cpp.o.d"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/msg/detail/db__type_support_c.cpp.o"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/msg/detail/db__type_support_c.cpp.o.d"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/srv/detail/order__type_support_c.cpp.o"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/srv/detail/order__type_support_c.cpp.o.d"
+  "libb4_serv_robot_interface__rosidl_typesupport_fastrtps_c.pdb"
+  "libb4_serv_robot_interface__rosidl_typesupport_fastrtps_c.so"
+  "rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/action/detail/monitor__rosidl_typesupport_fastrtps_c.h"
+  "rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/action/detail/monitor__type_support_c.cpp"
+  "rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/msg/detail/db__rosidl_typesupport_fastrtps_c.h"
+  "rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/msg/detail/db__type_support_c.cpp"
+  "rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_fastrtps_c.h"
+  "rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/srv/detail/order__type_support_c.cpp"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

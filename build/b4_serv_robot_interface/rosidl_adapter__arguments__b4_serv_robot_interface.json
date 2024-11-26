@@ -1,0 +1,8 @@
+{
+  "package_name": "b4_serv_robot_interface",
+  "non_idl_tuples": [
+    "/home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface:msg/DB.msg",
+    "/home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface:srv/Order.srv",
+    "/home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface:action/Monitor.action"
+  ]
+}

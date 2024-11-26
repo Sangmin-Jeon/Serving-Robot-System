@@ -1,0 +1,320 @@
+[0.309s] Invoking command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface -DCMAKE_INSTALL_PREFIX=/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface
+[0.404s] -- The C compiler identification is GNU 11.4.0
+[0.491s] -- The CXX compiler identification is GNU 11.4.0
+[0.504s] -- Detecting C compiler ABI info
+[0.571s] -- Detecting C compiler ABI info - done
+[0.589s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.590s] -- Detecting C compile features
+[0.591s] -- Detecting C compile features - done
+[0.597s] -- Detecting CXX compiler ABI info
+[0.672s] -- Detecting CXX compiler ABI info - done
+[0.679s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.679s] -- Detecting CXX compile features
+[0.680s] -- Detecting CXX compile features - done
+[0.687s] -- Found ament_cmake: 1.3.10 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.841s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.937s] -- Found builtin_interfaces: 1.2.1 (/opt/ros/humble/share/builtin_interfaces/cmake)
+[0.978s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.985s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.996s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.014s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.035s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.057s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[1.349s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[1.641s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.753s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.774s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[1.776s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[1.801s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[1.801s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[1.801s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[1.801s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[1.821s] -- Found PythonExtra: .so  
+[1.858s] -- Found ament_lint_auto: 0.12.11 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[1.883s] -- Added test 'lint_cmake' to check CMake code style
+[1.884s] -- Added test 'xmllint' to check XML markup files
+[1.886s] -- Configuring done
+[1.918s] -- Generating done
+[1.921s] -- Build files have been written to: /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface
+[1.929s] Invoked command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface -DCMAKE_INSTALL_PREFIX=/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface
+[1.931s] Invoking command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface -- -j8 -l8
+[1.965s] [  2%] [34m[1mGenerating C code for ROS interfaces[0m
+[1.973s] [  4%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[1.981s] [  4%] Built target ament_cmake_python_copy_b4_serv_robot_interface
+[2.263s] running egg_info
+[2.264s] creating b4_serv_robot_interface.egg-info
+[2.264s] writing b4_serv_robot_interface.egg-info/PKG-INFO
+[2.264s] writing dependency_links to b4_serv_robot_interface.egg-info/dependency_links.txt
+[2.264s] writing top-level names to b4_serv_robot_interface.egg-info/top_level.txt
+[2.265s] writing manifest file 'b4_serv_robot_interface.egg-info/SOURCES.txt'
+[2.267s] reading manifest file 'b4_serv_robot_interface.egg-info/SOURCES.txt'
+[2.268s] writing manifest file 'b4_serv_robot_interface.egg-info/SOURCES.txt'
+[2.296s] [  4%] Built target ament_cmake_python_build_b4_serv_robot_interface_egg
+[2.529s] [  4%] Built target b4_serv_robot_interface__cpp
+[2.541s] [  6%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[2.542s] [ 10%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[2.542s] [ 10%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[2.553s] [ 12%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_c.dir/rosidl_generator_c/b4_serv_robot_interface/msg/detail/db__functions.c.o[0m
+[2.556s] [ 17%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_c.dir/rosidl_generator_c/b4_serv_robot_interface/action/detail/monitor__functions.c.o[0m
+[2.556s] [ 17%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_c.dir/rosidl_generator_c/b4_serv_robot_interface/srv/detail/order__functions.c.o[0m
+[2.775s] [ 19%] [32m[1mLinking C shared library libb4_serv_robot_interface__rosidl_generator_c.so[0m
+[2.812s] [ 19%] Built target b4_serv_robot_interface__rosidl_generator_c
+[2.841s] [ 21%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[2.841s] [ 23%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[2.844s] [ 25%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[3.090s] [ 31%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/b4_serv_robot_interface/action/monitor__type_support.cpp.o[0m
+[3.090s] [ 31%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/b4_serv_robot_interface/msg/db__type_support.cpp.o[0m
+[3.090s] [ 31%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/b4_serv_robot_interface/srv/order__type_support.cpp.o[0m
+[3.515s] [ 34%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp.o[0m
+[3.546s] [ 36%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/msg/detail/db__type_support.cpp.o[0m
+[3.713s] [ 38%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/srv/detail/order__type_support.cpp.o[0m
+[3.725s] [ 40%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_c.dir/rosidl_typesupport_c/b4_serv_robot_interface/msg/db__type_support.cpp.o[0m
+[3.728s] [ 42%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/b4_serv_robot_interface/action/detail/monitor__type_support.cpp.o[0m
+[3.778s] [ 44%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_c.dir/rosidl_typesupport_c/b4_serv_robot_interface/srv/order__type_support.cpp.o[0m
+[3.838s] [ 46%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_c.dir/rosidl_typesupport_c/b4_serv_robot_interface/action/monitor__type_support.cpp.o[0m
+[3.923s] [ 48%] [32m[1mLinking CXX shared library libb4_serv_robot_interface__rosidl_typesupport_c.so[0m
+[4.004s] [ 48%] Built target b4_serv_robot_interface__rosidl_typesupport_c
+[4.057s] [ 51%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/b4_serv_robot_interface/msg/detail/db__type_support.c.o[0m
+[4.059s] [ 53%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/b4_serv_robot_interface/srv/detail/order__type_support.c.o[0m
+[4.061s] [ 55%] [32m[1mLinking CXX shared library libb4_serv_robot_interface__rosidl_typesupport_cpp.so[0m
+[4.094s] [ 57%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/msg/detail/db__type_support_c.cpp.o[0m
+[4.127s] [ 59%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order__type_support.cpp.o[0m
+[4.133s] [ 61%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/b4_serv_robot_interface/action/detail/monitor__type_support.c.o[0m
+[4.133s] [ 61%] Built target b4_serv_robot_interface__rosidl_typesupport_cpp
+[4.148s] [ 63%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o[0m
+[4.221s] [ 65%] [32m[1mLinking C shared library libb4_serv_robot_interface__rosidl_typesupport_introspection_c.so[0m
+[4.271s] [ 65%] Built target b4_serv_robot_interface__rosidl_typesupport_introspection_c
+[4.285s] [ 68%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/srv/detail/order__type_support_c.cpp.o[0m
+[4.418s] [ 70%] [32mBuilding CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/b4_serv_robot_interface/action/detail/monitor__type_support_c.cpp.o[0m
+[4.901s] [ 72%] [32m[1mLinking CXX shared library libb4_serv_robot_interface__rosidl_typesupport_introspection_cpp.so[0m
+[5.003s] [ 72%] Built target b4_serv_robot_interface__rosidl_typesupport_introspection_cpp
+[5.051s] [ 74%] [32m[1mLinking CXX shared library libb4_serv_robot_interface__rosidl_typesupport_fastrtps_c.so[0m
+[5.063s] [ 76%] [32m[1mLinking CXX shared library libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so[0m
+[5.154s] [ 76%] Built target b4_serv_robot_interface__rosidl_typesupport_fastrtps_c
+[5.174s] [ 76%] Built target b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp
+[5.202s] [ 76%] Built target b4_serv_robot_interface
+[5.231s] [ 78%] [34m[1mGenerating Python code for ROS interfaces[0m
+[6.178s] [ 78%] Built target b4_serv_robot_interface__py
+[6.197s] [ 85%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/msg/_db_s.c.o[0m
+[6.197s] [ 85%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_s.c.o[0m
+[6.197s] [ 85%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o[0m
+[6.357s] [ 87%] [32m[1mLinking C shared library rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so[0m
+[6.394s] [ 87%] Built target b4_serv_robot_interface__rosidl_generator_py
+[6.412s] [ 93%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[6.412s] [ 93%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[6.412s] [ 93%] [32mBuilding C object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_c.c.o[0m
+[6.542s] [100%] [32m[1mLinking C shared library rosidl_generator_py/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[6.542s] [100%] [32m[1mLinking C shared library rosidl_generator_py/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[6.542s] [100%] [32m[1mLinking C shared library rosidl_generator_py/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[6.579s] [100%] Built target b4_serv_robot_interface__rosidl_typesupport_fastrtps_c__pyext
+[6.579s] [100%] Built target b4_serv_robot_interface__rosidl_typesupport_introspection_c__pyext
+[6.579s] [100%] Built target b4_serv_robot_interface__rosidl_typesupport_c__pyext
+[6.589s] Invoked command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface -- -j8 -l8
+[6.672s] Invoking command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface
+[6.678s] -- Install configuration: ""
+[6.679s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/ament_index/resource_index/rosidl_interfaces/b4_serv_robot_interface
+[6.679s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface
+[6.679s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg
+[6.679s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/db.h
+[6.679s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail
+[6.679s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__functions.h
+[6.680s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__type_support.h
+[6.680s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__struct.h
+[6.680s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__functions.c
+[6.680s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/rosidl_generator_c__visibility_control.h
+[6.680s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action
+[6.680s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/monitor.h
+[6.680s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail
+[6.681s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__struct.h
+[6.681s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__functions.h
+[6.681s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__functions.c
+[6.681s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__type_support.h
+[6.681s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv
+[6.681s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/order.h
+[6.681s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail
+[6.681s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__functions.h
+[6.682s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__struct.h
+[6.682s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__type_support.h
+[6.682s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__functions.c
+[6.682s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/environment/library_path.sh
+[6.682s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/environment/library_path.dsv
+[6.682s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_generator_c.so
+[6.683s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_generator_c.so" to ""
+[6.683s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface
+[6.683s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg
+[6.683s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[6.683s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail
+[6.684s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__rosidl_typesupport_fastrtps_c.h
+[6.684s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action
+[6.684s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail
+[6.684s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__rosidl_typesupport_fastrtps_c.h
+[6.684s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv
+[6.684s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail
+[6.684s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_fastrtps_c.h
+[6.684s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_fastrtps_c.so
+[6.684s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_fastrtps_c.so" to ""
+[6.685s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface
+[6.685s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg
+[6.685s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/db.hpp
+[6.685s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail
+[6.685s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__struct.hpp
+[6.685s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__builder.hpp
+[6.685s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__traits.hpp
+[6.686s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action
+[6.686s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/monitor.hpp
+[6.686s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail
+[6.686s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__builder.hpp
+[6.686s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__struct.hpp
+[6.686s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__traits.hpp
+[6.686s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv
+[6.686s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/order.hpp
+[6.687s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail
+[6.687s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__traits.hpp
+[6.687s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__builder.hpp
+[6.687s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__struct.hpp
+[6.687s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface
+[6.687s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg
+[6.687s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[6.688s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail
+[6.688s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__rosidl_typesupport_fastrtps_cpp.hpp
+[6.688s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/dds_fastrtps
+[6.688s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action
+[6.688s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail
+[6.688s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/dds_fastrtps
+[6.688s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__rosidl_typesupport_fastrtps_cpp.hpp
+[6.688s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv
+[6.689s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail
+[6.689s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_fastrtps_cpp.hpp
+[6.689s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/dds_fastrtps
+[6.689s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so
+[6.689s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so" to ""
+[6.689s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface
+[6.689s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg
+[6.689s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[6.690s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail
+[6.690s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__type_support.c
+[6.690s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__rosidl_typesupport_introspection_c.h
+[6.690s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action
+[6.690s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail
+[6.690s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__type_support.c
+[6.690s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__rosidl_typesupport_introspection_c.h
+[6.690s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv
+[6.691s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail
+[6.691s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__type_support.c
+[6.691s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_introspection_c.h
+[6.691s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_introspection_c.so
+[6.691s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_introspection_c.so" to ""
+[6.691s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_c.so
+[6.691s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_c.so" to ""
+[6.691s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface
+[6.692s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg
+[6.692s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail
+[6.692s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__type_support.cpp
+[6.692s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/msg/detail/db__rosidl_typesupport_introspection_cpp.hpp
+[6.692s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action
+[6.692s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail
+[6.692s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__type_support.cpp
+[6.692s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/action/detail/monitor__rosidl_typesupport_introspection_cpp.hpp
+[6.692s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv
+[6.693s] -- Up-to-date: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail
+[6.693s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__type_support.cpp
+[6.693s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/include/b4_serv_robot_interface/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_introspection_cpp.hpp
+[6.693s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_introspection_cpp.so
+[6.693s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_introspection_cpp.so" to ""
+[6.693s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_cpp.so
+[6.693s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_typesupport_cpp.so" to ""
+[6.694s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/environment/pythonpath.sh
+[6.694s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/environment/pythonpath.dsv
+[6.694s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface-0.0.0-py3.10.egg-info
+[6.694s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface-0.0.0-py3.10.egg-info/top_level.txt
+[6.694s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface-0.0.0-py3.10.egg-info/dependency_links.txt
+[6.694s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface-0.0.0-py3.10.egg-info/SOURCES.txt
+[6.694s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface-0.0.0-py3.10.egg-info/PKG-INFO
+[6.695s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface
+[6.695s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_c.c
+[6.695s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so
+[6.695s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[6.695s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_fastrtps_c.c
+[6.695s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[6.695s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[6.696s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_introspection_c.c
+[6.696s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/msg
+[6.696s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/msg/_db_s.c
+[6.696s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/msg/_db.py
+[6.696s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/msg/__init__.py
+[6.696s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/action
+[6.697s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/action/_monitor.py
+[6.697s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/action/_monitor_s.c
+[6.697s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/action/__init__.py
+[6.697s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/srv
+[6.697s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/srv/_order.py
+[6.697s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/srv/_order_s.c
+[6.697s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/srv/__init__.py
+[6.698s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/__init__.py
+[6.748s] Listing '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface'...
+[6.748s] Compiling '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/__init__.py'...
+[6.748s] Listing '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/action'...
+[6.748s] Compiling '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/action/__init__.py'...
+[6.748s] Compiling '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/action/_monitor.py'...
+[6.748s] Listing '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/msg'...
+[6.748s] Compiling '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/msg/__init__.py'...
+[6.748s] Compiling '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/msg/_db.py'...
+[6.748s] Listing '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/srv'...
+[6.749s] Compiling '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/srv/__init__.py'...
+[6.749s] Compiling '/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/srv/_order.py'...
+[6.754s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[6.754s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so" to ""
+[6.754s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[6.754s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so" to ""
+[6.755s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[6.755s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/local/lib/python3.10/dist-packages/b4_serv_robot_interface/b4_serv_robot_interface_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so" to ""
+[6.755s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_generator_py.so
+[6.755s] -- Set runtime path of "/home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/lib/libb4_serv_robot_interface__rosidl_generator_py.so" to ""
+[6.755s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/msg/DB.idl
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/srv/Order.idl
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/action/Monitor.idl
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/msg/DB.msg
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/srv/Order.srv
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/srv/Order_Request.msg
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/srv/Order_Response.msg
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/action/Monitor.action
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/ament_index/resource_index/package_run_dependencies/b4_serv_robot_interface
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/ament_index/resource_index/parent_prefix_path/b4_serv_robot_interface
+[6.756s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/environment/ament_prefix_path.sh
+[6.757s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/environment/ament_prefix_path.dsv
+[6.757s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/environment/path.sh
+[6.757s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/environment/path.dsv
+[6.757s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/local_setup.bash
+[6.757s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/local_setup.sh
+[6.757s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/local_setup.zsh
+[6.757s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/local_setup.dsv
+[6.757s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/package.dsv
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/ament_index/resource_index/packages/b4_serv_robot_interface
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_generator_cExport.cmake
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_generator_cExport-noconfig.cmake
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_typesupport_fastrtps_cExport.cmake
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_generator_cppExport.cmake
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_typesupport_fastrtps_cppExport.cmake
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[6.758s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interface__rosidl_typesupport_introspection_cExport.cmake
+[6.759s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interface__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[6.759s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interface__rosidl_typesupport_cExport.cmake
+[6.759s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interface__rosidl_typesupport_cExport-noconfig.cmake
+[6.759s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interface__rosidl_typesupport_introspection_cppExport.cmake
+[6.759s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interface__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[6.759s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interface__rosidl_typesupport_cppExport.cmake
+[6.759s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interface__rosidl_typesupport_cppExport-noconfig.cmake
+[6.759s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_generator_pyExport.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/export_b4_serv_robot_interface__rosidl_generator_pyExport-noconfig.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/ament_cmake_export_dependencies-extras.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/rosidl_cmake-extras.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/ament_cmake_export_include_directories-extras.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/ament_cmake_export_libraries-extras.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/ament_cmake_export_targets-extras.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interfaceConfig.cmake
+[6.760s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/cmake/b4_serv_robot_interfaceConfig-version.cmake
+[6.761s] -- Installing: /home/rokey/B4ServRobot_ws/install/b4_serv_robot_interface/share/b4_serv_robot_interface/package.xml
+[6.763s] Invoked command in '/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface
