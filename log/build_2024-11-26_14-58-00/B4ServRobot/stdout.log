@@ -1,0 +1,31 @@
+running egg_info
+writing ../../build/B4ServRobot/B4ServRobot.egg-info/PKG-INFO
+writing dependency_links to ../../build/B4ServRobot/B4ServRobot.egg-info/dependency_links.txt
+writing entry points to ../../build/B4ServRobot/B4ServRobot.egg-info/entry_points.txt
+writing requirements to ../../build/B4ServRobot/B4ServRobot.egg-info/requires.txt
+writing top-level names to ../../build/B4ServRobot/B4ServRobot.egg-info/top_level.txt
+reading manifest file '../../build/B4ServRobot/B4ServRobot.egg-info/SOURCES.txt'
+writing manifest file '../../build/B4ServRobot/B4ServRobot.egg-info/SOURCES.txt'
+running build
+running build_py
+copying B4ServRobot/order.py -> /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build/lib/B4ServRobot
+copying B4ServRobot/robot.py -> /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build/lib/B4ServRobot
+copying B4ServRobot/monitor.py -> /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build/lib/B4ServRobot
+running install
+running install_lib
+copying /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build/lib/B4ServRobot/order.py -> /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot
+copying /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build/lib/B4ServRobot/robot.py -> /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot
+copying /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build/lib/B4ServRobot/monitor.py -> /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot
+byte-compiling /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot/order.py to order.cpython-310.pyc
+byte-compiling /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot/robot.py to robot.cpython-310.pyc
+byte-compiling /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot/monitor.py to monitor.cpython-310.pyc
+running install_data
+copying package.xml -> /home/yeeun/B4ServRobot_ws/install/B4ServRobot/share/B4ServRobot
+running install_egg_info
+removing '/home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/B4ServRobot/B4ServRobot.egg-info to /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot-0.0.0-py3.10.egg-info
+running install_scripts
+Installing monitor script to /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/B4ServRobot
+Installing order script to /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/B4ServRobot
+Installing robot script to /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/B4ServRobot
+writing list of installed files to '/home/yeeun/B4ServRobot_ws/build/B4ServRobot/install.log'

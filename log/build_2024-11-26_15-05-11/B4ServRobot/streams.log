@@ -1,0 +1,26 @@
+[0.931s] Invoking command in '/home/yeeun/B4ServRobot_ws/src/B4ServRobot': PYTHONPATH=/home/yeeun/B4ServRobot_ws/build/B4ServRobot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/B4ServRobot build --build-base /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build install --record /home/yeeun/B4ServRobot_ws/build/B4ServRobot/install.log --single-version-externally-managed install_data
+[1.312s] running egg_info
+[1.312s] writing ../../build/B4ServRobot/B4ServRobot.egg-info/PKG-INFO
+[1.312s] writing dependency_links to ../../build/B4ServRobot/B4ServRobot.egg-info/dependency_links.txt
+[1.313s] writing entry points to ../../build/B4ServRobot/B4ServRobot.egg-info/entry_points.txt
+[1.313s] writing requirements to ../../build/B4ServRobot/B4ServRobot.egg-info/requires.txt
+[1.313s] writing top-level names to ../../build/B4ServRobot/B4ServRobot.egg-info/top_level.txt
+[1.315s] reading manifest file '../../build/B4ServRobot/B4ServRobot.egg-info/SOURCES.txt'
+[1.316s] writing manifest file '../../build/B4ServRobot/B4ServRobot.egg-info/SOURCES.txt'
+[1.317s] running build
+[1.317s] running build_py
+[1.317s] copying B4ServRobot/monitor.py -> /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build/lib/B4ServRobot
+[1.317s] running install
+[1.317s] running install_lib
+[1.318s] copying /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build/lib/B4ServRobot/monitor.py -> /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot
+[1.319s] byte-compiling /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot/monitor.py to monitor.cpython-310.pyc
+[1.320s] running install_data
+[1.320s] running install_egg_info
+[1.322s] removing '/home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot-0.0.0-py3.10.egg-info' (and everything under it)
+[1.322s] Copying ../../build/B4ServRobot/B4ServRobot.egg-info to /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages/B4ServRobot-0.0.0-py3.10.egg-info
+[1.323s] running install_scripts
+[1.346s] Installing monitor script to /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/B4ServRobot
+[1.346s] Installing order script to /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/B4ServRobot
+[1.346s] Installing robot script to /home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/B4ServRobot
+[1.347s] writing list of installed files to '/home/yeeun/B4ServRobot_ws/build/B4ServRobot/install.log'
+[1.377s] Invoked command in '/home/yeeun/B4ServRobot_ws/src/B4ServRobot' returned '0': PYTHONPATH=/home/yeeun/B4ServRobot_ws/build/B4ServRobot/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/yeeun/B4ServRobot_ws/install/B4ServRobot/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated setup.py egg_info --egg-base ../../build/B4ServRobot build --build-base /home/yeeun/B4ServRobot_ws/build/B4ServRobot/build install --record /home/yeeun/B4ServRobot_ws/build/B4ServRobot/install.log --single-version-externally-managed install_data
