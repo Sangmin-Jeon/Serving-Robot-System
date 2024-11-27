@@ -83,68 +83,68 @@ class Tab2Content(QWidget):
         layout.addWidget(label)
 
         # Add Sales Dashboard
-        # self.sales_dashboard = SalesDashboard()
-        # layout.addWidget(self.sales_dashboard)
-        #
-        # self.setLayout(layout)
+        self.sales_dashboard = SalesDashboard()
+        layout.addWidget(self.sales_dashboard)
 
-# class SalesDashboard(QWidget):
-#     def __init__(self):
-#         super().__init__()
-#
-#         # Main layout for the dashboard
-#         main_layout = QVBoxLayout(self)
-#
-#         # Back button (Currently does nothing)
-#         self.back_button = QPushButton("돌아가기")
-#         self.back_button.clicked.connect(self.go_back)
-#         main_layout.addWidget(self.back_button)
-#
-#         # Daily Sales Chart
-#         self.daily_sales_canvas = self.create_bar_chart([100, 200, 150], ["11/26", "4/27", "11/28"], "일일 매출")
-#         main_layout.addWidget(self.daily_sales_canvas)
-#
-#         # Monthly Sales Chart with ComboBox
-#         month_selection_layout = QHBoxLayout()
-#         self.month_combo = QComboBox()
-#         self.month_combo.addItems(["11월", "12월"])
-#         month_selection_layout.addWidget(self.month_combo)
-#         main_layout.addLayout(month_selection_layout)
-#         self.month_sales_canvas = self.create_bar_chart([300, 400, 350], ["11/26", "11/27", "11/28"], "월별 매출")
-#         main_layout.addWidget(self.month_sales_canvas)
-#
-#         # Menu Sales Chart with ComboBox
-#         menu_selection_layout = QHBoxLayout()
-#         self.menu_combo = QComboBox()
-#         self.menu_combo.addItems(["메뉴1", "메뉴2", "메뉴3", "메뉴4", "메뉴5"])
-#         menu_selection_layout.addWidget(self.menu_combo)
-#         main_layout.addLayout(menu_selection_layout)
-#         self.menu_sales_canvas = self.create_bar_chart([120, 220], ["11/26", "11/27"], "메뉴 매출")
-#         main_layout.addWidget(self.menu_sales_canvas)
-#
-#         # Checkboxes for daily menu selection
-#         self.menu_checkboxes_layout = QVBoxLayout()
-#         self.menu_checkboxes = []
-#         for i in range(1, 6):
-#             checkbox = QCheckBox(f"메뉴{i}")
-#             self.menu_checkboxes.append(checkbox)
-#             self.menu_checkboxes_layout.addWidget(checkbox)
-#         main_layout.addLayout(self.menu_checkboxes_layout)
-#
-#         self.setLayout(main_layout)
-#
-#     def create_bar_chart(self, data, labels, title):
-#         # Create a bar chart
-#         figure, ax = plt.subplots()
-#         ax.bar(labels, data)
-#         ax.set_title(title)
-#
-#         canvas = FigureCanvas(figure)
-#         return canvas
-#
-#     def go_back(self):
-#         # Placeholder for "Back" button functionality
-#         pass
+        self.setLayout(layout)
+
+class SalesDashboard(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        # Main layout for the dashboard
+        main_layout = QVBoxLayout(self)
+
+        # Back button (Currently does nothing)
+        self.back_button = QPushButton("돌아가기")
+        self.back_button.clicked.connect(self.go_back)
+        main_layout.addWidget(self.back_button)
+
+        # Daily Sales Chart
+        self.daily_sales_canvas = self.create_bar_chart([100, 200, 150], ["11/26", "4/27", "11/28"], "일일 매출")
+        main_layout.addWidget(self.daily_sales_canvas)
+
+        # Monthly Sales Chart with ComboBox
+        month_selection_layout = QHBoxLayout()
+        self.month_combo = QComboBox()
+        self.month_combo.addItems(["11월", "12월"])
+        month_selection_layout.addWidget(self.month_combo)
+        main_layout.addLayout(month_selection_layout)
+        self.month_sales_canvas = self.create_bar_chart([300, 400, 350], ["11/26", "11/27", "11/28"], "월별 매출")
+        main_layout.addWidget(self.month_sales_canvas)
+
+        # Menu Sales Chart with ComboBox
+        menu_selection_layout = QHBoxLayout()
+        self.menu_combo = QComboBox()
+        self.menu_combo.addItems(["메뉴1", "메뉴2", "메뉴3", "메뉴4", "메뉴5"])
+        menu_selection_layout.addWidget(self.menu_combo)
+        main_layout.addLayout(menu_selection_layout)
+        self.menu_sales_canvas = self.create_bar_chart([120, 220], ["11/26", "11/27"], "메뉴 매출")
+        main_layout.addWidget(self.menu_sales_canvas)
+
+        # Checkboxes for daily menu selection
+        self.menu_checkboxes_layout = QVBoxLayout()
+        self.menu_checkboxes = []
+        for i in range(1, 6):
+            checkbox = QCheckBox(f"메뉴{i}")
+            self.menu_checkboxes.append(checkbox)
+            self.menu_checkboxes_layout.addWidget(checkbox)
+        main_layout.addLayout(self.menu_checkboxes_layout)
+
+        self.setLayout(main_layout)
+
+    def create_bar_chart(self, data, labels, title):
+        # Create a bar chart
+        figure, ax = plt.subplots()
+        ax.bar(labels, data)
+        ax.set_title(title)
+
+        canvas = FigureCanvas(figure)
+        return canvas
+
+    def go_back(self):
+        # Placeholder for "Back" button functionality
+        pass
 
 
 class Cell(QWidget):
@@ -153,7 +153,7 @@ class Cell(QWidget):
         self.node = node
 
         self.table_number = table_number
-        self.order_details = order_details  # This is a list
+        self.order_details = order_details
 
         # Calculate size dynamically based on screen size and design
         screen_width = 1366  # Example screen width (adjust as needed)
@@ -164,19 +164,30 @@ class Cell(QWidget):
         # Set fixed size for the cell
         self.setFixedSize(cell_width, cell_height)
 
+        # Create a wrapper for the cell to apply border to it
+        self.wrapper = QWidget(self)  # Create a wrapper widget
+        self.wrapper.setGeometry(0, 0, cell_width, cell_height)  # Match the size of the cell
+
+        # Set the style for the wrapper widget (border, padding, etc.)
+        self.wrapper.setStyleSheet(
+            "border: 2px solid #4CAF50;"  # Green border for the wrapper
+            "border-radius: 5px;"          # Optional: rounded corners for the wrapper
+            "margin: 5px;"                 # External margin around the wrapper
+        )
+
         # Create a vertical layout for the cell
-        layout = QVBoxLayout(self)
+        layout = QVBoxLayout(self.wrapper)  # Set layout to the wrapper
 
         # Labels for table number and order details
-        self.table_number_label = QLabel(f"테이블 {table_number}", self)
+        self.table_number_label = QLabel(f"테이블 {table_number}", self.wrapper)
 
         # Join the order details list into a single string with line breaks
         order_details_str = "\n".join(order_details)  # Display list as multiline string
-        self.order_details_label = QLabel(f"주문 내역: {order_details_str}", self)
+        self.order_details_label = QLabel(f"{order_details_str}", self.wrapper)
 
-        # Set the style for the table number label
+        # Set the style for the table number label (Blue background for the table number)
         self.table_number_label.setStyleSheet(
-            "background-color: lightgray; padding: 5px; font-size: 18px;"  # Set font size here
+            "background-color: blue; padding: 5px; font-size: 18px; color: white;"  # Blue background, white text
         )
 
         # Set height for the table number label
@@ -185,9 +196,17 @@ class Cell(QWidget):
         # Center align the text in the label
         self.table_number_label.setAlignment(Qt.AlignCenter)
 
+        # Set the style for the order details label (Gray background for the order details)
+        self.order_details_label.setStyleSheet(
+            "background-color: lightgray; padding: 5px; font-size: 14px; color: black;"  # Gray background, black text
+        )
+
+        # Set height for the order details label
+        self.order_details_label.setAlignment(Qt.AlignLeft)
+
         # Create buttons
-        self.confirm_button = QPushButton("확인", self)
-        self.cancel_button = QPushButton("취소", self)
+        self.confirm_button = QPushButton("확인", self.wrapper)
+        self.cancel_button = QPushButton("취소", self.wrapper)
 
         # Set button actions (connect buttons to their corresponding methods)
         self.confirm_button.clicked.connect(self.confirm_order)
@@ -206,24 +225,18 @@ class Cell(QWidget):
         # Set the layout for the QWidget (cell)
         self.setLayout(layout)
 
-        # Set the style for the cell (border, padding, etc.)
-        self.setStyleSheet(
-            "border: 2px solid #4CAF50;"  # Green border
-            "border-radius: 5px;"  # Rounded corners (optional)
-            "margin: 0px;"  # Ensure no external margin
-            "padding: 0px;"  # Remove internal padding
-        )
-
         # Set size policy for dynamic resizing
         size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(size_policy)
 
     def confirm_order(self):
         print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
-        # self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
+        #self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
 
     def cancel_order(self):
         print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
+
+
 
 
 class MainDashboard(QWidget):
