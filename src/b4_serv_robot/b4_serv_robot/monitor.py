@@ -7,7 +7,7 @@ from rclpy.node import Node
 from rclpy.qos import QoSProfile
 from std_msgs.msg import String
 from b4_serv_robot_interface.srv import Order
-
+from rclpy.executors import MultiThreadedExecutor
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QVBoxLayout, QWidget, QCheckBox, QHBoxLayout, QLabel, QTabWidget, QPushButton
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -19,40 +19,41 @@ from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QTableWidgetItem, QPushButton, QHBoxLayout, QWidget
 from PyQt5.QtWidgets import QSizePolicy
 
-# from .MonitorView.salesDashboard import SalesDashboard
+# from PySide2.QtCore import *
+# from PySide2.QtWidgets import *
+from PyQt5.QtCore import QObject, pyqtSignal
 
-class NODE(Node):
+class NODE(Node, QObject):
+    message_received = pyqtSignal(Order.Request)  # 문자열 타입 신호 정의
+
     def __init__(self):
         super().__init__('node')
+        QObject.__init__(self)
 
-        qos_profile = QoSProfile(depth=5)
-        self.message_publisher = self.create_publisher(String, 'message', qos_profile)
-
-        self.queue = queue.Queue()
-        self.timer = self.create_timer(0.1, self.publish_message)
-
+        # 서비스 초기화
         self.service_server = self.create_service(Order, 'order_service', self.handle_service)
 
-    def publish_message(self):
-        while not self.queue.empty():
-            message = self.queue.get()
-            msg = String()
-            msg.data = message
-            self.message_publisher.publish(msg)
-            self.get_logger().info(f'Published message: {message}')
-
     def handle_service(self, request, response):
-        self.get_logger().info(f"Received service request: Table {request.table_num} with orders {request.order_info} time: {request.order_time}")
+        """
+        서비스 요청을 처리하고 응답을 설정합니다.
+        """
+        try:
+            # 서비스 요청 로그
+            self.get_logger().info(
+                f"Received service request: Table {request.table_num} with orders {request.order_info} time: {request.order_time}"
+            )
 
-        # 예시: 주문이 처리되면 is_order를 True로 설정
-        if request.table_num and len(request.order_info) > 0:
-            response.is_order = True  # 주문이 존재하고 테이블 번호가 있으면 True로 응답
+            # PyQt 신호로 전달
+            self.message_received.emit(request)
             self.get_logger().info(f"Order processed for table {request.table_num}.")
-        else:
-            response.is_order = False  # 테이블 번호 또는 주문 내용이 비어 있으면 False로 응답
-            self.get_logger().info("Invalid order request.")
+            return response
 
-        return response
+        except Exception as e:
+            # 예외 처리 및 응답 설정
+            self.get_logger().error(f"Error while processing service request: {e}")
+            return response
+
+
 
 
 # Tab 1 Content Widget (Basic)
@@ -82,68 +83,68 @@ class Tab2Content(QWidget):
         layout.addWidget(label)
 
         # Add Sales Dashboard
-        self.sales_dashboard = SalesDashboard()
-        layout.addWidget(self.sales_dashboard)
+        # self.sales_dashboard = SalesDashboard()
+        # layout.addWidget(self.sales_dashboard)
+        #
+        # self.setLayout(layout)
 
-        self.setLayout(layout)
-
-class SalesDashboard(QWidget):
-    def __init__(self):
-        super().__init__()
-
-        # Main layout for the dashboard
-        main_layout = QVBoxLayout(self)
-
-        # Back button (Currently does nothing)
-        self.back_button = QPushButton("돌아가기")
-        self.back_button.clicked.connect(self.go_back)
-        main_layout.addWidget(self.back_button)
-
-        # Daily Sales Chart
-        self.daily_sales_canvas = self.create_bar_chart([100, 200, 150], ["11/26", "4/27", "11/28"], "일일 매출")
-        main_layout.addWidget(self.daily_sales_canvas)
-
-        # Monthly Sales Chart with ComboBox
-        month_selection_layout = QHBoxLayout()
-        self.month_combo = QComboBox()
-        self.month_combo.addItems(["11월", "12월"])
-        month_selection_layout.addWidget(self.month_combo)
-        main_layout.addLayout(month_selection_layout)
-        self.month_sales_canvas = self.create_bar_chart([300, 400, 350], ["11/26", "11/27", "11/28"], "월별 매출")
-        main_layout.addWidget(self.month_sales_canvas)
-
-        # Menu Sales Chart with ComboBox
-        menu_selection_layout = QHBoxLayout()
-        self.menu_combo = QComboBox()
-        self.menu_combo.addItems(["메뉴1", "메뉴2", "메뉴3", "메뉴4", "메뉴5"])
-        menu_selection_layout.addWidget(self.menu_combo)
-        main_layout.addLayout(menu_selection_layout)
-        self.menu_sales_canvas = self.create_bar_chart([120, 220], ["11/26", "11/27"], "메뉴 매출")
-        main_layout.addWidget(self.menu_sales_canvas)
-
-        # Checkboxes for daily menu selection
-        self.menu_checkboxes_layout = QVBoxLayout()
-        self.menu_checkboxes = []
-        for i in range(1, 6):
-            checkbox = QCheckBox(f"메뉴{i}")
-            self.menu_checkboxes.append(checkbox)
-            self.menu_checkboxes_layout.addWidget(checkbox)
-        main_layout.addLayout(self.menu_checkboxes_layout)
-
-        self.setLayout(main_layout)
-
-    def create_bar_chart(self, data, labels, title):
-        # Create a bar chart
-        figure, ax = plt.subplots()
-        ax.bar(labels, data)
-        ax.set_title(title)
-
-        canvas = FigureCanvas(figure)
-        return canvas
-
-    def go_back(self):
-        # Placeholder for "Back" button functionality
-        pass
+# class SalesDashboard(QWidget):
+#     def __init__(self):
+#         super().__init__()
+#
+#         # Main layout for the dashboard
+#         main_layout = QVBoxLayout(self)
+#
+#         # Back button (Currently does nothing)
+#         self.back_button = QPushButton("돌아가기")
+#         self.back_button.clicked.connect(self.go_back)
+#         main_layout.addWidget(self.back_button)
+#
+#         # Daily Sales Chart
+#         self.daily_sales_canvas = self.create_bar_chart([100, 200, 150], ["11/26", "4/27", "11/28"], "일일 매출")
+#         main_layout.addWidget(self.daily_sales_canvas)
+#
+#         # Monthly Sales Chart with ComboBox
+#         month_selection_layout = QHBoxLayout()
+#         self.month_combo = QComboBox()
+#         self.month_combo.addItems(["11월", "12월"])
+#         month_selection_layout.addWidget(self.month_combo)
+#         main_layout.addLayout(month_selection_layout)
+#         self.month_sales_canvas = self.create_bar_chart([300, 400, 350], ["11/26", "11/27", "11/28"], "월별 매출")
+#         main_layout.addWidget(self.month_sales_canvas)
+#
+#         # Menu Sales Chart with ComboBox
+#         menu_selection_layout = QHBoxLayout()
+#         self.menu_combo = QComboBox()
+#         self.menu_combo.addItems(["메뉴1", "메뉴2", "메뉴3", "메뉴4", "메뉴5"])
+#         menu_selection_layout.addWidget(self.menu_combo)
+#         main_layout.addLayout(menu_selection_layout)
+#         self.menu_sales_canvas = self.create_bar_chart([120, 220], ["11/26", "11/27"], "메뉴 매출")
+#         main_layout.addWidget(self.menu_sales_canvas)
+#
+#         # Checkboxes for daily menu selection
+#         self.menu_checkboxes_layout = QVBoxLayout()
+#         self.menu_checkboxes = []
+#         for i in range(1, 6):
+#             checkbox = QCheckBox(f"메뉴{i}")
+#             self.menu_checkboxes.append(checkbox)
+#             self.menu_checkboxes_layout.addWidget(checkbox)
+#         main_layout.addLayout(self.menu_checkboxes_layout)
+#
+#         self.setLayout(main_layout)
+#
+#     def create_bar_chart(self, data, labels, title):
+#         # Create a bar chart
+#         figure, ax = plt.subplots()
+#         ax.bar(labels, data)
+#         ax.set_title(title)
+#
+#         canvas = FigureCanvas(figure)
+#         return canvas
+#
+#     def go_back(self):
+#         # Placeholder for "Back" button functionality
+#         pass
 
 
 class Cell(QWidget):
@@ -152,7 +153,7 @@ class Cell(QWidget):
         self.node = node
 
         self.table_number = table_number
-        self.order_details = order_details
+        self.order_details = order_details  # This is a list
 
         # Calculate size dynamically based on screen size and design
         screen_width = 1366  # Example screen width (adjust as needed)
@@ -168,7 +169,10 @@ class Cell(QWidget):
 
         # Labels for table number and order details
         self.table_number_label = QLabel(f"테이블 {table_number}", self)
-        self.order_details_label = QLabel(f"주문 내역: {order_details}", self)
+
+        # Join the order details list into a single string with line breaks
+        order_details_str = "\n".join(order_details)  # Display list as multiline string
+        self.order_details_label = QLabel(f"주문 내역: {order_details_str}", self)
 
         # Set the style for the table number label
         self.table_number_label.setStyleSheet(
@@ -214,11 +218,9 @@ class Cell(QWidget):
         size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(size_policy)
 
-
     def confirm_order(self):
         print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
-        self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
-        self.lineEdit.clear()
+        # self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
 
     def cancel_order(self):
         print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
@@ -230,37 +232,44 @@ class MainDashboard(QWidget):
         self.node = node
         # Main layout for the dashboard
         main_layout = QVBoxLayout(self)
+        self.get_message()
 
         # Create a QGridLayout
-        grid_layout = QGridLayout()
+        self.grid_layout = QGridLayout()
 
         # Set alignment for the entire grid layout to the top-left corner
-        grid_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
-
-        # Fill the grid with dummy data using the Cell class
-        dummy_data = [
-            [1, "오믈렛"],
-            [2, "라면"],
-            [3, "햄버거"],
-            [4, "피자"],
-
-        ]
-
-        row, col = 0, 0
-        for table_number, order_details in dummy_data:
-            cell = Cell(table_number, order_details, self.node)  # Assuming you have Cell class set up
-            grid_layout.addWidget(cell, row, col)
-            col += 1
-            if col > 4:  # If 5 cells are placed in a row, move to the next row
-                col = 0
-                row += 1
+        self.grid_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
 
         # Add the grid layout to the main layout
-        main_layout.addLayout(grid_layout)
+        main_layout.addLayout(self.grid_layout)
 
         # Set the layout of the main widget
         self.setLayout(main_layout)
 
+        # Initialize cell list (empty at first)
+        self.cells = []
+
+    def get_message(self):
+        self.node.message_received.connect(self.add_new_order)
+
+    def add_new_order(self, msg):
+        print(f"Received message: {msg}")
+
+        # Directly use the order_info as a list
+        table_number = msg.table_num
+        order_details = msg.order_info  # msg.order_info is already a list
+
+        # Create a new Cell widget and add it to the layout
+        cell = Cell(table_number, order_details, self.node)
+        self.cells.append(cell)  # Add new cell to the list
+
+        # Add the new cell to the grid layout
+        row = len(self.cells) // 5  # Move to next row every 5 cells
+        col = len(self.cells) % 5
+        self.grid_layout.addWidget(cell, row, col)
+
+        # Optionally, adjust the layout to ensure the grid is resized properly
+        self.grid_layout.update()
 
 
 # Main GUI Class
@@ -308,7 +317,13 @@ def main():
     # Initialize ROS 2
     rclpy.init()
     node = NODE()
-    ros_thread = threading.Thread(target=lambda: rclpy.spin(node), daemon=True)
+
+    # Initialize MultiThreadedExecutor
+    executor = MultiThreadedExecutor()
+    executor.add_node(node)
+
+    # Start the executor in a separate thread
+    ros_thread = threading.Thread(target=executor.spin, daemon=True)
     ros_thread.start()
 
     # Initialize PyQt Application
