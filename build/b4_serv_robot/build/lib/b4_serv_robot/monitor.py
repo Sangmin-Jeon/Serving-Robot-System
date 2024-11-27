@@ -8,19 +8,15 @@ from rclpy.qos import QoSProfile
 from std_msgs.msg import String
 from b4_serv_robot_interface.srv import Order
 
-
 from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QVBoxLayout, QWidget, QCheckBox, QHBoxLayout, QLabel, QTabWidget, QPushButton
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QHBoxLayout
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QGridLayout
-from PyQt5.QtWidgets import QTableWidgetItem, QPushButton, QHBoxLayout, QWidget
-from PyQt5.QtWidgets import QSizePolicy
+from PyQt5.QtWidgets import QGridLayout, QSizePolicy
 
-# from .MonitorView.salesDashboard import SalesDashboard
 
+# Node Class for ROS 2
 class NODE(Node):
     def __init__(self):
         super().__init__('node')
@@ -44,18 +40,20 @@ class NODE(Node):
     def handle_service(self, request, response):
         self.get_logger().info(f"Received service request: Table {request.table_num} with orders {request.order_info} time: {request.order_time}")
 
-        # 예시: 주문이 처리되면 is_order를 True로 설정
+        # Example: If order info is valid, mark as processed
         if request.table_num and len(request.order_info) > 0:
-            response.is_order = True  # 주문이 존재하고 테이블 번호가 있으면 True로 응답
+            response.is_order = True
             self.get_logger().info(f"Order processed for table {request.table_num}.")
+            # Put the order info into the queue for the GUI
+            self.queue.put(f"테이블 {request.table_num}: {request.order_info}")
         else:
-            response.is_order = False  # 테이블 번호 또는 주문 내용이 비어 있으면 False로 응답
+            response.is_order = False
             self.get_logger().info("Invalid order request.")
 
         return response
 
 
-# Tab 1 Content Widget (Basic)
+# Tab 1 Content Widget (Displays Orders)
 class Tab1Content(QWidget):
     def __init__(self, node):
         super().__init__()
@@ -67,7 +65,7 @@ class Tab1Content(QWidget):
         layout.addWidget(self.main_dashboard)  # Add MainDashboard to Tab 1
 
         # Add a label to Tab 1
-        label = QLabel("Tab 1 Content", self)
+        label = QLabel("주방 모니터", self)
         layout.addWidget(label)
 
         self.setLayout(layout)
@@ -78,7 +76,7 @@ class Tab2Content(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout(self)
-        label = QLabel("Tab 2 Content", self)
+        label = QLabel("통계", self)
         layout.addWidget(label)
 
         # Add Sales Dashboard
@@ -87,6 +85,8 @@ class Tab2Content(QWidget):
 
         self.setLayout(layout)
 
+
+# Sales Dashboard (for Statistics)
 class SalesDashboard(QWidget):
     def __init__(self):
         super().__init__()
@@ -146,13 +146,58 @@ class SalesDashboard(QWidget):
         pass
 
 
-class Cell(QWidget):
-    def __init__(self, table_number, order_details, node):
+# Cell Widget (Displays Individual Order Details)
+class MainDashboard(QWidget):
+    def __init__(self, node):
         super().__init__()
         self.node = node
+        # Main layout for the dashboard
+        main_layout = QVBoxLayout(self)
 
-        self.table_number = table_number
-        self.order_details = order_details
+        # Create a QGridLayout
+        self.grid_layout = QGridLayout()
+
+        # Set alignment for the entire grid layout to the top-left corner
+        self.grid_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+
+        # Add the grid layout to the main layout
+        main_layout.addLayout(self.grid_layout)
+
+        # Set the layout of the main widget
+        self.setLayout(main_layout)
+
+        # Listen to the queue and update UI
+        self.update_dashboard()
+
+    def update_dashboard(self):
+        # Clear existing widgets
+        for i in reversed(range(self.grid_layout.count())):
+            widget = self.grid_layout.itemAt(i).widget()
+            if widget is not None:
+                widget.deleteLater()
+
+        # Fetch data from the queue and update cells
+        while not self.node.queue.empty():
+            order_info = self.node.queue.get()  # This is a list like ['향어회/1/35000', '소주/1/5000']
+            self.display_order_info(order_info)
+
+    def display_order_info(self, order_info):
+        # Iterate through the order info list and create cells for each order
+        for index, item in enumerate(order_info):
+            item_name, quantity, price = item.split('/')
+            cell = Cell(item_name, quantity, price, self.node)
+            row = index // 5  # 5 items per row
+            column = index % 5  # up to 5 items in one row
+            self.grid_layout.addWidget(cell, row, column)
+
+
+class Cell(QWidget):
+    def __init__(self, item_name, quantity, price, node):
+        super().__init__()
+        self.node = node
+        self.item_name = item_name
+        self.quantity = quantity
+        self.price = price
 
         # Calculate size dynamically based on screen size and design
         screen_width = 1366  # Example screen width (adjust as needed)
@@ -166,20 +211,15 @@ class Cell(QWidget):
         # Create a vertical layout for the cell
         layout = QVBoxLayout(self)
 
-        # Labels for table number and order details
-        self.table_number_label = QLabel(f"테이블 {table_number}", self)
-        self.order_details_label = QLabel(f"주문 내역: {order_details}", self)
+        # Labels for item details
+        self.item_label = QLabel(f"{self.item_name}", self)
+        self.quantity_label = QLabel(f"수량: {self.quantity}", self)
+        self.price_label = QLabel(f"가격: {self.price}원", self)
 
-        # Set the style for the table number label
-        self.table_number_label.setStyleSheet(
-            "background-color: lightgray; padding: 5px; font-size: 18px;"  # Set font size here
-        )
-
-        # Set height for the table number label
-        self.table_number_label.setFixedHeight(50)
-
-        # Center align the text in the label
-        self.table_number_label.setAlignment(Qt.AlignCenter)
+        # Set the style for the labels
+        self.item_label.setStyleSheet("background-color: lightgray; padding: 5px; font-size: 18px;")
+        self.quantity_label.setStyleSheet("padding: 5px; font-size: 16px;")
+        self.price_label.setStyleSheet("padding: 5px; font-size: 16px;")
 
         # Create buttons
         self.confirm_button = QPushButton("확인", self)
@@ -195,8 +235,9 @@ class Cell(QWidget):
         button_layout.addWidget(self.cancel_button)
 
         # Add labels and button layout to the cell layout
-        layout.addWidget(self.table_number_label)
-        layout.addWidget(self.order_details_label)
+        layout.addWidget(self.item_label)
+        layout.addWidget(self.quantity_label)
+        layout.addWidget(self.price_label)
         layout.addLayout(button_layout)
 
         # Set the layout for the QWidget (cell)
@@ -214,53 +255,12 @@ class Cell(QWidget):
         size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(size_policy)
 
-
     def confirm_order(self):
-        print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
-        self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
-        self.lineEdit.clear()
+        print(f"주문 확인: {self.item_name}, 수량: {self.quantity}, 가격: {self.price}")
+        self.node.queue.put(f"주문 확인: {self.item_name}, 수량: {self.quantity}, 가격: {self.price}")
 
     def cancel_order(self):
-        print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
-
-
-class MainDashboard(QWidget):
-    def __init__(self, node):
-        super().__init__()
-        self.node = node
-        # Main layout for the dashboard
-        main_layout = QVBoxLayout(self)
-
-        # Create a QGridLayout
-        grid_layout = QGridLayout()
-
-        # Set alignment for the entire grid layout to the top-left corner
-        grid_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
-
-        # Fill the grid with dummy data using the Cell class
-        dummy_data = [
-            [1, "오믈렛"],
-            [2, "라면"],
-            [3, "햄버거"],
-            [4, "피자"],
-
-        ]
-
-        row, col = 0, 0
-        for table_number, order_details in dummy_data:
-            cell = Cell(table_number, order_details, self.node)  # Assuming you have Cell class set up
-            grid_layout.addWidget(cell, row, col)
-            col += 1
-            if col > 4:  # If 5 cells are placed in a row, move to the next row
-                col = 0
-                row += 1
-
-        # Add the grid layout to the main layout
-        main_layout.addLayout(grid_layout)
-
-        # Set the layout of the main widget
-        self.setLayout(main_layout)
-
+        print(f"주문 취소: {self.item_name}, 수량: {self.quantity}, 가격: {self.price}")
 
 
 # Main GUI Class
