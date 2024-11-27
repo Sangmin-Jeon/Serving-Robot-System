@@ -11,11 +11,13 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QVBoxLayout, Q
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QHBoxLayout
 from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QGridLayout
+from PyQt5.QtWidgets import QTableWidgetItem, QPushButton, QHBoxLayout, QWidget
+from PyQt5.QtWidgets import QSizePolicy
 
 # from .MonitorView.salesDashboard import SalesDashboard
-
 
 # ROS2 Node class for publishing messages
 class NODE(Node):
@@ -42,13 +44,13 @@ class Tab1Content(QWidget):
         super().__init__()
         layout = QVBoxLayout(self)
 
-        # Add a label to Tab 1
-        label = QLabel("Tab 1 Content", self)
-        layout.addWidget(label)
-
         # Add MainDashboard as part of the layout in Tab 1
         self.main_dashboard = MainDashboard()  # Instantiate the MainDashboard class
         layout.addWidget(self.main_dashboard)  # Add MainDashboard to Tab 1
+
+        # Add a label to Tab 1
+        label = QLabel("Tab 1 Content", self)
+        layout.addWidget(label)
 
         self.setLayout(layout)
 
@@ -126,14 +128,79 @@ class SalesDashboard(QWidget):
         pass
 
 
-class Cell:
-    def __init__(self, data):
-        # Create a table item for each cell's data
-        self.item = QTableWidgetItem(data)
-        self.item.setTextAlignment(Qt.AlignCenter)
+class Cell(QWidget):
+    def __init__(self, table_number, order_details):
+        super().__init__()
 
-    def get_item(self):
-        return self.item
+        self.table_number = table_number
+        self.order_details = order_details
+
+        # Calculate size dynamically based on screen size and design
+        screen_width = 1366  # Example screen width (adjust as needed)
+        available_width = screen_width - 40  # Subtract margins and padding
+        cell_width = available_width // 5  # Divide by 5 for 5 cells per row
+        cell_height = int(cell_width * 1.3)  # Increased height ratio to 1.3
+
+        # Set fixed size for the cell
+        self.setFixedSize(cell_width, cell_height)
+
+        # Create a vertical layout for the cell
+        layout = QVBoxLayout(self)
+
+        # Labels for table number and order details
+        self.table_number_label = QLabel(f"테이블 {table_number}", self)
+        self.order_details_label = QLabel(f"주문 내역: {order_details}", self)
+
+        # Set the style for the table number label
+        self.table_number_label.setStyleSheet(
+            "background-color: lightgray; padding: 5px; font-size: 18px;"  # Set font size here
+        )
+
+        # Set height for the table number label
+        self.table_number_label.setFixedHeight(50)
+
+        # Center align the text in the label
+        self.table_number_label.setAlignment(Qt.AlignCenter)
+
+        # Create buttons
+        self.confirm_button = QPushButton("확인", self)
+        self.cancel_button = QPushButton("취소", self)
+
+        # Set button actions (connect buttons to their corresponding methods)
+        self.confirm_button.clicked.connect(self.confirm_order)
+        self.cancel_button.clicked.connect(self.cancel_order)
+
+        # Create a horizontal layout for the buttons
+        button_layout = QHBoxLayout()
+        button_layout.addWidget(self.confirm_button)
+        button_layout.addWidget(self.cancel_button)
+
+        # Add labels and button layout to the cell layout
+        layout.addWidget(self.table_number_label)
+        layout.addWidget(self.order_details_label)
+        layout.addLayout(button_layout)
+
+        # Set the layout for the QWidget (cell)
+        self.setLayout(layout)
+
+        # Set the style for the cell (border, padding, etc.)
+        self.setStyleSheet(
+            "border: 2px solid #4CAF50;"  # Green border
+            "border-radius: 5px;"  # Rounded corners (optional)
+            "margin: 0px;"  # Ensure no external margin
+            "padding: 0px;"  # Remove internal padding
+        )
+
+        # Set size policy for dynamic resizing
+        size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.setSizePolicy(size_policy)
+
+
+    def confirm_order(self):
+        print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
+
+    def cancel_order(self):
+        print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
 
 
 class MainDashboard(QWidget):
@@ -143,37 +210,32 @@ class MainDashboard(QWidget):
         # Main layout for the dashboard
         main_layout = QVBoxLayout(self)
 
-        # Create a QTableWidget
-        self.table_widget = QTableWidget()
+        # Create a QGridLayout
+        grid_layout = QGridLayout()
 
-        # Set the number of rows and columns (5 rows, 3 columns)
-        self.table_widget.setRowCount(5)
-        self.table_widget.setColumnCount(3)
-
-        # Set the headers for the columns
-        self.table_widget.setHorizontalHeaderLabels(["Column 1", "Column 2", "Column 3"])
+        # Set alignment for the entire grid layout to the top-left corner
+        grid_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
 
         # Fill the grid with dummy data using the Cell class
         dummy_data = [
-            ["Row 1, Col 1", "Row 1, Col 2", "Row 1, Col 3"],
-            ["Row 2, Col 1", "Row 2, Col 2", "Row 2, Col 3"],
-            ["Row 3, Col 1", "Row 3, Col 2", "Row 3, Col 3"],
-            ["Row 4, Col 1", "Row 4, Col 2", "Row 4, Col 3"],
-            ["Row 5, Col 1", "Row 5, Col 2", "Row 5, Col 3"]
+            [1, "오믈렛"],
+
         ]
 
-        # Populate the table with dummy data
-        for row_idx, row_data in enumerate(dummy_data):
-            for col_idx, data in enumerate(row_data):
-                cell = Cell(data)
-                self.table_widget.setItem(row_idx, col_idx, cell.get_item())
+        row, col = 0, 0
+        for table_number, order_details in dummy_data:
+            cell = Cell(table_number, order_details)  # Assuming you have Cell class set up
+            grid_layout.addWidget(cell, row, col)
+            col += 1
+            if col > 4:  # If 5 cells are placed in a row, move to the next row
+                col = 0
+                row += 1
 
-        # Add the table widget to the layout
-        main_layout.addWidget(self.table_widget)
+        # Add the grid layout to the main layout
+        main_layout.addLayout(grid_layout)
 
         # Set the layout of the main widget
         self.setLayout(main_layout)
-
 
 
 
@@ -205,8 +267,8 @@ class RootView():
         self.tab2 = Tab2Content()
 
         # Add Tabs to Tab Widget
-        self.tabWidget.addTab(self.tab1, "Tab 1")
-        self.tabWidget.addTab(self.tab2, "Tab 2")
+        self.tabWidget.addTab(self.tab1, "주방 모니터")
+        self.tabWidget.addTab(self.tab2, "통계")
 
         # Set Tab Widget as central layout
         self.central_layout = QVBoxLayout(self.centralwidget)
