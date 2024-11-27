@@ -20,6 +20,7 @@ extern "C"
 // Include directives for member types
 // Member 'table_num'
 // Member 'order_info'
+// Member 'order_time'
 #include "rosidl_runtime_c/string.h"
 
 /// Struct defined in srv/Order in the package b4_serv_robot_interface.
@@ -27,6 +28,7 @@ typedef struct b4_serv_robot_interface__srv__Order_Request
 {
   rosidl_runtime_c__String table_num;
   rosidl_runtime_c__String__Sequence order_info;
+  rosidl_runtime_c__String order_time;
 } b4_serv_robot_interface__srv__Order_Request;
 
 // Struct for a sequence of b4_serv_robot_interface__srv__Order_Request.

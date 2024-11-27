@@ -82,7 +82,7 @@ void resize_function__Order_Request__order_info(void * untyped_member, size_t si
   member->resize(size);
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember Order_Request_message_member_array[2] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember Order_Request_message_member_array[3] = {
   {
     "table_num",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
@@ -116,13 +116,30 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember Order_Request
     fetch_function__Order_Request__order_info,  // fetch(index, &value) function pointer
     assign_function__Order_Request__order_info,  // assign(index, value) function pointer
     resize_function__Order_Request__order_info  // resize(index) function pointer
+  },
+  {
+    "order_time",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(b4_serv_robot_interface::srv::Order_Request, order_time),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr,  // fetch(index, &value) function pointer
+    nullptr,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers Order_Request_message_members = {
   "b4_serv_robot_interface::srv",  // message namespace
   "Order_Request",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(b4_serv_robot_interface::srv::Order_Request),
   Order_Request_message_member_array,  // message members
   Order_Request_init_function,  // function to initialize message memory (memory has to be allocated)

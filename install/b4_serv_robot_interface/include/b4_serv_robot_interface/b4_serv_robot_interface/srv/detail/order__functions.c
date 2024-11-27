@@ -13,6 +13,7 @@
 // Include directives for member types
 // Member `table_num`
 // Member `order_info`
+// Member `order_time`
 #include "rosidl_runtime_c/string_functions.h"
 
 bool
@@ -31,6 +32,11 @@ b4_serv_robot_interface__srv__Order_Request__init(b4_serv_robot_interface__srv__
     b4_serv_robot_interface__srv__Order_Request__fini(msg);
     return false;
   }
+  // order_time
+  if (!rosidl_runtime_c__String__init(&msg->order_time)) {
+    b4_serv_robot_interface__srv__Order_Request__fini(msg);
+    return false;
+  }
   return true;
 }
 
@@ -44,6 +50,8 @@ b4_serv_robot_interface__srv__Order_Request__fini(b4_serv_robot_interface__srv__
   rosidl_runtime_c__String__fini(&msg->table_num);
   // order_info
   rosidl_runtime_c__String__Sequence__fini(&msg->order_info);
+  // order_time
+  rosidl_runtime_c__String__fini(&msg->order_time);
 }
 
 bool
@@ -61,6 +69,12 @@ b4_serv_robot_interface__srv__Order_Request__are_equal(const b4_serv_robot_inter
   // order_info
   if (!rosidl_runtime_c__String__Sequence__are_equal(
       &(lhs->order_info), &(rhs->order_info)))
+  {
+    return false;
+  }
+  // order_time
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->order_time), &(rhs->order_time)))
   {
     return false;
   }
@@ -84,6 +98,12 @@ b4_serv_robot_interface__srv__Order_Request__copy(
   // order_info
   if (!rosidl_runtime_c__String__Sequence__copy(
       &(input->order_info), &(output->order_info)))
+  {
+    return false;
+  }
+  // order_time
+  if (!rosidl_runtime_c__String__copy(
+      &(input->order_time), &(output->order_time)))
   {
     return false;
   }

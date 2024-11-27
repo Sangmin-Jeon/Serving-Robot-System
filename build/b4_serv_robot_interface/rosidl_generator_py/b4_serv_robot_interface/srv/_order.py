@@ -57,16 +57,19 @@ class Order_Request(metaclass=Metaclass_Order_Request):
     __slots__ = [
         '_table_num',
         '_order_info',
+        '_order_time',
     ]
 
     _fields_and_field_types = {
         'table_num': 'string',
         'order_info': 'sequence<string>',
+        'order_time': 'string',
     }
 
     SLOT_TYPES = (
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
         rosidl_parser.definition.UnboundedSequence(rosidl_parser.definition.UnboundedString()),  # noqa: E501
+        rosidl_parser.definition.UnboundedString(),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -75,6 +78,7 @@ class Order_Request(metaclass=Metaclass_Order_Request):
             ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         self.table_num = kwargs.get('table_num', str())
         self.order_info = kwargs.get('order_info', [])
+        self.order_time = kwargs.get('order_time', str())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -108,6 +112,8 @@ class Order_Request(metaclass=Metaclass_Order_Request):
         if self.table_num != other.table_num:
             return False
         if self.order_info != other.order_info:
+            return False
+        if self.order_time != other.order_time:
             return False
         return True
 
@@ -151,6 +157,19 @@ class Order_Request(metaclass=Metaclass_Order_Request):
                  True), \
                 "The 'order_info' field must be a set or sequence and each value of type 'str'"
         self._order_info = value
+
+    @builtins.property
+    def order_time(self):
+        """Message field 'order_time'."""
+        return self._order_time
+
+    @order_time.setter
+    def order_time(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, str), \
+                "The 'order_time' field must be of type 'str'"
+        self._order_time = value
 
 
 # Import statements for member types

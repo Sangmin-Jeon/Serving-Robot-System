@@ -38,6 +38,8 @@ cdr_serialize(
   {
     cdr << ros_message.order_info;
   }
+  // Member: order_time
+  cdr << ros_message.order_time;
   return true;
 }
 
@@ -54,6 +56,9 @@ cdr_deserialize(
   {
     cdr >> ros_message.order_info;
   }
+
+  // Member: order_time
+  cdr >> ros_message.order_time;
 
   return true;
 }
@@ -87,6 +92,10 @@ get_serialized_size(
         (ros_message.order_info[index].size() + 1);
     }
   }
+  // Member: order_time
+  current_alignment += padding +
+    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+    (ros_message.order_time.size() + 1);
 
   return current_alignment - initial_alignment;
 }
@@ -141,6 +150,19 @@ max_serialized_size_Order_Request(
     }
   }
 
+  // Member: order_time
+  {
+    size_t array_size = 1;
+
+    full_bounded = false;
+    is_plain = false;
+    for (size_t index = 0; index < array_size; ++index) {
+      current_alignment += padding +
+        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+        1;
+    }
+  }
+
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -149,7 +171,7 @@ max_serialized_size_Order_Request(
     using DataType = b4_serv_robot_interface::srv::Order_Request;
     is_plain =
       (
-      offsetof(DataType, order_info) +
+      offsetof(DataType, order_time) +
       last_member_size
       ) == ret_val;
   }

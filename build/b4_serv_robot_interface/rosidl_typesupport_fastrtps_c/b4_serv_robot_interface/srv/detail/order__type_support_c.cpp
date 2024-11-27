@@ -34,8 +34,8 @@ extern "C"
 {
 #endif
 
-#include "rosidl_runtime_c/string.h"  // order_info, table_num
-#include "rosidl_runtime_c/string_functions.h"  // order_info, table_num
+#include "rosidl_runtime_c/string.h"  // order_info, order_time, table_num
+#include "rosidl_runtime_c/string_functions.h"  // order_info, order_time, table_num
 
 // forward declare type support functions
 
@@ -82,6 +82,20 @@ static bool _Order_Request__cdr_serialize(
       }
       cdr << str->data;
     }
+  }
+
+  // Field name: order_time
+  {
+    const rosidl_runtime_c__String * str = &ros_message->order_time;
+    if (str->capacity == 0 || str->capacity <= str->size) {
+      fprintf(stderr, "string capacity not greater than size\n");
+      return false;
+    }
+    if (str->data[str->size] != '\0') {
+      fprintf(stderr, "string not null-terminated\n");
+      return false;
+    }
+    cdr << str->data;
   }
 
   return true;
@@ -142,6 +156,22 @@ static bool _Order_Request__cdr_deserialize(
     }
   }
 
+  // Field name: order_time
+  {
+    std::string tmp;
+    cdr >> tmp;
+    if (!ros_message->order_time.data) {
+      rosidl_runtime_c__String__init(&ros_message->order_time);
+    }
+    bool succeeded = rosidl_runtime_c__String__assign(
+      &ros_message->order_time,
+      tmp.c_str());
+    if (!succeeded) {
+      fprintf(stderr, "failed to assign string into field 'order_time'\n");
+      return false;
+    }
+  }
+
   return true;
 }  // NOLINT(readability/fn_size)
 
@@ -175,6 +205,10 @@ size_t get_serialized_size_b4_serv_robot_interface__srv__Order_Request(
         (array_ptr[index].size + 1);
     }
   }
+  // field.name order_time
+  current_alignment += padding +
+    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+    (ros_message->order_time.size + 1);
 
   return current_alignment - initial_alignment;
 }
@@ -232,6 +266,18 @@ size_t max_serialized_size_b4_serv_robot_interface__srv__Order_Request(
         1;
     }
   }
+  // member: order_time
+  {
+    size_t array_size = 1;
+
+    full_bounded = false;
+    is_plain = false;
+    for (size_t index = 0; index < array_size; ++index) {
+      current_alignment += padding +
+        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+        1;
+    }
+  }
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -241,7 +287,7 @@ size_t max_serialized_size_b4_serv_robot_interface__srv__Order_Request(
     using DataType = b4_serv_robot_interface__srv__Order_Request;
     is_plain =
       (
-      offsetof(DataType, order_info) +
+      offsetof(DataType, order_time) +
       last_member_size
       ) == ret_val;
   }

@@ -15,6 +15,7 @@
 // Include directives for member types
 // Member `table_num`
 // Member `order_info`
+// Member `order_time`
 #include "rosidl_runtime_c/string_functions.h"
 
 #ifdef __cplusplus
@@ -91,7 +92,7 @@ bool b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspecti
   return rosidl_runtime_c__String__Sequence__init(member, size);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspection_c__Order_Request_message_member_array[2] = {
+static rosidl_typesupport_introspection_c__MessageMember b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspection_c__Order_Request_message_member_array[3] = {
   {
     "table_num",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -125,13 +126,30 @@ static rosidl_typesupport_introspection_c__MessageMember b4_serv_robot_interface
     b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspection_c__fetch_function__Order_Request__order_info,  // fetch(index, &value) function pointer
     b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspection_c__assign_function__Order_Request__order_info,  // assign(index, value) function pointer
     b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspection_c__resize_function__Order_Request__order_info  // resize(index) function pointer
+  },
+  {
+    "order_time",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(b4_serv_robot_interface__srv__Order_Request, order_time),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspection_c__Order_Request_message_members = {
   "b4_serv_robot_interface__srv",  // message namespace
   "Order_Request",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(b4_serv_robot_interface__srv__Order_Request),
   b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspection_c__Order_Request_message_member_array,  // message members
   b4_serv_robot_interface__srv__Order_Request__rosidl_typesupport_introspection_c__Order_Request_init_function,  // function to initialize message memory (memory has to be allocated)

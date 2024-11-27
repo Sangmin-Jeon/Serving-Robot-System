@@ -9,6 +9,8 @@ module b4_serv_robot_interface {
       string table_num;
 
       sequence<string> order_info;
+
+      string order_time;
     };
     struct Order_Response {
       boolean is_order;

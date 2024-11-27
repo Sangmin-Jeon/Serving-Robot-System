@@ -39,16 +39,19 @@ struct Order_Request_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->table_num = "";
+      this->order_time = "";
     }
   }
 
   explicit Order_Request_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-  : table_num(_alloc)
+  : table_num(_alloc),
+    order_time(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->table_num = "";
+      this->order_time = "";
     }
   }
 
@@ -59,6 +62,9 @@ struct Order_Request_
   using _order_info_type =
     std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>>;
   _order_info_type order_info;
+  using _order_time_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _order_time_type order_time;
 
   // setters for named parameter idiom
   Type & set__table_num(
@@ -71,6 +77,12 @@ struct Order_Request_
     const std::vector<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>>> & _arg)
   {
     this->order_info = _arg;
+    return *this;
+  }
+  Type & set__order_time(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
+  {
+    this->order_time = _arg;
     return *this;
   }
 
@@ -120,6 +132,9 @@ struct Order_Request_
       return false;
     }
     if (this->order_info != other.order_info) {
+      return false;
+    }
+    if (this->order_time != other.order_time) {
       return false;
     }
     return true;

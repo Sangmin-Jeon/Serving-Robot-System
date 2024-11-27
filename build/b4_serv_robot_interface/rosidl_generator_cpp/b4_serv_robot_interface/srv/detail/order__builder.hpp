@@ -21,16 +21,32 @@ namespace srv
 namespace builder
 {
 
+class Init_Order_Request_order_time
+{
+public:
+  explicit Init_Order_Request_order_time(::b4_serv_robot_interface::srv::Order_Request & msg)
+  : msg_(msg)
+  {}
+  ::b4_serv_robot_interface::srv::Order_Request order_time(::b4_serv_robot_interface::srv::Order_Request::_order_time_type arg)
+  {
+    msg_.order_time = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::b4_serv_robot_interface::srv::Order_Request msg_;
+};
+
 class Init_Order_Request_order_info
 {
 public:
   explicit Init_Order_Request_order_info(::b4_serv_robot_interface::srv::Order_Request & msg)
   : msg_(msg)
   {}
-  ::b4_serv_robot_interface::srv::Order_Request order_info(::b4_serv_robot_interface::srv::Order_Request::_order_info_type arg)
+  Init_Order_Request_order_time order_info(::b4_serv_robot_interface::srv::Order_Request::_order_info_type arg)
   {
     msg_.order_info = std::move(arg);
-    return std::move(msg_);
+    return Init_Order_Request_order_time(msg_);
   }
 
 private:
