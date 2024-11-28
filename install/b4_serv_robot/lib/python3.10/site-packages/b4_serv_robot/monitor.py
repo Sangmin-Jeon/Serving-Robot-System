@@ -31,6 +31,7 @@ class NODE(Node, QObject):
         QObject.__init__(self)
 
         self.callback_group = ReentrantCallbackGroup()
+        qos_profile = QoSProfile(depth=5)
 
         # 주문 확인 서비스
         self.service_server = self.create_service(
@@ -47,7 +48,6 @@ class NODE(Node, QObject):
             callback_group=self.callback_group)
 
         # DB 노드에 Topic 발행
-        qos_profile = QoSProfile(depth=5)
         self.message_publisher = self.create_publisher(
             DB,
             'order_db_message',
@@ -165,11 +165,11 @@ class Cell(QWidget):
 
         self.dashboard = dashboard
 
-        self.set_layout()
+        self.set_cell_layout()
 
 
     # UI layout
-    def set_layout(self):
+    def set_cell_layout(self):
         # Calculate size dynamically based on screen size and design
         screen_width = 1366  # Example screen width (adjust as needed)
         available_width = screen_width - 40  # Subtract margins and padding
@@ -199,6 +199,10 @@ class Cell(QWidget):
         # Join the order details list into a single string with line breaks
         order_details_str = "\n".join(self.order_details)  # Display list as multiline string
         self.order_details_label = QLabel(f"{order_details_str}", self.wrapper)
+
+        font = self.order_details_label.font()
+        font.setBold(True)
+        self.order_details_label.setFont(font)
 
         # Set the style for the table number label (Blue background for the table number)
         self.table_number_label.setStyleSheet(
@@ -247,8 +251,8 @@ class Cell(QWidget):
     # 주문 확인
     def confirm_order(self):
         print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}, 시간: {self.order_time}")
-        conv_msg = self._convert_order_msg(self.table_number, self.order_details, self.order_time, False)
         # 주문 확인: 테이블 B4, 내역: ['광어+우럭 세트/1/38000', '향어회/1/35000'], 시간: 2024-11-28 14:33:08
+        conv_msg = self._convert_order_msg(self.table_number, self.order_details, self.order_time, False)
         self.node.queue.put(conv_msg)
 
     # 주문 취소
@@ -269,8 +273,6 @@ class Cell(QWidget):
             dump = f"{table_num}/{item}/{is_cancel}/{order_time}/{formatted_time}"
             items.append(dump)
         return items
-
-
 
 
 
@@ -320,11 +322,12 @@ class MainDashboard(QWidget):
         # Optionally, adjust the layout to ensure the grid is resized properly
         self.grid_layout.update()
 
+    # Cell widget 삭제
     def remove_cell(self, cell):
         if cell in self.cells:
             self.cells.remove(cell)
             self.grid_layout.removeWidget(cell)
-            cell.deleteLater()  # Cell widget 삭제
+            cell.deleteLater()
             print(f"Cell for table {cell.table_number} has been removed.")
 
 
@@ -332,9 +335,9 @@ class MainDashboard(QWidget):
 class RootView():
     def __init__(self, node):
         self.node = node
-        self.setupUi()
+        self.setup_layout()
 
-    def setupUi(self):
+    def setup_layout(self):
         # Main Window creation
         self.window = QMainWindow()
         if not self.window.objectName():

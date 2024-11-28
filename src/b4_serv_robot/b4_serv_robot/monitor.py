@@ -200,6 +200,10 @@ class Cell(QWidget):
         order_details_str = "\n".join(self.order_details)  # Display list as multiline string
         self.order_details_label = QLabel(f"{order_details_str}", self.wrapper)
 
+        font = self.order_details_label.font()
+        font.setBold(True)
+        self.order_details_label.setFont(font)
+
         # Set the style for the table number label (Blue background for the table number)
         self.table_number_label.setStyleSheet(
             "background-color: blue; padding: 5px; font-size: 18px; color: white;"  # Blue background, white text
@@ -255,7 +259,8 @@ class Cell(QWidget):
     def cancel_order(self):
         print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
         self.node.order_cancel(True)
-        self._convert_order_msg(self.table_number, self.order_details, self.order_time, True)
+        conv_msg = self._convert_order_msg(self.table_number, self.order_details, self.order_time, True)
+        self.node.queue.put(conv_msg)
         # 취소 버튼 클릭 시 해당 cell을 삭제
         self.dashboard.remove_cell(self)
 
