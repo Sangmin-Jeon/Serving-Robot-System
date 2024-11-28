@@ -2,6 +2,7 @@ import sys
 import threading
 import queue
 from datetime import datetime
+from xmlrpc.client import Boolean
 
 # ROS 2 관련 라이브러리
 import rclpy
@@ -11,6 +12,8 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 
 # ROS 2 메시지 및 서비스 정의
+from std_msgs.msg import String
+from std_msgs.msg import Bool
 from b4_serv_robot_interface.srv import Order, OrderCancel
 from b4_serv_robot_interface.msg import DB
 
@@ -56,6 +59,24 @@ class NODE(Node, QObject):
 
         self.queue = queue.Queue()
         self.timer = self.create_timer(0.1, self.publish_order_message)
+
+        # DB 노드에 Topic 발행
+        self.move_robot_publisher = self.create_publisher(
+            String,
+            'table_no_msg',
+            qos_profile,
+            callback_group=self.callback_group)
+
+        self.table_num = ''
+        self.timer = self.create_timer(0.1, self.publish_move_robot)
+
+        self.subscription = self.create_subscription(
+            Bool,
+            'finished_goal',  # 구독할 토픽 이름
+            self.finished_goal_callback,  # 메시지를 처리할 콜백 함수
+            qos_profile,
+            callback_group=self.callback_group)
+
 
     # 주문 확인
     def order_service(self, request, response):
@@ -120,6 +141,18 @@ class NODE(Node, QObject):
             self.message_publisher.publish(msg)
             self.get_logger().info(f'Published message: {msg}')
 
+    # 로복으로 테이블 번호 발행
+    def publish_move_robot(self):
+        if self.table_num != '':
+            msg = String()  # std_msgs.msg.String 객체 생성
+            msg.data = self.table_num  # 메시지 데이터에 문자열 값 할당
+            # 메시지 발행
+            self.move_robot_publisher.publish(msg)
+            self.get_logger().info(f'Published message to robot node: {msg.data}')
+            self.table_num = ''
+
+    def finished_goal_callback(self, msg):
+        self.get_logger().info(f'Received finished goal: {msg.data}')
 
 # Tab 1 Content Widget (Basic)
 class Tab1Content(QWidget):
@@ -252,6 +285,8 @@ class Cell(QWidget):
     def confirm_order(self):
         print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}, 시간: {self.order_time}")
         # 주문 확인: 테이블 B4, 내역: ['광어+우럭 세트/1/38000', '향어회/1/35000'], 시간: 2024-11-28 14:33:08
+        self.node.table_num = self.table_number
+
         conv_msg = self._convert_order_msg(self.table_number, self.order_details, self.order_time, False)
         self.node.queue.put(conv_msg)
 
