@@ -9,6 +9,7 @@ setup.py
 ../../build/b4_serv_robot/b4_serv_robot.egg-info/top_level.txt
 ../../build/b4_serv_robot/b4_serv_robot.egg-info/zip-safe
 b4_serv_robot/__init__.py
+b4_serv_robot/database.py
 b4_serv_robot/monitor.py
 b4_serv_robot/order.py
 b4_serv_robot/robot.py
