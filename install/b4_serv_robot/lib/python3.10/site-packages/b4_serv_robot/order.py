@@ -8,14 +8,16 @@ from datetime import datetime
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout,
                              QHBoxLayout, QFrame, QTableWidget, QTableWidgetItem, QGridLayout, QGroupBox, QMessageBox)
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt, Q_ARG, QTimer
+from PyQt5.QtCore import Qt, Q_ARG, QTimer, pyqtSignal
 
-from std_msgs.msg import String
 from b4_serv_robot_interface.srv import Order
 from b4_serv_robot_interface.srv import OrderCancel
 
+
 # GUI 클래스 정의 (PyQt5 사용)
 class GUI(QWidget):
+    popup_closed = pyqtSignal()  # 팝업 종료 신호 생성
+
     def __init__(self, node):
         super().__init__()
         self.node = node  # ROS2 노드 연결
@@ -200,6 +202,7 @@ class GUI(QWidget):
     # 주문하기 기능
     def placeOrder(self):
         if not self.node.order_client.wait_for_service(timeout_sec=1.0):
+            self.node.get_logger().warn("서비스 준비중...")
             self.SrvXpopup()
             QTimer.singleShot(1000, self.SrvAvailabilty)
             return
@@ -238,12 +241,14 @@ class GUI(QWidget):
         try:
             response = future.result()
             if response.is_order:
-                print(f'{self.table_label.text()} {self.order_data.keys()} {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
-                print("주문 성공")
-                self.OrderOKpopup()
-                self.cancelOrder()
+                self.node.get_logger().info(
+                    f'{self.table_label.text()} {self.order_data.keys()} {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
+                self.node.get_logger().info("주문 성공")
+                # GUI 업데이트를 메인 스레드에서 실행하도록 요청
+                QTimer.singleShot(0, self.OrderOKpopup)
+                QTimer.singleShot(0, self.cancelOrder)
         except Exception as e:
-            print(f'서비스 호출 중 오류 발생: {e}')
+            self.node.get_logger().error(f'서비스 호출 중 오류 발생: {e}')
 
     # 주문 성공 알림 팝업 표시
     def OrderOKpopup(self):
@@ -252,50 +257,63 @@ class GUI(QWidget):
         msg.setWindowTitle("주문 성공")
         msg.setText("주문이 성공적으로 완료되었습니다!")
         msg.setStandardButtons(QMessageBox.Ok)
-        msg.buttonClicked.connect(self.onPopupClose)
+        msg.buttonClicked.connect(lambda: self.popup_closed.emit())  # 팝업 종료 시그널 발생
         msg.exec_()
 
-    def onPopupClose(self):
-        pass
+    # 주문 실패 알림 팝업 표시
+    def OrderFailedPopup(self):
+        msg = QMessageBox(self)
+        msg.setIcon(QMessageBox.Warning)
+        msg.setWindowTitle("주문 실패")
+        msg.setText("주문이 취소되었습니다. 다시 시도해주세요.")
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.buttonClicked.connect(lambda: self.popup_closed.emit())  # 팝업 종료 시그널 발생
+        msg.exec_()
 
     # 주문 취소 기능
     def cancelOrder(self):
         self.order_data.clear()
         self.updateOrderList()
 
+
 # ROS2 노드 정의
 class NODE(Node):
-    def __init__(self):
+    def __init__(self, gui):
         super().__init__('order_node')
+        self.gui = gui
         self.order_client = self.create_client(Order, 'order_service')  # 주문 서비스 클라이언트 생성
-        self.cancel_client = self.create_service(OrderCancel, 'order_cancel_service', self.order_cancel_service)  # 취소 서비스 클라이언트 추가
+        self.cancel_client = self.create_service(OrderCancel, 'order_cancel_service',
+                                                 self.cancelOrderCallback)  # 취소 서비스 클라이언트 추가
 
-
-    def order_cancel_service(self, request, response):
-        try:
-            self.get_logger().info(
-                f"Received service request: order cancel : {request.is_cancel}"
-            )
-
-            return response
-
-        except Exception as e:
-            # 예외 처리 및 응답 설정
-            self.get_logger().error(f"Error while processing service request: {e}")
-            return response
+    # 주문 취소 콜백 추가
+    def cancelOrderCallback(self, request, response):
+        response.cancel_confirm = True
+        self.get_logger().info("주문이 취소되었습니다.")
+        QTimer.singleShot(0, self.gui.OrderFailedPopup)  # 주문 취소 팝업 호출
+        return response
 
 
 # 애플리케이션 실행 함수
 def main():
     rclpy.init()  # ROS2 초기화
-    node = NODE()  # ROS2 노드 생성
+    app = QApplication(sys.argv)  # PyQt5 애플리케이션 생성
+    gui = GUI(None)  # GUI 인스턴스 생성 (초기에는 node가 없음)
+    node = NODE(gui)  # ROS2 노드 생성 및 GUI 연결
+    gui.node = node  # GUI에 노드 연결
     ros_thread = threading.Thread(target=lambda: rclpy.spin(node), daemon=True)  # ROS2 스레드 시작
     ros_thread.start()
 
-    app = QApplication(sys.argv)  # PyQt5 애플리케이션 생성
-    gui = GUI(node)  # GUI 인스턴스 생성
     gui.show()  # GUI 표시
-    sys.exit(app.exec_())  # 애플리케이션 실행
+
+    try:
+        exit_code = app.exec_()  # 애플리케이션 실행
+    except KeyboardInterrupt:
+        node.get_logger().info("Keyboard Interrupt Close")
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()  # 애플리케이션 종료 후 ROS2 종료
+        sys.exit(exit_code)
+
 
 if __name__ == '__main__':
     main()

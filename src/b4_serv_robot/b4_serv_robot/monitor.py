@@ -159,12 +159,14 @@ class Tab1Content(QWidget):
 
 
 class Cell(QWidget):
-    def __init__(self, table_number, order_details, node):
+    def __init__(self, table_number, order_details, node, dashboard):
         super().__init__()
         self.node = node
 
         self.table_number = table_number
         self.order_details = order_details
+
+        self.dashboard = dashboard
 
         # Calculate size dynamically based on screen size and design
         screen_width = 1366  # Example screen width (adjust as needed)
@@ -240,6 +242,7 @@ class Cell(QWidget):
         size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(size_policy)
 
+
     def confirm_order(self):
         print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
         self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
@@ -247,6 +250,7 @@ class Cell(QWidget):
     def cancel_order(self):
         print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
         self.node.order_cancel(True)
+        self.dashboard.remove_cell(self)  # 취소 버튼 클릭 시 해당 cell을 삭제
 
 
 
@@ -285,7 +289,7 @@ class MainDashboard(QWidget):
         order_details = msg.order_info  # msg.order_info is already a list
 
         # Create a new Cell widget and add it to the layout
-        cell = Cell(table_number, order_details, self.node)
+        cell = Cell(table_number, order_details, self.node, self)
         self.cells.append(cell)  # Add new cell to the list
 
         # Add the new cell to the grid layout
@@ -295,6 +299,13 @@ class MainDashboard(QWidget):
 
         # Optionally, adjust the layout to ensure the grid is resized properly
         self.grid_layout.update()
+
+    def remove_cell(self, cell):
+        if cell in self.cells:
+            self.cells.remove(cell)
+            self.grid_layout.removeWidget(cell)
+            cell.deleteLater()  # Cell widget 삭제
+            print(f"Cell for table {cell.table_number} has been removed.")
 
 
 # Main GUI Class
