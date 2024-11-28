@@ -1,31 +1,26 @@
 import sys
 import threading
 import queue
+from datetime import datetime
 
+# ROS 2 관련 라이브러리
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSProfile
-from std_msgs.msg import String
-from b4_serv_robot_interface.srv import OrderCancel
-from b4_serv_robot_interface.srv import Order
-from b4_serv_robot_interface.msg import DB
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QVBoxLayout, QWidget, QCheckBox, QHBoxLayout, QLabel, QTabWidget, QPushButton
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-import matplotlib.pyplot as plt
+# ROS 2 메시지 및 서비스 정의
+from b4_serv_robot_interface.srv import Order, OrderCancel
+from b4_serv_robot_interface.msg import DB
 
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QHBoxLayout
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QGridLayout
-from PyQt5.QtWidgets import QTableWidgetItem, QPushButton, QHBoxLayout, QWidget
-from PyQt5.QtWidgets import QSizePolicy
-
-# from PySide2.QtCore import *
-# from PySide2.QtWidgets import *
-from PyQt5.QtCore import QObject, pyqtSignal
-from datetime import datetime
+# PyQt5 관련 라이브러리
+from PyQt5.QtCore import Qt, QObject, pyqtSignal
+from PyQt5.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
+    QLabel, QPushButton, QComboBox, QCheckBox, QGridLayout,
+    QTabWidget, QTableWidget, QTableWidgetItem, QSizePolicy
+)
 
 
 class NODE(Node, QObject):
@@ -170,6 +165,11 @@ class Cell(QWidget):
 
         self.dashboard = dashboard
 
+        self.set_layout()
+
+
+    # UI layout
+    def set_layout(self):
         # Calculate size dynamically based on screen size and design
         screen_width = 1366  # Example screen width (adjust as needed)
         available_width = screen_width - 40  # Subtract margins and padding
@@ -186,18 +186,18 @@ class Cell(QWidget):
         # Set the style for the wrapper widget (border, padding, etc.)
         self.wrapper.setStyleSheet(
             "border: 2px solid #4CAF50;"  # Green border for the wrapper
-            "border-radius: 5px;"          # Optional: rounded corners for the wrapper
-            "margin: 5px;"                 # External margin around the wrapper
+            "border-radius: 5px;"  # Optional: rounded corners for the wrapper
+            "margin: 5px;"  # External margin around the wrapper
         )
 
         # Create a vertical layout for the cell
         layout = QVBoxLayout(self.wrapper)  # Set layout to the wrapper
 
         # Labels for table number and order details
-        self.table_number_label = QLabel(f"테이블 {table_number}", self.wrapper)
+        self.table_number_label = QLabel(f"테이블 {self.table_number}", self.wrapper)
 
         # Join the order details list into a single string with line breaks
-        order_details_str = "\n".join(order_details)  # Display list as multiline string
+        order_details_str = "\n".join(self.order_details)  # Display list as multiline string
         self.order_details_label = QLabel(f"{order_details_str}", self.wrapper)
 
         # Set the style for the table number label (Blue background for the table number)
@@ -243,7 +243,6 @@ class Cell(QWidget):
         # Set size policy for dynamic resizing
         size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(size_policy)
-
 
     # 주문 확인
     def confirm_order(self):
