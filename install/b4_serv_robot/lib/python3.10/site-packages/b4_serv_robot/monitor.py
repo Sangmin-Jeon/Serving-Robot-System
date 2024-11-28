@@ -8,7 +8,9 @@ from rclpy.qos import QoSProfile
 from std_msgs.msg import String
 from b4_serv_robot_interface.srv import OrderCancel
 from b4_serv_robot_interface.srv import Order
+from b4_serv_robot_interface.msg import DB
 from rclpy.executors import MultiThreadedExecutor
+from rclpy.callback_groups import ReentrantCallbackGroup
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QComboBox, QVBoxLayout, QWidget, QCheckBox, QHBoxLayout, QLabel, QTabWidget, QPushButton
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -24,6 +26,8 @@ from PyQt5.QtWidgets import QSizePolicy
 # from PySide2.QtWidgets import *
 from PyQt5.QtCore import QObject, pyqtSignal
 
+
+
 class NODE(Node, QObject):
     message_received = pyqtSignal(Order.Request)  # 문자열 타입 신호 정의
 
@@ -31,11 +35,25 @@ class NODE(Node, QObject):
         super().__init__('node')
         QObject.__init__(self)
 
+        self.callback_group = ReentrantCallbackGroup()
+
         # 주문 확인 서비스
-        self.service_server = self.create_service(Order, 'order_service', self.order_service)
+        self.service_server = self.create_service(
+                                            Order,
+                                            'order_service',
+                                            self.order_service,
+                                            callback_group=self.callback_group
+                                        )
 
         # 주문 취소 서비스
-        self.cancel_client = self.create_client(OrderCancel, 'order_cancel_service')
+        self.cancel_client = self.create_client(OrderCancel, 'order_cancel_service', callback_group=self.callback_group)
+
+        # DB 노드에 Topic 발행
+        qos_profile = QoSProfile(depth=5)
+        self.message_publisher = self.create_publisher(DB, 'order_db_message', qos_profile, callback_group=self.callback_group)
+
+        self.queue = queue.Queue()
+        self.timer = self.create_timer(0.1, self.publish_order_message)
 
     # 주문 확인
     def order_service(self, request, response):
@@ -87,6 +105,18 @@ class NODE(Node, QObject):
             self.get_logger().error(f"Error in cancel response: {e}")
             # self.cancel_confirmed.emit(False)
 
+    # 주문 정보 DB 노드에 발행
+    def publish_order_message(self):
+        while not self.queue.empty():
+            message = self.queue.get()
+
+            # DB 메시지 생성
+            msg = DB()
+            msg.order_info = [message]  # 예시로 메시지 데이터를 DB의 필드에 매핑
+
+            # 메시지 발행
+            self.message_publisher.publish(msg)
+            self.get_logger().info(f'Published message: {msg}')
 
 
 # Tab 1 Content Widget (Basic)
@@ -206,7 +236,7 @@ class Cell(QWidget):
 
     def confirm_order(self):
         print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
-        #self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
+        self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
 
     def cancel_order(self):
         print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
@@ -301,7 +331,6 @@ class RootView():
         self.window.setCentralWidget(self.centralwidget)
 
 
-# Main function to start ROS2 node and GUI
 def main():
     # Initialize ROS 2
     rclpy.init()
@@ -317,9 +346,14 @@ def main():
 
     # Initialize PyQt Application
     app = QApplication(sys.argv)
-    root = RootView(node)
+
+    # PyQt GUI 로직 (예시: RootView)
+    root = RootView(node)  # RootView 클래스는 PyQt5 GUI 클래스
     root.window.show()
+
+    # PyQt 이벤트 루프 실행
     sys.exit(app.exec_())
+
 
 
 if __name__ == '__main__':

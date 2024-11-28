@@ -268,13 +268,13 @@ class NODE(Node):
     def __init__(self):
         super().__init__('order_node')
         self.order_client = self.create_client(Order, 'order_service')  # 주문 서비스 클라이언트 생성
-        self.cancel_client = self.create_service(OrderCancel, 'order_cancel_service', self.order_service)  # 취소 서비스 클라이언트 추가
+        self.cancel_client = self.create_service(OrderCancel, 'order_cancel_service', self.order_cancel_service)  # 취소 서비스 클라이언트 추가
 
-    def order_service(self, request, response):
+
+    def order_cancel_service(self, request, response):
         try:
-            # 서비스 요청 로그
             self.get_logger().info(
-                f"Received service request: Table cancel : {request.is_cancel}"
+                f"Received service request: order cancel : {request.is_cancel}"
             )
 
             return response
