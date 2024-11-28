@@ -25,6 +25,7 @@ from PyQt5.QtWidgets import QSizePolicy
 # from PySide2.QtCore import *
 # from PySide2.QtWidgets import *
 from PyQt5.QtCore import QObject, pyqtSignal
+from datetime import datetime
 
 
 class NODE(Node, QObject):
@@ -118,7 +119,7 @@ class NODE(Node, QObject):
 
             # DB 메시지 생성
             msg = DB()
-            msg.order_info = [message]  # 예시로 메시지 데이터를 DB의 필드에 매핑
+            msg.order_info = message  # 예시로 메시지 데이터를 DB의 필드에 매핑
 
             # 메시지 발행
             self.message_publisher.publish(msg)
@@ -159,12 +160,13 @@ class Tab1Content(QWidget):
 
 
 class Cell(QWidget):
-    def __init__(self, table_number, order_details, node, dashboard):
+    def __init__(self, table_number, order_details, order_time, node, dashboard):
         super().__init__()
         self.node = node
 
         self.table_number = table_number
         self.order_details = order_details
+        self.order_time = order_time
 
         self.dashboard = dashboard
 
@@ -243,14 +245,32 @@ class Cell(QWidget):
         self.setSizePolicy(size_policy)
 
 
+    # 주문 확인
     def confirm_order(self):
-        print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
-        self.node.queue.put(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}")
+        print(f"주문 확인: 테이블 {self.table_number}, 내역: {self.order_details}, 시간: {self.order_time}")
+        conv_msg = self._convert_order_msg(self.table_number, self.order_details, self.order_time, False)
+        # 주문 확인: 테이블 B4, 내역: ['광어+우럭 세트/1/38000', '향어회/1/35000'], 시간: 2024-11-28 14:33:08
+        self.node.queue.put(conv_msg)
 
+    # 주문 취소
     def cancel_order(self):
         print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
         self.node.order_cancel(True)
-        self.dashboard.remove_cell(self)  # 취소 버튼 클릭 시 해당 cell을 삭제
+        self._convert_order_msg(self.table_number, self.order_details, self.order_time, True)
+        # 취소 버튼 클릭 시 해당 cell을 삭제
+        self.dashboard.remove_cell(self)
+
+
+    def _convert_order_msg(self, table_num, order_details, order_time, is_cancel):
+        items = []
+        current_time = datetime.now()
+        formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+
+        for item in order_details:
+            dump = f"{table_num}/{item}/{is_cancel}/{order_time}/{formatted_time}"
+            items.append(dump)
+        return items
+
 
 
 
@@ -287,9 +307,10 @@ class MainDashboard(QWidget):
         # Directly use the order_info as a list
         table_number = msg.table_num
         order_details = msg.order_info  # msg.order_info is already a list
+        order_time = msg.order_time
 
         # Create a new Cell widget and add it to the layout
-        cell = Cell(table_number, order_details, self.node, self)
+        cell = Cell(table_number, order_details, order_time, self.node, self)
         self.cells.append(cell)  # Add new cell to the list
 
         # Add the new cell to the grid layout
