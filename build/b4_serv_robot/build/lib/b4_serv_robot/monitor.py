@@ -2,7 +2,6 @@ import sys
 import threading
 import queue
 from datetime import datetime
-from xmlrpc.client import Boolean
 
 # ROS 2 관련 라이브러리
 import rclpy
