@@ -22,7 +22,11 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__builder.hpp" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp"
   "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__struct.hpp" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp"
   "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__traits.hpp" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp"
+  "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__builder.hpp" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp"
+  "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__struct.hpp" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp"
+  "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__traits.hpp" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp"
   "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/srv/order.hpp" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp"
+  "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/srv/order_cancel.hpp" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp"
   )
 
 

@@ -23,6 +23,7 @@ setup(
             'order = b4_serv_robot.order:main',
             'monitor = b4_serv_robot.monitor:main',
             'robot = b4_serv_robot.robot:main',
+            'database = b4_serv_robot.database:main'
         ],
     },
 )

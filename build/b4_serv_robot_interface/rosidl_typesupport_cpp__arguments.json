@@ -5,6 +5,7 @@
   "idl_tuples": [
     "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface:msg/DB.idl",
     "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface:srv/Order.idl",
+    "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface:srv/OrderCancel.idl",
     "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface:action/Monitor.idl"
   ],
   "ros_interface_dependencies": [
@@ -25,6 +26,7 @@
     "/opt/ros/humble/share/rosidl_typesupport_cpp/resource/srv__type_support.cpp.em",
     "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface/msg/DB.idl",
     "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface/srv/Order.idl",
+    "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface/srv/OrderCancel.idl",
     "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface/action/Monitor.idl",
     "/opt/ros/humble/share/builtin_interfaces/msg/Duration.idl",
     "/opt/ros/humble/share/builtin_interfaces/msg/Time.idl",

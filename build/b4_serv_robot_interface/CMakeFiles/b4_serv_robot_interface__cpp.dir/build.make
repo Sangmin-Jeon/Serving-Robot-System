@@ -74,6 +74,10 @@ CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_inte
 CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__builder.hpp
 CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__struct.hpp
 CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__traits.hpp
+CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/order_cancel.hpp
+CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__builder.hpp
+CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__struct.hpp
+CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__traits.hpp
 CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/action/monitor.hpp
 CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/action/detail/monitor__builder.hpp
 CMakeFiles/b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/action/detail/monitor__struct.hpp
@@ -96,6 +100,7 @@ rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp: /opt/ros/humble/share/r
 rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp: /opt/ros/humble/share/rosidl_generator_cpp/resource/srv__traits.hpp.em
 rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp: rosidl_adapter/b4_serv_robot_interface/msg/DB.idl
 rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp: rosidl_adapter/b4_serv_robot_interface/srv/Order.idl
+rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp: rosidl_adapter/b4_serv_robot_interface/srv/OrderCancel.idl
 rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp: rosidl_adapter/b4_serv_robot_interface/action/Monitor.idl
 rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp: /opt/ros/humble/share/builtin_interfaces/msg/Duration.idl
 rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp: /opt/ros/humble/share/builtin_interfaces/msg/Time.idl
@@ -128,6 +133,18 @@ rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__struct.hpp: rosid
 rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__traits.hpp: rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__traits.hpp
 
+rosidl_generator_cpp/b4_serv_robot_interface/srv/order_cancel.hpp: rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/b4_serv_robot_interface/srv/order_cancel.hpp
+
+rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__builder.hpp: rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__builder.hpp
+
+rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__struct.hpp: rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__struct.hpp
+
+rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__traits.hpp: rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__traits.hpp
+
 rosidl_generator_cpp/b4_serv_robot_interface/action/monitor.hpp: rosidl_generator_cpp/b4_serv_robot_interface/msg/db.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/b4_serv_robot_interface/action/monitor.hpp
 
@@ -152,7 +169,11 @@ b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/msg/d
 b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__builder.hpp
 b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__struct.hpp
 b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__traits.hpp
+b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__builder.hpp
+b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__struct.hpp
+b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__traits.hpp
 b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/order.hpp
+b4_serv_robot_interface__cpp: rosidl_generator_cpp/b4_serv_robot_interface/srv/order_cancel.hpp
 b4_serv_robot_interface__cpp: CMakeFiles/b4_serv_robot_interface__cpp.dir/build.make
 .PHONY : b4_serv_robot_interface__cpp
 

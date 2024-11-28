@@ -11,7 +11,11 @@ file(REMOVE_RECURSE
   "rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__builder.hpp"
   "rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__struct.hpp"
   "rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order__traits.hpp"
+  "rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__builder.hpp"
+  "rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__struct.hpp"
+  "rosidl_generator_cpp/b4_serv_robot_interface/srv/detail/order_cancel__traits.hpp"
   "rosidl_generator_cpp/b4_serv_robot_interface/srv/order.hpp"
+  "rosidl_generator_cpp/b4_serv_robot_interface/srv/order_cancel.hpp"
 )
 
 # Per-language clean rules from dependency scanning.

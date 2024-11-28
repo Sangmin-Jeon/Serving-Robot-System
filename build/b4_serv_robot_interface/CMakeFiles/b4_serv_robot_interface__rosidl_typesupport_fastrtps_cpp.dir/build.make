@@ -79,6 +79,7 @@ rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/
 rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp: /opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/srv__type_support.cpp.em
 rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp: rosidl_adapter/b4_serv_robot_interface/msg/DB.idl
 rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp: rosidl_adapter/b4_serv_robot_interface/srv/Order.idl
+rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp: rosidl_adapter/b4_serv_robot_interface/srv/OrderCancel.idl
 rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp: rosidl_adapter/b4_serv_robot_interface/action/Monitor.idl
 rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp: /opt/ros/humble/share/builtin_interfaces/msg/Duration.idl
 rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp: /opt/ros/humble/share/builtin_interfaces/msg/Time.idl
@@ -98,6 +99,12 @@ rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/
 
 rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_fastrtps_cpp.hpp: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_fastrtps_cpp.hpp
+
+rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp
+
+rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/order_cancel__rosidl_typesupport_fastrtps_cpp.hpp: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/order_cancel__rosidl_typesupport_fastrtps_cpp.hpp
 
 rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp
@@ -133,10 +140,24 @@ CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_t
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order__type_support.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order__type_support.cpp -o CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order__type_support.cpp.s
 
+CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/flags.make
+CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp
+CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o -MF CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o.d -o CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o -c /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp
+
+CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp > CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.i
+
+CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp -o CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.s
+
 CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/flags.make
 CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp
 CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o -MF CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o.d -o CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o -c /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp
 
 CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.i: cmake_force
@@ -151,6 +172,7 @@ CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_t
 b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp_OBJECTS = \
 "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp.o" \
 "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order__type_support.cpp.o" \
+"CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o" \
 "CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o"
 
 # External object files for target b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp
@@ -158,6 +180,7 @@ b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp_EXTERNAL_OBJECTS =
 
 libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp.o
 libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order__type_support.cpp.o
+libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp.o
 libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/action/detail/dds_fastrtps/monitor__type_support.cpp.o
 libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/build.make
 libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: /opt/ros/humble/lib/libaction_msgs__rosidl_typesupport_fastrtps_cpp.so
@@ -169,7 +192,7 @@ libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: /opt/ros/humble/
 libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: /opt/ros/humble/lib/librcutils.so
 libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so: CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX shared library libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX shared library libb4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -185,7 +208,9 @@ CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/depend: 
 CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/depend: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/db__rosidl_typesupport_fastrtps_cpp.hpp
 CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/depend: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/msg/detail/dds_fastrtps/db__type_support.cpp
 CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/depend: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order__type_support.cpp
+CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/depend: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/dds_fastrtps/order_cancel__type_support.cpp
 CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/depend: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/order__rosidl_typesupport_fastrtps_cpp.hpp
+CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/depend: rosidl_typesupport_fastrtps_cpp/b4_serv_robot_interface/srv/detail/order_cancel__rosidl_typesupport_fastrtps_cpp.hpp
 	cd /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface /home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/b4_serv_robot_interface__rosidl_typesupport_fastrtps_cpp.dir/depend
 

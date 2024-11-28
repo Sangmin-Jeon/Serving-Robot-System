@@ -10,3 +10,4 @@ b4_serv_robot_interface/msg/__init__.py
 b4_serv_robot_interface/msg/_db.py
 b4_serv_robot_interface/srv/__init__.py
 b4_serv_robot_interface/srv/_order.py
+b4_serv_robot_interface/srv/_order_cancel.py

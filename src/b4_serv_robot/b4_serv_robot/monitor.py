@@ -6,6 +6,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSProfile
 from std_msgs.msg import String
+from b4_serv_robot_interface.srv import OrderCancel
 from b4_serv_robot_interface.srv import Order
 from rclpy.executors import MultiThreadedExecutor
 
@@ -30,13 +31,14 @@ class NODE(Node, QObject):
         super().__init__('node')
         QObject.__init__(self)
 
-        # 서비스 초기화
-        self.service_server = self.create_service(Order, 'order_service', self.handle_service)
+        # 주문 확인 서비스
+        self.service_server = self.create_service(Order, 'order_service', self.order_service)
 
-    def handle_service(self, request, response):
-        """
-        서비스 요청을 처리하고 응답을 설정합니다.
-        """
+        # 주문 취소 서비스
+        self.cancel_client = self.create_client(OrderCancel, 'order_cancel_service')
+
+    # 주문 확인
+    def order_service(self, request, response):
         try:
             # 서비스 요청 로그
             self.get_logger().info(
@@ -46,13 +48,44 @@ class NODE(Node, QObject):
             # PyQt 신호로 전달
             self.message_received.emit(request)
             self.get_logger().info(f"Order processed for table {request.table_num}.")
+
+            response.is_order = True
+
             return response
 
         except Exception as e:
             # 예외 처리 및 응답 설정
             self.get_logger().error(f"Error while processing service request: {e}")
+            response.is_order = False
             return response
 
+    # 주문 취소
+    def order_cancel(self, is_cancel):
+        try:
+            # 주문 취소 요청 메시지 생성
+            request = OrderCancel.Request()
+            request.is_cancel = is_cancel
+
+            # 비동기 서비스 호출
+            future = self.cancel_client.call_async(request)
+            future.add_done_callback(self.cancel_response_callback)
+
+        except Exception as e:
+            self.get_logger().error(f"Error while sending cancel request: {e}")
+
+    # 주문 취소 응답 처리
+    def cancel_response_callback(self, future):
+        try:
+            response = future.result()
+            if response.cancel_confirm:
+                self.get_logger().info("Cancel confirmed by server.")
+                # self.cancel_confirmed.emit(True)
+            else:
+                self.get_logger().warning("Cancel not confirmed by server.")
+                # self.cancel_confirmed.emit(False)
+        except Exception as e:
+            self.get_logger().error(f"Error in cancel response: {e}")
+            # self.cancel_confirmed.emit(False)
 
 
 
@@ -75,76 +108,18 @@ class Tab1Content(QWidget):
 
 
 # Tab 2 Content Widget (Includes Sales Dashboard)
-class Tab2Content(QWidget):
-    def __init__(self):
-        super().__init__()
-        layout = QVBoxLayout(self)
-        label = QLabel("Tab 2 Content", self)
-        layout.addWidget(label)
-
-        # Add Sales Dashboard
-        self.sales_dashboard = SalesDashboard()
-        layout.addWidget(self.sales_dashboard)
-
-        self.setLayout(layout)
-
-class SalesDashboard(QWidget):
-    def __init__(self):
-        super().__init__()
-
-        # Main layout for the dashboard
-        main_layout = QVBoxLayout(self)
-
-        # Back button (Currently does nothing)
-        self.back_button = QPushButton("돌아가기")
-        self.back_button.clicked.connect(self.go_back)
-        main_layout.addWidget(self.back_button)
-
-        # Daily Sales Chart
-        self.daily_sales_canvas = self.create_bar_chart([100, 200, 150], ["11/26", "4/27", "11/28"], "일일 매출")
-        main_layout.addWidget(self.daily_sales_canvas)
-
-        # Monthly Sales Chart with ComboBox
-        month_selection_layout = QHBoxLayout()
-        self.month_combo = QComboBox()
-        self.month_combo.addItems(["11월", "12월"])
-        month_selection_layout.addWidget(self.month_combo)
-        main_layout.addLayout(month_selection_layout)
-        self.month_sales_canvas = self.create_bar_chart([300, 400, 350], ["11/26", "11/27", "11/28"], "월별 매출")
-        main_layout.addWidget(self.month_sales_canvas)
-
-        # Menu Sales Chart with ComboBox
-        menu_selection_layout = QHBoxLayout()
-        self.menu_combo = QComboBox()
-        self.menu_combo.addItems(["메뉴1", "메뉴2", "메뉴3", "메뉴4", "메뉴5"])
-        menu_selection_layout.addWidget(self.menu_combo)
-        main_layout.addLayout(menu_selection_layout)
-        self.menu_sales_canvas = self.create_bar_chart([120, 220], ["11/26", "11/27"], "메뉴 매출")
-        main_layout.addWidget(self.menu_sales_canvas)
-
-        # Checkboxes for daily menu selection
-        self.menu_checkboxes_layout = QVBoxLayout()
-        self.menu_checkboxes = []
-        for i in range(1, 6):
-            checkbox = QCheckBox(f"메뉴{i}")
-            self.menu_checkboxes.append(checkbox)
-            self.menu_checkboxes_layout.addWidget(checkbox)
-        main_layout.addLayout(self.menu_checkboxes_layout)
-
-        self.setLayout(main_layout)
-
-    def create_bar_chart(self, data, labels, title):
-        # Create a bar chart
-        figure, ax = plt.subplots()
-        ax.bar(labels, data)
-        ax.set_title(title)
-
-        canvas = FigureCanvas(figure)
-        return canvas
-
-    def go_back(self):
-        # Placeholder for "Back" button functionality
-        pass
+# class Tab2Content(QWidget):
+#     def __init__(self):
+#         super().__init__()
+#         layout = QVBoxLayout(self)
+#         label = QLabel("Tab 2 Content", self)
+#         layout.addWidget(label)
+#
+#         # Add Sales Dashboard
+#         self.sales_dashboard = SalesDashboard()
+#         layout.addWidget(self.sales_dashboard)
+#
+#         self.setLayout(layout)
 
 
 class Cell(QWidget):
@@ -235,6 +210,7 @@ class Cell(QWidget):
 
     def cancel_order(self):
         print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
+        self.node.order_cancel(True)
 
 
 
@@ -310,11 +286,11 @@ class RootView():
         self.tab1 = Tab1Content(self.node)
 
         # Tab 2 Content with Sales Dashboard
-        self.tab2 = Tab2Content()
+        # self.tab2 = Tab2Content()
 
         # Add Tabs to Tab Widget
         self.tabWidget.addTab(self.tab1, "주방 모니터")
-        self.tabWidget.addTab(self.tab2, "통계")
+        # self.tabWidget.addTab(self.tab2, "통계")
 
         # Set Tab Widget as central layout
         self.central_layout = QVBoxLayout(self.centralwidget)

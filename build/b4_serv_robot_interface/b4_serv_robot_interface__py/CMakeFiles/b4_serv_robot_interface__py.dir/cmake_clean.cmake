@@ -10,6 +10,8 @@ file(REMOVE_RECURSE
   "../rosidl_generator_py/b4_serv_robot_interface/msg/_db_s.c"
   "../rosidl_generator_py/b4_serv_robot_interface/srv/__init__.py"
   "../rosidl_generator_py/b4_serv_robot_interface/srv/_order.py"
+  "../rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel.py"
+  "../rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c"
   "../rosidl_generator_py/b4_serv_robot_interface/srv/_order_s.c"
   "CMakeFiles/b4_serv_robot_interface__py"
 )

@@ -364,6 +364,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/b4_serv_robot_interface/srv" TYPE FILE FILES "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface/srv/OrderCancel.idl")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/b4_serv_robot_interface/action" TYPE FILE FILES "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_adapter/b4_serv_robot_interface/action/Monitor.idl")
 endif()
 
@@ -381,6 +385,18 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/b4_serv_robot_interface/srv" TYPE FILE FILES "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_cmake/srv/Order_Response.msg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/b4_serv_robot_interface/srv" TYPE FILE FILES "/home/rokey/B4ServRobot_ws/src/b4_serv_robot_interface/srv/OrderCancel.srv")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/b4_serv_robot_interface/srv" TYPE FILE FILES "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_cmake/srv/OrderCancel_Request.msg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/b4_serv_robot_interface/srv" TYPE FILE FILES "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_cmake/srv/OrderCancel_Response.msg")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

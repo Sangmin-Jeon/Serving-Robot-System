@@ -12,6 +12,7 @@ from PyQt5.QtCore import Qt, Q_ARG, QTimer
 
 from std_msgs.msg import String
 from b4_serv_robot_interface.srv import Order
+from b4_serv_robot_interface.srv import OrderCancel
 
 # GUI 클래스 정의 (PyQt5 사용)
 class GUI(QWidget):
@@ -267,6 +268,22 @@ class NODE(Node):
     def __init__(self):
         super().__init__('order_node')
         self.order_client = self.create_client(Order, 'order_service')  # 주문 서비스 클라이언트 생성
+        self.cancel_client = self.create_service(OrderCancel, 'order_cancel_service', self.order_cancel_service)  # 취소 서비스 클라이언트 추가
+
+
+    def order_cancel_service(self, request, response):
+        try:
+            self.get_logger().info(
+                f"Received service request: order cancel : {request.is_cancel}"
+            )
+
+            return response
+
+        except Exception as e:
+            # 예외 처리 및 응답 설정
+            self.get_logger().error(f"Error while processing service request: {e}")
+            return response
+
 
 # 애플리케이션 실행 함수
 def main():

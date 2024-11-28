@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/b4_serv_robot_interface__rosidl_generator_c.dir/rosidl_generator_c/b4_serv_robot_interface/msg/detail/db__functions.c.o.d"
   "CMakeFiles/b4_serv_robot_interface__rosidl_generator_c.dir/rosidl_generator_c/b4_serv_robot_interface/srv/detail/order__functions.c.o"
   "CMakeFiles/b4_serv_robot_interface__rosidl_generator_c.dir/rosidl_generator_c/b4_serv_robot_interface/srv/detail/order__functions.c.o.d"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_generator_c.dir/rosidl_generator_c/b4_serv_robot_interface/srv/detail/order_cancel__functions.c.o"
+  "CMakeFiles/b4_serv_robot_interface__rosidl_generator_c.dir/rosidl_generator_c/b4_serv_robot_interface/srv/detail/order_cancel__functions.c.o.d"
   "libb4_serv_robot_interface__rosidl_generator_c.pdb"
   "libb4_serv_robot_interface__rosidl_generator_c.so"
   "rosidl_generator_c/b4_serv_robot_interface/action/detail/monitor__functions.c"
@@ -21,7 +23,12 @@ file(REMOVE_RECURSE
   "rosidl_generator_c/b4_serv_robot_interface/srv/detail/order__functions.h"
   "rosidl_generator_c/b4_serv_robot_interface/srv/detail/order__struct.h"
   "rosidl_generator_c/b4_serv_robot_interface/srv/detail/order__type_support.h"
+  "rosidl_generator_c/b4_serv_robot_interface/srv/detail/order_cancel__functions.c"
+  "rosidl_generator_c/b4_serv_robot_interface/srv/detail/order_cancel__functions.h"
+  "rosidl_generator_c/b4_serv_robot_interface/srv/detail/order_cancel__struct.h"
+  "rosidl_generator_c/b4_serv_robot_interface/srv/detail/order_cancel__type_support.h"
   "rosidl_generator_c/b4_serv_robot_interface/srv/order.h"
+  "rosidl_generator_c/b4_serv_robot_interface/srv/order_cancel.h"
 )
 
 # Per-language clean rules from dependency scanning.

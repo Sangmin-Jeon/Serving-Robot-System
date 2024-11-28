@@ -22,6 +22,7 @@ set(msg_files
 
 set(srv_files
   "srv/Order.srv"
+  "srv/OrderCancel.srv"
 )
 
 set(action_files

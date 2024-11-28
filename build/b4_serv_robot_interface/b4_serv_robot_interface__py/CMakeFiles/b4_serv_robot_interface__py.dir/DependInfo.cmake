@@ -22,6 +22,8 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/msg/_db_s.c" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/__init__.py" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/_order.py" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel.py" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/_order_s.c" "/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/_b4_serv_robot_interface_s.ep.rosidl_typesupport_fastrtps_c.c"
   )
 

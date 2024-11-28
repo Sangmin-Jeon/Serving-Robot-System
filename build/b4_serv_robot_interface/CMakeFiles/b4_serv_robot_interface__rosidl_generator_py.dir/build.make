@@ -97,10 +97,24 @@ CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_s.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/_order_s.c -o CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_s.c.s
 
+CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/flags.make
+CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o: rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c
+CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o -MF CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o.d -o CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o -c /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c
+
+CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c > CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.i
+
+CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c -o CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.s
+
 CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/flags.make
 CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o: rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c
 CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o -MF CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o.d -o CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o -c /home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c
 
 CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.i: cmake_force
@@ -115,6 +129,7 @@ CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/
 b4_serv_robot_interface__rosidl_generator_py_OBJECTS = \
 "CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/msg/_db_s.c.o" \
 "CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_s.c.o" \
+"CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o" \
 "CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o"
 
 # External object files for target b4_serv_robot_interface__rosidl_generator_py
@@ -122,6 +137,7 @@ b4_serv_robot_interface__rosidl_generator_py_EXTERNAL_OBJECTS =
 
 rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/msg/_db_s.c.o
 rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_s.c.o
+rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/srv/_order_cancel_s.c.o
 rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/rosidl_generator_py/b4_serv_robot_interface/action/_monitor_s.c.o
 rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/build.make
 rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: /usr/lib/x86_64-linux-gnu/libpython3.10.so
@@ -140,7 +156,7 @@ rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_g
 rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: /opt/ros/humble/lib/librcutils.so
 rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so: CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C shared library rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/rokey/B4ServRobot_ws/build/b4_serv_robot_interface/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C shared library rosidl_generator_py/b4_serv_robot_interface/libb4_serv_robot_interface__rosidl_generator_py.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/b4_serv_robot_interface__rosidl_generator_py.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
