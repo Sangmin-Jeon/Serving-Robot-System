@@ -21,9 +21,8 @@ from PyQt5.QtCore import Qt, QObject, pyqtSignal
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QComboBox, QCheckBox, QGridLayout,
-    QTabWidget, QTableWidget, QTableWidgetItem, QSizePolicy
+    QTabWidget, QTableWidget, QTableWidgetItem, QSizePolicy, QScrollArea
 )
-
 
 class NODE(Node, QObject):
     message_received = pyqtSignal(Order.Request)  # 문자열 타입 신호 정의
@@ -155,18 +154,14 @@ class NODE(Node, QObject):
 
 # Tab 1 Content Widget (Basic)
 class Tab1Content(QWidget):
-    def __init__(self, node):
+    def __init__(self, node, window):
         super().__init__()
         layout = QVBoxLayout(self)
         self.node = node
 
         # Add MainDashboard as part of the layout in Tab 1
-        self.main_dashboard = MainDashboard(self.node)  # Instantiate the MainDashboard class
+        self.main_dashboard = MainDashboard(self.node, window)  # Instantiate the MainDashboard class
         layout.addWidget(self.main_dashboard)  # Add MainDashboard to Tab 1
-
-        # Add a label to Tab 1
-        label = QLabel("Tab 1 Content", self)
-        layout.addWidget(label)
 
         self.setLayout(layout)
 
@@ -203,10 +198,11 @@ class Cell(QWidget):
     # UI layout
     def set_cell_layout(self):
         # Calculate size dynamically based on screen size and design
-        screen_width = 1366  # Example screen width (adjust as needed)
+        screen_width = 1300  # Example screen width (adjust as needed)
+        available_height = self.dashboard.scroll_area.height() - 20
         available_width = screen_width - 40  # Subtract margins and padding
-        cell_width = available_width // 5  # Divide by 5 for 5 cells per row
-        cell_height = int(cell_width * 1.3)  # Increased height ratio to 1.3
+        cell_width = available_width // 3  # Divide by 5 for 5 cells per row
+        cell_height = available_height  # Adjust the height ratio (1.5 for taller cells)
 
         # Set fixed size for the cell
         self.setFixedSize(cell_width, cell_height)
@@ -312,21 +308,42 @@ class Cell(QWidget):
 
 
 class MainDashboard(QWidget):
-    def __init__(self, node):
+    def __init__(self, node, window):
         super().__init__()
         self.node = node
-        # Main layout for the dashboard
+
+        # Main layout for the entire widget
         main_layout = QVBoxLayout(self)
+
+        # Add a title at the top
+        title_label = QLabel("🐟 날로먹는집 주방 모니터 🐟")
+        title_label.setAlignment(Qt.AlignCenter)  # Center the title
+        title_label.setStyleSheet("font-size: 24px; font-weight: bold; margin: 5px;")
+        title_label.setFixedHeight(window.height() - 1000)
+        main_layout.addWidget(title_label)  # Add the title to the main layout
+
+
         self.get_message()
 
-        # Create a QGridLayout
+        # Create a QGridLayout for the cells
         self.grid_layout = QGridLayout()
 
         # Set alignment for the entire grid layout to the top-left corner
         self.grid_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
 
-        # Add the grid layout to the main layout
-        main_layout.addLayout(self.grid_layout)
+        # Create a QWidget to hold the grid layout (for scrollable area)
+        self.grid_widget = QWidget()
+        self.grid_widget.setLayout(self.grid_layout)
+
+        # Create the QScrollArea to allow scrolling
+        self.scroll_area = QScrollArea(self)
+        self.scroll_area.setWidgetResizable(True)  # Enable auto-resizing of widget
+        self.scroll_area.setWidget(self.grid_widget)
+
+        self.scroll_area.setFixedHeight(window.height() - 300)  # Set the fixed height for the scroll area
+
+        # Add the QScrollArea to the main layout
+        main_layout.addWidget(self.scroll_area)
 
         # Set the layout of the main widget
         self.setLayout(main_layout)
@@ -349,9 +366,9 @@ class MainDashboard(QWidget):
         cell = Cell(table_number, order_details, order_time, self.node, self)
         self.cells.append(cell)  # Add new cell to the list
 
-        # Add the new cell to the grid layout
-        row = len(self.cells) // 5  # Move to next row every 5 cells
-        col = len(self.cells) % 5
+        # Add the new cell to the grid layout (always in row 0)
+        col = len(self.cells) - 1  # Set the column to the current cell index
+        row = 0  # Always set row to 0 to keep adding in the same row
         self.grid_layout.addWidget(cell, row, col)
 
         # Optionally, adjust the layout to ensure the grid is resized properly
@@ -364,6 +381,8 @@ class MainDashboard(QWidget):
             self.grid_layout.removeWidget(cell)
             cell.deleteLater()
             print(f"Cell for table {cell.table_number} has been removed.")
+
+
 
 
 # Main GUI Class
@@ -388,7 +407,7 @@ class RootView():
         self.tabWidget.setObjectName(u"tabWidget")
 
         # Tab 1 Content
-        self.tab1 = Tab1Content(self.node)
+        self.tab1 = Tab1Content(self.node, self.window)
 
         # Tab 2 Content with Sales Dashboard
         # self.tab2 = Tab2Content()
