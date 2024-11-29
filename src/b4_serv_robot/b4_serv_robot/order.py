@@ -2,7 +2,7 @@ import sys
 import threading
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import QoSProfile
+from rclpy.qos import QoSDurabilityPolicy, QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy
 from datetime import datetime
 
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLabel, QVBoxLayout,
@@ -281,9 +281,17 @@ class NODE(Node):
     def __init__(self, gui):
         super().__init__('order_node')
         self.gui = gui
-        self.order_client = self.create_client(Order, 'order_service')  # 주문 서비스 클라이언트 생성
-        self.cancel_client = self.create_service(OrderCancel, 'order_cancel_service',
-                                                 self.cancelOrderCallback)  # 취소 서비스 클라이언트 추가
+
+        QoS_Order = QoSProfile(
+            reliability=QoSReliabilityPolicy.RELIABLE,  # 주문, 취소 정보를 잃어버리지 않도록 신뢰성 보장
+            history=QoSHistoryPolicy.KEEP_LAST,
+            depth=1,  # 최신 주문, 취소 정보만 유지
+            durability=QoSDurabilityPolicy.VOLATILE  # 노드가 종료되면 정보 유지 필요 없음
+        )
+
+        self.order_client = self.create_client(Order, 'order_service', qos_profile=QoS_Order)  # 주문 서비스 클라이언트 생성
+        self.cancel_server = self.create_service(OrderCancel, 'order_cancel_service', self.cancelOrderCallback,
+                                                 qos_profile=QoS_Order)  # 취소 서비스 클라이언트 추가
 
     # 주문 취소 콜백 추가
     def cancelOrderCallback(self, request, response):
