@@ -328,6 +328,10 @@ class Cell(QWidget):
         return items
 
 
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel, QScrollArea, QHBoxLayout
+
+from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel, QScrollArea, QHBoxLayout
+
 
 class MainDashboard(QWidget):
     def __init__(self, node, window):
@@ -337,14 +341,32 @@ class MainDashboard(QWidget):
         # Main layout for the entire widget
         main_layout = QVBoxLayout(self)
 
+        # Title layout
+        title_layout = QVBoxLayout()
+
         # Add a title at the top
         title_label = QLabel("🐟 날로먹는집 주방 모니터 🐟")
         title_label.setAlignment(Qt.AlignCenter)  # Center the title
         title_label.setStyleSheet("font-size: 24px; font-weight: bold; margin: 5px;")
-        title_label.setFixedHeight(window.height() - 1000)
-        main_layout.addWidget(title_label)  # Add the title to the main layout
+        title_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)  # Let the label expand vertically as needed
+        title_layout.addWidget(title_label)  # Add the title to the title_layout
 
+        # Create a horizontal layout for the button
+        button_layout = QHBoxLayout()
+        button_layout.addStretch(1)  # This will push the button to the right
 
+        # Create the button
+        button = QPushButton("로봇 호출")
+        button.setStyleSheet("font-size: 24px; font-weight: bold; margin: 5px;")
+        # Add the button to the button layout
+        button_layout.addWidget(button)
+
+        button.clicked.connect(self.come_back_btn)
+        title_layout.addLayout(button_layout)
+
+        # Add the title_layout to the main layout
+        main_layout.addLayout(title_layout)
+        # Function to retrieve messages (implementation assumed elsewhere)
         self.get_message()
 
         # Create a QGridLayout for the cells
@@ -362,12 +384,44 @@ class MainDashboard(QWidget):
         self.scroll_area.setWidgetResizable(True)  # Enable auto-resizing of widget
         self.scroll_area.setWidget(self.grid_widget)
 
-        self.scroll_area.setFixedHeight(window.height() - 300)  # Set the fixed height for the scroll area
+        # Set height and width for the scroll area
+        self.scroll_area.setFixedHeight(window.height() - 300)
+        self.scroll_area.setFixedWidth(int(window.width() * 0.6))
 
-        # Add the QScrollArea to the main layout
-        main_layout.addWidget(self.scroll_area)
+        # Create a horizontal layout to hold both scroll areas side by side
+        horizontal_layout = QHBoxLayout()
 
-        # Set the layout of the main widget
+        # Add the main scroll area to the horizontal layout
+        horizontal_layout.addWidget(self.scroll_area)
+
+        # Create a QWidget to hold both the button and extra_scroll_area
+        extra_layout_widget = QWidget()
+        extra_layout = QVBoxLayout(extra_layout_widget)
+
+        # Additional scroll view setup for extra content
+        self.extra_scroll_layout = QVBoxLayout()
+
+        self.extra_scroll_widget = QWidget()
+        self.extra_scroll_widget.setLayout(self.extra_scroll_layout)
+
+        extra_scroll_area = QScrollArea()
+        extra_scroll_area.setWidgetResizable(True)
+        extra_scroll_area.setWidget(self.extra_scroll_widget)
+
+        # Fixed height and width for the additional scroll area
+        extra_scroll_area.setFixedHeight(window.height() - 300)
+        extra_scroll_area.setFixedWidth(int(window.width() * 0.3))  # 30% of the window width
+
+        # Add extra_scroll_area to the extra layout (below the button)
+        extra_layout.addWidget(extra_scroll_area)
+
+        # Add the QWidget holding the button and extra_scroll_area to the horizontal layout (on the right)
+        horizontal_layout.addWidget(extra_layout_widget)
+
+        # Add the horizontal layout to the main layout
+        main_layout.addLayout(horizontal_layout)
+
+        # Set the layout for the main widget
         self.setLayout(main_layout)
 
         # Initialize cell list (empty at first)
@@ -403,6 +457,9 @@ class MainDashboard(QWidget):
             self.grid_layout.removeWidget(cell)
             cell.deleteLater()
             print(f"Cell for table {cell.table_number} has been removed.")
+
+    def come_back_btn(self):
+        print("come back btn")
 
 
 
