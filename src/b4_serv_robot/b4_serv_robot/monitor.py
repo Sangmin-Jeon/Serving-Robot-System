@@ -24,6 +24,10 @@ from PyQt5.QtWidgets import (
     QTabWidget, QTableWidget, QTableWidgetItem, QSizePolicy, QScrollArea
 )
 
+
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy, QoSDurabilityPolicy
+
+
 class NODE(Node, QObject):
     message_received = pyqtSignal(Order.Request)  # 문자열 타입 신호 정의
 
@@ -32,13 +36,29 @@ class NODE(Node, QObject):
         QObject.__init__(self)
 
         self.callback_group = ReentrantCallbackGroup()
-        qos_profile = QoSProfile(depth=5)
+
+        # order qos
+        srv_qos_profile = QoSProfile(
+            reliability=QoSReliabilityPolicy.RELIABLE,  # 신뢰성 보장
+            history=QoSHistoryPolicy.KEEP_LAST,  # 가장 최근 메시지만 유지
+            depth=1,  # 깊이 설정: 1
+            durability=QoSDurabilityPolicy.VOLATILE  # 휘발성 메시지
+        )
+
+        # robot, db qos
+        qos_profile = QoSProfile(
+            reliability=QoSReliabilityPolicy.RELIABLE,  # 신뢰성 보장
+            history=QoSHistoryPolicy.KEEP_LAST,  # 가장 최근 메시지만 유지
+            depth=5,  # 최근 10개 메시지 유지
+            durability=QoSDurabilityPolicy.VOLATILE  # 현재 연결된 구독자만 메시지 수신
+        )
 
         # 주문 확인 서비스
         self.service_server = self.create_service(
             Order,
             'order_service',
             self.order_service,
+            qos_profile=srv_qos_profile,
             callback_group=self.callback_group
         )
 
@@ -46,23 +66,24 @@ class NODE(Node, QObject):
         self.cancel_client = self.create_client(
             OrderCancel,
             'order_cancel_service',
+            qos_profile=srv_qos_profile,
             callback_group=self.callback_group)
 
         # DB 노드에 Topic 발행
         self.message_publisher = self.create_publisher(
             DB,
             'order_db_message',
-            qos_profile,
+            qos_profile=qos_profile,
             callback_group=self.callback_group)
 
         self.queue = queue.Queue()
         self.timer = self.create_timer(0.1, self.publish_order_message)
 
-        # DB 노드에 Topic 발행
+        # robot 노드에 Topic 발행
         self.move_robot_publisher = self.create_publisher(
             String,
             'table_no_msg',
-            qos_profile,
+            qos_profile=qos_profile,
             callback_group=self.callback_group)
 
         self.table_num = ''
@@ -72,7 +93,7 @@ class NODE(Node, QObject):
             Bool,
             'finished_goal',  # 구독할 토픽 이름
             self.finished_goal_callback,  # 메시지를 처리할 콜백 함수
-            qos_profile,
+            qos_profile=qos_profile,
             callback_group=self.callback_group)
 
 
@@ -142,6 +163,7 @@ class NODE(Node, QObject):
     # 로복으로 테이블 번호 발행
     def publish_move_robot(self):
         if self.table_num != '':
+            print(f"skofk: {self.table_num}")
             msg = String()  # std_msgs.msg.String 객체 생성
             msg.data = self.table_num  # 메시지 데이터에 문자열 값 할당
             # 메시지 발행
