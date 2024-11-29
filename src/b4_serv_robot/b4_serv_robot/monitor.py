@@ -21,17 +21,18 @@ from b4_serv_robot_interface.srv import Order, OrderCancel
 from b4_serv_robot_interface.msg import DB
 
 # PyQt5 관련 라이브러리
-from PyQt5.QtCore import Qt, QObject, pyqtSignal
+from PyQt5.QtCore import Qt, QObject, pyqtSignal, QTimer, QTime
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QComboBox, QCheckBox, QGridLayout,
-    QTabWidget, QTableWidget, QTableWidgetItem, QSizePolicy, QScrollArea
+    QTabWidget, QTableWidget, QTableWidgetItem, QSizePolicy, QScrollArea,
 )
 
 
 
 class NODE(Node, QObject):
     message_received = pyqtSignal(Order.Request)  # 문자열 타입 신호 정의
+    info_received = pyqtSignal(str)
 
     def __init__(self):
         super().__init__('node')
@@ -257,20 +258,20 @@ class Cell(QWidget):
 
         self.table_number = table_number
         self.order_details = order_details
-        self.order_time = order_time
+        self.order_time = order_time  # Order time provided (static initial time)
 
         self.dashboard = dashboard
+        self.elapsed_time = QTime(0, 0, 0)  # Timer starts from 00:00:00
 
         self.set_cell_layout()
+        self.start_timer()
 
-
-    # UI layout
     def set_cell_layout(self):
         # Calculate size dynamically based on screen size and design
         screen_width = 1300  # Example screen width (adjust as needed)
-        available_height = self.dashboard.scroll_area.height() - 20
+        available_height = 550  # Set a fixed height for this example
         available_width = screen_width - 40  # Subtract margins and padding
-        cell_width = available_width // 3  # Divide by 5 for 5 cells per row
+        cell_width = available_width // 3  # Divide by 3 for 3 cells per row
         cell_height = available_height  # Adjust the height ratio (1.5 for taller cells)
 
         # Set fixed size for the cell
@@ -282,61 +283,119 @@ class Cell(QWidget):
 
         # Set the style for the wrapper widget (border, padding, etc.)
         self.wrapper.setStyleSheet(
+            "background-color: white;"
             "border: 2px solid #4CAF50;"  # Green border for the wrapper
             "border-radius: 5px;"  # Optional: rounded corners for the wrapper
             "margin: 5px;"  # External margin around the wrapper
         )
 
         # Create a vertical layout for the cell
-        layout = QVBoxLayout(self.wrapper)  # Set layout to the wrapper
+        layout = QVBoxLayout(self.wrapper)
+        layout.setAlignment(Qt.AlignTop)  # Align all components to the top
+        layout.setSpacing(0)  # Adjust spacing between main components
+        layout.setContentsMargins(10, 10, 10, 10)  # Set left, top, right, bottom margins (top and bottom margins set to 0)
 
-        # Labels for table number and order details
+        # Create a horizontal layout for table number and buttons (to place buttons on the right)
+        top_layout = QHBoxLayout()  # Horizontal layout for table number and buttons
+        top_layout.setSpacing(10)  # Optional: set spacing between items horizontally
+
+        # Table number label
         self.table_number_label = QLabel(f"테이블 {self.table_number}", self.wrapper)
-
-        # Join the order details list into a single string with line breaks
-        order_details_str = "\n".join(self.order_details)  # Display list as multiline string
-        self.order_details_label = QLabel(f"{order_details_str}", self.wrapper)
-
-        font = self.order_details_label.font()
-        font.setBold(True)
-        self.order_details_label.setFont(font)
-
-        # Set the style for the table number label (Blue background for the table number)
         self.table_number_label.setStyleSheet(
-            "background-color: blue; padding: 5px; font-size: 18px; color: white;"  # Blue background, white text
+            "background-color: blue; padding: 5px; font-size: 18px; font-weight: bold; color: white;"
+            # Blue background, white text
         )
-
-        # Set height for the table number label
         self.table_number_label.setFixedHeight(50)
-
-        # Center align the text in the label
         self.table_number_label.setAlignment(Qt.AlignCenter)
 
-        # Set the style for the order details label (Gray background for the order details)
-        self.order_details_label.setStyleSheet(
-            "background-color: lightgray; padding: 5px; font-size: 14px; color: black;"  # Gray background, black text
-        )
+        # Add the table number label to the top_layout
+        top_layout.addWidget(self.table_number_label)
 
-        # Set height for the order details label
-        self.order_details_label.setAlignment(Qt.AlignLeft)
-
-        # Create buttons
-        self.confirm_button = QPushButton("확인", self.wrapper)
-        self.cancel_button = QPushButton("취소", self.wrapper)
-
-        # Set button actions (connect buttons to their corresponding methods)
-        self.confirm_button.clicked.connect(self.confirm_order)
-        self.cancel_button.clicked.connect(self.cancel_order)
-
-        # Create a horizontal layout for the buttons
+        # Add the button layout to the top_layout
         button_layout = QHBoxLayout()
+        button_layout.setSpacing(5)  # 좁은 간격으로 버튼들 배치 (간격을 10에서 5로 좁힘)
+
+        self.confirm_button = QPushButton("확인", self.wrapper)
+        self.confirm_button.setStyleSheet(
+            "background-color: #0d3383; color: white; font-size: 18px; font-weight: bold;")
+        self.confirm_button.setFixedSize(100, 50)  # 버튼 크기 120x50으로 지정
+
+        self.cancel_button = QPushButton("취소", self.wrapper)
+        self.cancel_button.setStyleSheet("background-color: #cc0033; color: white; font-size: 18px; font-weight: bold;")
+        self.cancel_button.setFixedSize(100, 50)  # 버튼 크기 120x50으로 지정
+
         button_layout.addWidget(self.confirm_button)
         button_layout.addWidget(self.cancel_button)
 
-        # Add labels and button layout to the cell layout
-        layout.addWidget(self.table_number_label)
-        layout.addWidget(self.order_details_label)
-        layout.addLayout(button_layout)
+        # Connect buttons to methods
+        self.confirm_button.clicked.connect(self.confirm_order)
+        self.cancel_button.clicked.connect(self.cancel_order)
+
+        # Add buttons layout to top_layout (buttons will be on the right side)
+        top_layout.addLayout(button_layout)
+
+        # Add the top layout to the main vertical layout
+        layout.addLayout(top_layout)
+
+        # Create a layout for order time and timer
+        time_layout = QVBoxLayout()  # Vertical layout for the order time and timer
+
+        # Add "주문시간" label
+        self.order_time_label = QLabel("주문 시간", self.wrapper)
+        self.order_time_label.setStyleSheet(
+            "background-color: gray; padding: 3px; font-size: 18px; font-weight: bold; color: white;"
+            # Styling for the label
+        )
+        self.order_time_label.setAlignment(Qt.AlignCenter)
+
+        # Add the actual time
+        self.time_label = QLabel(self.order_time, self.wrapper)
+        self.time_label.setStyleSheet(
+            "background-color: gray; padding: 3px; font-size: 18px; font-weight: bold; color: white;"
+            # Styling for the time
+        )
+        self.time_label.setAlignment(Qt.AlignCenter)
+
+        time_layout.addWidget(self.order_time_label)  # Add order time label to layout
+        time_layout.addWidget(self.time_label)  # Add order time value to layout
+
+        layout.addLayout(time_layout)  # Add the time layout to the main layout
+
+        # Timer label
+        self.timer_label = QLabel("경과시간: 00:00", self.wrapper)  # Timer starts at 00:00
+        self.timer_label.setStyleSheet(
+            "background-color: lightgreen; padding: 5px; font-size: 16px; color: black;"  # Timer label styling
+        )
+        self.timer_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.timer_label)  # Add the timer label below the time
+
+        self.menu_label = QLabel(f"메뉴 목록", self.wrapper)
+        self.menu_label.setStyleSheet(
+            "background-color: gray; padding: 5px; font-size: 18px; font-weight: bold; color: white;"
+            # Blue background, white text
+        )
+        self.menu_label.setFixedHeight(50)
+        self.menu_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.menu_label)  # Add table number label to layout
+
+        # Create a layout for order details
+        details_layout = QVBoxLayout()  # Create a layout for the order details
+        details_layout.setSpacing(5)  # Spacing between individual details
+        details_layout.setContentsMargins(0, 0, 0, 0)  # No additional margins for details
+        details_layout.setAlignment(Qt.AlignTop)  # Align details to the top
+
+        for detail in self.order_details:
+            detail_label = QLabel(detail, self.wrapper)
+            detail_label.setFixedHeight(50)  # Fixed height for each detail
+            detail_label.setStyleSheet(
+                "background-color: lightgray; font-size: 16px; color: black;"  # Styling for details
+                "border: 1px solid #aaa;"  # Border around each label
+                "font-weight: bold;"
+            )
+            detail_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+            details_layout.addWidget(detail_label)  # Add each detail label to the layout
+
+        layout.addLayout(details_layout)  # Add the details layout to the main layout
 
         # Set the layout for the QWidget (cell)
         self.setLayout(layout)
@@ -344,6 +403,20 @@ class Cell(QWidget):
         # Set size policy for dynamic resizing
         size_policy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(size_policy)
+
+        # Start the timer
+        self.start_timer()
+
+    def start_timer(self):
+        """Start a timer to update the timer label every second."""
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_timer)  # Connect timeout to update_timer method
+        self.timer.start(1000)  # Start the timer with a 1-second interval
+
+    def update_timer(self):
+        """Update the timer label every second."""
+        self.elapsed_time = self.elapsed_time.addSecs(1)  # Increment time by 1 second
+        self.timer_label.setText(f"경과시간              {self.elapsed_time.toString('mm:ss')}")  # Update label with "경과시간: MM:SS"
 
     # 주문 확인
     def confirm_order(self):
