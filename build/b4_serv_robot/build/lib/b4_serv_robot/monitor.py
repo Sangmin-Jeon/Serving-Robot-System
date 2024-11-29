@@ -6,13 +6,17 @@ from datetime import datetime
 # ROS 2 관련 라이브러리
 import rclpy
 from rclpy.node import Node
-from rclpy.qos import QoSProfile
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
+from rclpy.qos import (
+    QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy, QoSDurabilityPolicy
+)
+
 
 # ROS 2 메시지 및 서비스 정의
 from std_msgs.msg import String
 from std_msgs.msg import Bool
+from std_srvs.srv import SetBool
 from b4_serv_robot_interface.srv import Order, OrderCancel
 from b4_serv_robot_interface.msg import DB
 
@@ -24,8 +28,6 @@ from PyQt5.QtWidgets import (
     QTabWidget, QTableWidget, QTableWidgetItem, QSizePolicy, QScrollArea
 )
 
-
-from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy, QoSDurabilityPolicy
 
 
 class NODE(Node, QObject):
@@ -89,13 +91,27 @@ class NODE(Node, QObject):
         self.table_num = ''
         self.timer = self.create_timer(0.1, self.publish_move_robot)
 
-        self.subscription = self.create_subscription(
+        self.robot_goal_send_sub = self.create_subscription(
             Bool,
             'finished_goal',  # 구독할 토픽 이름
             self.finished_goal_callback,  # 메시지를 처리할 콜백 함수
             qos_profile=qos_profile,
             callback_group=self.callback_group)
 
+        self.robot_come_back_client = self.create_client(
+            SetBool,
+            'come_back_srv',
+            qos_profile=srv_qos_profile,  # 올바른 인자 사용
+            callback_group=self.callback_group
+        )
+
+        self.move_finished_robot_sub = self.create_subscription(
+            Bool,
+            'come_back_finished',
+            self.come_back_finished_callback,
+            qos_profile=qos_profile,  # 올바른 인자 사용
+            callback_group=self.callback_group
+        )
 
     # 주문 확인
     def order_service(self, request, response):
@@ -154,7 +170,7 @@ class NODE(Node, QObject):
 
             # DB 메시지 생성
             msg = DB()
-            msg.order_info = message  # 예시로 메시지 데이터를 DB의 필드에 매핑
+            msg.order_info = message
 
             # 메시지 발행
             self.message_publisher.publish(msg)
@@ -163,7 +179,6 @@ class NODE(Node, QObject):
     # 로복으로 테이블 번호 발행
     def publish_move_robot(self):
         if self.table_num != '':
-            print(f"skofk: {self.table_num}")
             msg = String()  # std_msgs.msg.String 객체 생성
             msg.data = self.table_num  # 메시지 데이터에 문자열 값 할당
             # 메시지 발행
@@ -173,6 +188,38 @@ class NODE(Node, QObject):
 
     def finished_goal_callback(self, msg):
         self.get_logger().info(f'Received finished goal: {msg.data}')
+
+    def robot_come_back_call(self, is_call):
+        try:
+            # 서비스 요청 생성
+            request = SetBool.Request()
+            request.data = is_call  # boolean 값 설정
+
+            # 비동기 서비스 호출
+            future = self.robot_come_back_client.call_async(request)
+            print(f"돌아와: {request.data}")
+            future.add_done_callback(self.come_back_response_callback)
+
+        except Exception as e:
+            print(f"Error while sending robot comeback request: {e}")
+
+    def come_back_response_callback(self, future):
+        try:
+            response = future.result()
+
+            # 응답에서 success와 message 사용
+            if response.success:
+                self.get_logger().info(f'Received finished robot comeback: {response.message}')
+            else:
+                self.get_logger().warning("Robot comeback failed.")
+        except Exception as e:
+            self.get_logger().error(f'Error in robot comeback response: {e}')
+
+
+    def come_back_finished_callback(self, msg):
+        self.get_logger().info(f'Completed finished robot comeback: {msg}')
+
+
 
 # Tab 1 Content Widget (Basic)
 class Tab1Content(QWidget):
@@ -311,8 +358,6 @@ class Cell(QWidget):
     def cancel_order(self):
         print(f"주문 취소: 테이블 {self.table_number}, 내역: {self.order_details}")
         self.node.order_cancel(True)
-        conv_msg = self._convert_order_msg(self.table_number, self.order_details, self.order_time, True)
-        self.node.queue.put(conv_msg)
         # 취소 버튼 클릭 시 해당 cell을 삭제
         self.dashboard.remove_cell(self)
 
@@ -326,11 +371,6 @@ class Cell(QWidget):
             dump = f"{table_num}/{item}/{is_cancel}/{order_time}/{formatted_time}"
             items.append(dump)
         return items
-
-
-from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel, QScrollArea, QHBoxLayout
-
-from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QWidget, QLabel, QScrollArea, QHBoxLayout
 
 
 class MainDashboard(QWidget):
@@ -458,9 +498,14 @@ class MainDashboard(QWidget):
             cell.deleteLater()
             print(f"Cell for table {cell.table_number} has been removed.")
 
+    # 로봇 호출
     def come_back_btn(self):
-        print("come back btn")
+        try:
+            # Call the method robot_come_back_call with True
+            self.node.robot_come_back_call(True)
 
+        except Exception as e:
+            self.get_logger().error(f"Error in button click callback: {e}")
 
 
 
