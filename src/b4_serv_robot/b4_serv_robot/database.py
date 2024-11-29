@@ -6,57 +6,70 @@ from rclpy.node import Node
 from b4_serv_robot_interface.msg import DB
 from rclpy.qos import QoSProfile
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QCheckBox, QTableWidget, \
-    QTableWidgetItem, QLabel, QDateEdit, QLineEdit, QSizePolicy, QSplitter
+    QTableWidgetItem, QLabel, QDateEdit, QLineEdit, QSizePolicy, QSplitter, QTabWidget, QPushButton
 from PyQt5.QtCore import Qt, QDate, QTimer
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 import numpy as np
+from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy, QoSDurabilityPolicy
 
-# Set Korean font for the graph
+# 그래프에 한국 폰트 설정
 plt.rcParams['font.family'] = 'NanumGothic'
 plt.rcParams['axes.unicode_minus'] = False
 
 
-class StatisticsApp(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("대시보드")
-        self.setGeometry(100, 100, 1600, 900)
+class Tap1(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.layout = QVBoxLayout(self)
+        self.layout.setContentsMargins(10, 10, 10, 10)
+        self.layout.setSpacing(5)
+
+        # 메뉴별 가격을 미리 정의 (예시로 임의의 가격 사용)
+        self.menu_prices = [15000, 12000, 20000, 8000, 4000]  # 각 메뉴별 가격 (예시)
 
         # 데이터베이스 연결 설정
         self.conn = sqlite3.connect('order_management11.db')
         self.cursor = self.conn.cursor()
 
         # 고정지출 설정
-        self.fixed_expense = 30000  # 예시 값
-
-        # 메인 위젯과 레이아웃 설정
-        self.main_widget = QWidget()
-        self.setCentralWidget(self.main_widget)
-        self.main_layout = QVBoxLayout(self.main_widget)
-        self.main_layout.setContentsMargins(10, 10, 10, 10)
-        self.main_layout.setSpacing(5)
+        self.fixed_expense = 10000  # 예시 값
 
         # 상단 레이아웃 (히스토그램 및 테이블) - QSplitter 사용
         self.upper_splitter = QSplitter(Qt.Vertical)
-        self.main_layout.addWidget(self.upper_splitter)
+        self.layout.addWidget(self.upper_splitter)
 
-        # 메뉴 필터링 체크박스
-        self.menu_checkboxes_layout = QHBoxLayout()
+        # 메뉴 필터링 체크박스 및 원가 입력 필드
+        self.menu_checkboxes_layout = QHBoxLayout()  # QHBoxLayout으로 변경하여 체크박스를 가로로 배치
         self.menu_checkboxes_layout.setSpacing(5)
         self.menu_checkboxes = []
         self.menu_labels = ["방어회", "향어회", "광어+우럭 세트", "매운탕", "소주"]
+        self.item_cost_inputs = []  # 각 메뉴별 원가 금액 입력 필드
+
+        # 메뉴 체크박스와 원가 금액 입력 필드 추가
         for label in self.menu_labels:
+            # 메뉴 체크박스 생성
             checkbox = QCheckBox(label)
             checkbox.setChecked(True)
             checkbox.stateChanged.connect(self.update_graph_and_table)
             self.menu_checkboxes.append(checkbox)
             self.menu_checkboxes_layout.addWidget(checkbox)
 
-        # 고정지출 입력
+            # 각 메뉴별 물품 원가 입력 필드 생성
+            item_cost_label = QLabel(f"{label} 원가(금액):")
+            item_cost_input = QLineEdit("0")  # 기본 원가 금액 0원
+            item_cost_input.setFixedWidth(70)
+            item_cost_input.editingFinished.connect(self.update_graph_and_table)
+            self.item_cost_inputs.append(item_cost_input)
+
+            # 레이아웃에 추가
+            self.menu_checkboxes_layout.addWidget(item_cost_label)
+            self.menu_checkboxes_layout.addWidget(item_cost_input)
+
+        # 고정지출 입력 필드 추가
         self.fixed_expense_label = QLabel("고정지출:")
         self.fixed_expense_input = QLineEdit(str(self.fixed_expense))
-        self.fixed_expense_input.setFixedWidth(50)
+        self.fixed_expense_input.setFixedWidth(70)
         self.fixed_expense_input.editingFinished.connect(self.update_fixed_expense)
         self.menu_checkboxes_layout.addWidget(self.fixed_expense_label)
         self.menu_checkboxes_layout.addWidget(self.fixed_expense_input)
@@ -89,7 +102,7 @@ class StatisticsApp(QMainWindow):
         upper_widget.setLayout(self.menu_checkboxes_layout)
         self.upper_splitter.addWidget(upper_widget)
 
-        # 히스토그램 (메뉴별 매출 시각화)
+        # 히스토그램 (메뉴별 매출액 시각화)
         self.figure, self.ax = plt.subplots(figsize=(10, 4))
         self.canvas = FigureCanvas(self.figure)
         self.upper_splitter.addWidget(self.canvas)
@@ -99,7 +112,6 @@ class StatisticsApp(QMainWindow):
         self.table = QTableWidget()
         self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
         self.upper_splitter.addWidget(self.table)
-        self.update_table_data()
 
         # 상단 레이아웃 조정 - 히스토그램과 테이블 비율 조정
         self.upper_splitter.setStretchFactor(1, 1)
@@ -117,14 +129,14 @@ class StatisticsApp(QMainWindow):
         self.donut_layout.addWidget(self.device_canvas)
         self.lower_layout.addLayout(self.donut_layout)
 
-        # 일별 매출 그래프 설정
+        # 일별 매출액 그래프 설정
         self.daily_sales_figure, self.daily_sales_ax = plt.subplots()
         self.daily_sales_canvas = FigureCanvas(self.daily_sales_figure)
         self.daily_sales_canvas.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.daily_sales_canvas.setMinimumSize(400, 300)
         self.lower_layout.addWidget(self.daily_sales_canvas)
 
-        # 시간별 매출 그래프 설정
+        # 시간별 매출액 그래프 설정
         self.hourly_sales_figure, self.hourly_sales_ax = plt.subplots()
         self.hourly_sales_canvas = FigureCanvas(self.hourly_sales_figure)
         self.hourly_sales_canvas.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
@@ -132,7 +144,7 @@ class StatisticsApp(QMainWindow):
         self.lower_layout.addWidget(self.hourly_sales_canvas)
 
         # 하단 레이아웃을 메인 레이아웃에 추가
-        self.main_layout.addLayout(self.lower_layout)
+        self.layout.addLayout(self.lower_layout)
 
         # 초기 그래프 업데이트
         self.update_device_chart()
@@ -143,6 +155,9 @@ class StatisticsApp(QMainWindow):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_graph_and_table)
         self.timer.start(1000)  # 1초마다 업데이트
+
+        # 모든 속성이 정의된 후 테이블 데이터를 업데이트
+        self.update_table_data()
 
     def update_fixed_expense(self):
         try:
@@ -206,8 +221,11 @@ class StatisticsApp(QMainWindow):
 
         query = '''
             SELECT STRFTIME('%H', o.order_time) as hour,
-                   SUM(COALESCE(bang_eo.menu_count * bang_eo.menu_price, 0) + COALESCE(hyang_eo.menu_count * hyang_eo.menu_price, 0) + COALESCE(gwang_eo.menu_count * gwang_eo.menu_price, 0) +
-                       COALESCE(maeun_tang.menu_count * maeun_tang.menu_price, 0) + COALESCE(soju.menu_count * soju.menu_price, 0)) AS total_sales
+                   SUM(CASE WHEN ? THEN COALESCE(bang_eo.menu_count * bang_eo.menu_price, 0) ELSE 0 END +
+                       CASE WHEN ? THEN COALESCE(hyang_eo.menu_count * hyang_eo.menu_price, 0) ELSE 0 END +
+                       CASE WHEN ? THEN COALESCE(gwang_eo.menu_count * gwang_eo.menu_price, 0) ELSE 0 END +
+                       CASE WHEN ? THEN COALESCE(maeun_tang.menu_count * maeun_tang.menu_price, 0) ELSE 0 END +
+                       CASE WHEN ? THEN COALESCE(soju.menu_count * soju.menu_price, 0) ELSE 0 END) AS total_sales
             FROM OrderTable o
             LEFT JOIN 방어회 bang_eo ON o.order_id = bang_eo.order_id
             LEFT JOIN 향어회 hyang_eo ON o.order_id = hyang_eo.order_id
@@ -219,7 +237,8 @@ class StatisticsApp(QMainWindow):
             ORDER BY hour
         '''
 
-        self.cursor.execute(query, (start_date, end_date))
+        params = [checkbox.isChecked() for checkbox in self.menu_checkboxes] + [start_date, end_date]
+        self.cursor.execute(query, params)
         data = self.cursor.fetchall()
 
         hourly_sales = {str(hour).zfill(2): 0 for hour in range(9, 25)}
@@ -250,10 +269,12 @@ class StatisticsApp(QMainWindow):
                 self.ax.bar(indices + idx * bar_width, menu_sales, bar_width, label=menu_label)
                 total_sales += np.array(menu_sales)
 
-        self.ax.bar(indices + bar_width * len(self.menu_labels), total_sales, bar_width, color='red', label='총 매출')
-        self.ax.set_title("메뉴별 일일 매출")
+        self.ax.bar(indices + bar_width * len(self.menu_labels), total_sales, bar_width, color='red', label='총 매출액')
+        self.ax.set_title("메뉴별 일일 매출액")
         self.ax.set_xticks(indices + bar_width * (len(self.menu_labels) / 2))
         self.ax.set_xticklabels([row[0][5:] for row in data], rotation=45)  # 월-일만 표시하도록 수정
+        self.ax.set_ylabel("매출액 (원)")
+        self.ax.ticklabel_format(style='plain', axis='y')  # y축 값 표시 형식을 기본값으로 변경 (과학적 표기법 사용 안 함)
         self.ax.legend()
         self.canvas.draw()
 
@@ -269,7 +290,7 @@ class StatisticsApp(QMainWindow):
         self.table.setRowCount(4)
         self.table.setColumnCount(len(data) + 1)
         self.table.setHorizontalHeaderLabels([f"{row[0]}" for row in data] + ["총합계"])
-        self.table.setVerticalHeaderLabels(["총 매출", "물품 원가", "고정 지출", "매출 이익"])
+        self.table.setVerticalHeaderLabels(["총 매출액", "물품 원가", "고정 지출", "매출액 이익"])
 
         total_item_cost = 0
         total_fixed_expense = 0
@@ -277,29 +298,49 @@ class StatisticsApp(QMainWindow):
         total_sales = 0
 
         for col_idx, row_data in enumerate(data):
-            sales = sum(row_data[1:])
-            item_cost = sales * 0.4
+            sales = 0
+            item_cost = 0
+
+            for idx, menu_label in enumerate(self.menu_labels):
+                if self.menu_checkboxes[idx].isChecked():
+                    menu_sales = row_data[idx + 1]  # 매출액 (판매 수량 * 메뉴 가격)
+                    sales += menu_sales
+
+                    try:
+                        # 각 메뉴별 원가 금액을 가져와서 메뉴 수량과 곱하여 총 원가 계산
+                        cost_per_unit = float(self.item_cost_inputs[idx].text()) * 4 / 5  # 메뉴별 원가 (원 단위) * 4/5
+                        menu_price = self.menu_prices[idx] if idx < len(
+                            self.menu_prices) else 1  # 가격이 0일 수 없으므로 기본값 1 사용
+                        menu_count = menu_sales / menu_price if menu_price > 0 else 0
+                        item_cost += cost_per_unit * menu_count
+                    except ValueError:
+                        item_cost += 0  # 기본 원가 금액 0원 사용
+
             fixed_expense = self.fixed_expense
             profit = sales - item_cost - fixed_expense
 
-            self.table.setItem(0, col_idx, QTableWidgetItem(str(int(sales))))
-            self.table.setItem(1, col_idx, QTableWidgetItem(str(int(item_cost))))
-            self.table.setItem(2, col_idx, QTableWidgetItem(str(fixed_expense)))
-            self.table.setItem(3, col_idx, QTableWidgetItem(str(int(profit))))
+            # 테이블에 값 추가
+            self.table.setItem(0, col_idx, QTableWidgetItem(f"{int(sales):,} 원"))
+            self.table.setItem(1, col_idx, QTableWidgetItem(f"{int(item_cost):,} 원"))
+            self.table.setItem(2, col_idx, QTableWidgetItem(f"{fixed_expense:,} 원"))
+            self.table.setItem(3, col_idx, QTableWidgetItem(f"{int(profit):,} 원"))
 
             total_sales += sales
             total_item_cost += item_cost
             total_fixed_expense += fixed_expense
             total_profit += profit
 
-        self.table.setItem(0, len(data), QTableWidgetItem(str(int(total_sales))))
-        self.table.setItem(1, len(data), QTableWidgetItem(str(int(total_item_cost))))
-        self.table.setItem(2, len(data), QTableWidgetItem(str(total_fixed_expense)))
-        self.table.setItem(3, len(data), QTableWidgetItem(str(int(total_profit))))
+        # 총합계 열에 값 추가
+        self.table.setItem(0, len(data), QTableWidgetItem(f"{int(total_sales):,} 원"))
+        self.table.setItem(1, len(data), QTableWidgetItem(f"{int(total_item_cost):,} 원"))
+        self.table.setItem(2, len(data), QTableWidgetItem(f"{total_fixed_expense:,} 원"))
+        self.table.setItem(3, len(data), QTableWidgetItem(f"{int(total_profit):,} 원"))
 
+        # 테이블의 모든 셀을 가운데 정렬
         for row in range(4):
             for col in range(len(data) + 1):
-                self.table.item(row, col).setTextAlignment(Qt.AlignCenter)
+                if self.table.item(row, col):  # 셀이 존재할 경우에만 가운데 정렬 적용
+                    self.table.item(row, col).setTextAlignment(Qt.AlignCenter)
 
     def update_device_chart(self):
         if len(self.get_filtered_data()) > 30:
@@ -312,29 +353,43 @@ class StatisticsApp(QMainWindow):
 
         self.device_ax.clear()
         try:
-            total_item_cost = sum([int(self.table.item(1, i).text()) for i in range(self.table.columnCount() - 1)])
-            total_fixed_expense = sum([int(self.table.item(2, i).text()) for i in range(self.table.columnCount() - 1)])
-            total_profit = sum([int(self.table.item(3, i).text()) for i in range(self.table.columnCount() - 1)])
+            total_item_cost = 0
+            total_fixed_expense = 0
+            total_profit = 0
+            total_sales = 0
+
+            for idx, menu_label in enumerate(self.menu_labels):
+                if self.menu_checkboxes[idx].isChecked():
+                    total_sales += sum([int(self.table.item(0, i).text().replace(',', '').replace(' 원', '')) for i in
+                                        range(self.table.columnCount() - 1)])
+                    total_item_cost += sum(
+                        [int(self.table.item(1, i).text().replace(',', '').replace(' 원', '')) for i in
+                         range(self.table.columnCount() - 1)])
+                    total_fixed_expense += sum(
+                        [int(self.table.item(2, i).text().replace(',', '').replace(' 원', '')) for i in
+                         range(self.table.columnCount() - 1)])
+                    total_profit += sum([int(self.table.item(3, i).text().replace(',', '').replace(' 원', '')) for i in
+                                         range(self.table.columnCount() - 1)])
 
             if total_item_cost <= 0 and total_fixed_expense <= 0 and total_profit <= 0:
                 donut_data = [1, 1, 1]
-                donut_labels = ["물품 원가 (없음)", "고정 지출 (없음)", "매출 이익 (없음)"]
+                donut_labels = ["물품 원가 (없음)", "고정 지출 (없음)", "매출액 이익 (없음)"]
             else:
                 donut_data = [
                     max(total_item_cost, 0),
                     max(total_fixed_expense, 0),
                     max(total_profit, 0)
                 ]
-                donut_labels = ["물품 원가", "고정 지출", "매출 이익"]
+                donut_labels = ["물품 원가", "고정 지출", "매출액 이익"]
 
         except (AttributeError, ValueError):
             donut_data = [1, 1, 1]
-            donut_labels = ["물품 원가 (없음)", "고정 지출 (없음)", "매출 이익 (없음)"]
+            donut_labels = ["물품 원가 (없음)", "고정 지출 (없음)", "매출액 이익 (없음)"]
 
         colors = ['#76c7c0', '#4b7bec', '#ff9999']
         self.device_ax.pie(donut_data, labels=donut_labels, autopct='%1.1f%%', startangle=140, colors=colors,
                            wedgeprops={'width': 0.3})
-        self.device_ax.set_title("매출 구성 도넛 차트 (%)")
+        self.device_ax.set_title("매출액 구성 도넛 차트 (%)")
         self.device_canvas.draw()
 
     def update_daily_sales_chart(self):
@@ -349,12 +404,19 @@ class StatisticsApp(QMainWindow):
 
         self.daily_sales_ax.clear()
         dates = [row[0][5:] for row in data]  # 월-일만 표시하도록 수정
-        total_sales = [sum(row[1:]) for row in data]
+        total_sales = []
+        for row in data:
+            sales = 0
+            for idx, menu_label in enumerate(self.menu_labels):
+                if self.menu_checkboxes[idx].isChecked():
+                    sales += row[1 + idx]
+            total_sales.append(sales)
 
         self.daily_sales_ax.plot(dates, total_sales, marker='o')
         self.daily_sales_ax.set_title("일별 매출액")
         self.daily_sales_ax.set_xlabel("날짜")
-        self.daily_sales_ax.set_ylabel("매출액")
+        self.daily_sales_ax.set_ylabel("매출액 (원)")
+        self.daily_sales_ax.ticklabel_format(style='plain', axis='y')  # y축 값 표시 형식을 기본값으로 변경 (과학적 표기법 사용 안 함)
         self.daily_sales_ax.grid(True)
         self.daily_sales_canvas.draw()
 
@@ -373,17 +435,148 @@ class StatisticsApp(QMainWindow):
         sales_amount = list(hourly_data.values())
 
         self.hourly_sales_ax.plot(hours, sales_amount, marker='o')
-        self.hourly_sales_ax.set_title("시간별 매출액 (30분 단위 합산)")
+        self.hourly_sales_ax.set_title("시간별 매출액액")
         self.hourly_sales_ax.set_xlabel("시간")
-        self.hourly_sales_ax.set_ylabel("매출액")
+        self.hourly_sales_ax.set_ylabel("매출액액 (원)")
+        self.hourly_sales_ax.ticklabel_format(style='plain', axis='y')  # y축 값 표시 형식을 기본값으로 변경 (과학적 표기법 사용 안 함)
         self.hourly_sales_ax.grid(True)
         self.hourly_sales_canvas.draw()
+
+
+class Tap2(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.layout = QVBoxLayout(self)
+        self.layout.setContentsMargins(10, 10, 10, 10)
+        self.layout.setSpacing(5)
+
+        # 데이터베이스 연결 설정
+        self.conn = sqlite3.connect('order_management11.db')
+        self.cursor = self.conn.cursor()
+
+        # 상단 날짜 선택 필터 추가
+        self.filter_layout = QHBoxLayout()
+        self.date_selection_layout = QVBoxLayout()
+        self.date_selection_layout.setSpacing(5)
+
+        self.start_date_label = QLabel("시작 날짜:")
+        self.start_date_edit = QDateEdit()
+        self.start_date_edit.setCalendarPopup(True)
+        self.start_date_edit.setDate(QDate.currentDate().addDays(-10))
+
+        self.end_date_label = QLabel("종료 날짜:")
+        self.end_date_edit = QDateEdit()
+        self.end_date_edit.setCalendarPopup(True)
+        self.end_date_edit.setDate(QDate.currentDate())
+
+        self.date_selection_layout.addWidget(self.start_date_label)
+        self.date_selection_layout.addWidget(self.start_date_edit)
+        self.date_selection_layout.addWidget(self.end_date_label)
+        self.date_selection_layout.addWidget(self.end_date_edit)
+
+        self.filter_layout.addLayout(self.date_selection_layout)
+        self.filter_layout.addStretch(1)
+        self.layout.addLayout(self.filter_layout)
+
+        # 주문서 테이블 설정
+        self.order_table = QTableWidget()
+        self.order_table.setRowCount(0)  # 초기에는 데이터 없음
+        self.order_table.setColumnCount(16)  # 총 15개의 열로 설정
+        self.order_table.setHorizontalHeaderLabels([
+            "주문번호", "방어회", "방어회*가격", "향어회", "향어회*가격", "광어우럭세트", "광어우럭세트*가격",
+            "매운탕", "매운탕*가격", "소주", "소주*가격", "주문취소여부", "주문받은날짜", "주문받은시간", "주문완료시간", "총결제금액"
+        ])
+        self.layout.addWidget(self.order_table)
+
+        # 검색 버튼 추가
+        self.search_button = QPushButton('검색')
+        self.search_button.clicked.connect(self.load_table_data)
+        self.layout.addWidget(self.search_button)
+
+        # 초기 데이터 로드
+        self.load_table_data()
+
+    def load_table_data(self):
+        # 테이블 초기화
+        self.order_table.setRowCount(0)
+
+        # 데이터베이스에서 주문서 데이터 가져오기 (날짜 필터 적용)
+        start_date = self.start_date_edit.date().toString("yyyy-MM-dd")
+        end_date = self.end_date_edit.date().toString("yyyy-MM-dd")
+
+        query = '''
+        SELECT o.order_id, 
+               COALESCE(bang_eo.menu_count, 0) AS 방어회, 
+               COALESCE(bang_eo.menu_count * bang_eo.menu_price, 0) AS 방어회_가격,
+               COALESCE(hyang_eo.menu_count, 0) AS 향어회, 
+               COALESCE(hyang_eo.menu_count * hyang_eo.menu_price, 0) AS 향어회_가격,
+               COALESCE(gwang_eo.menu_count, 0) AS 광어우럭세트, 
+               COALESCE(gwang_eo.menu_count * gwang_eo.menu_price, 0) AS 광어우럭세트_가격,
+               COALESCE(maeun_tang.menu_count, 0) AS 매운탕, 
+               COALESCE(maeun_tang.menu_count * maeun_tang.menu_price, 0) AS 매운탕_가격,
+               COALESCE(soju.menu_count, 0) AS 소주, 
+               COALESCE(soju.menu_count * soju.menu_price, 0) AS 소주_가격,
+               o.cancel_status AS 주문취소여부,
+               o.order_time AS 주문받은날짜,
+               o.completion_time AS 주문완료시간,
+               COALESCE(bang_eo.menu_count * bang_eo.menu_price, 0) +
+               COALESCE(hyang_eo.menu_count * hyang_eo.menu_price, 0) +
+               COALESCE(gwang_eo.menu_count * gwang_eo.menu_price, 0) +
+               COALESCE(maeun_tang.menu_count * maeun_tang.menu_price, 0) +
+               COALESCE(soju.menu_count * soju.menu_price, 0) AS 총결제금액
+        FROM OrderTable o
+        LEFT JOIN 방어회 bang_eo ON o.order_id = bang_eo.order_id
+        LEFT JOIN 향어회 hyang_eo ON o.order_id = hyang_eo.order_id
+        LEFT JOIN 광어우럭세트 gwang_eo ON o.order_id = gwang_eo.order_id
+        LEFT JOIN 매운탕 maeun_tang ON o.order_id = maeun_tang.order_id
+        LEFT JOIN 소주 soju ON o.order_id = soju.order_id
+        WHERE DATE(o.order_time) BETWEEN DATE(?) AND DATE(?)
+        '''
+        self.cursor.execute(query, (start_date, end_date))
+        rows = self.cursor.fetchall()
+
+        # 테이블에 데이터 삽입
+        for row_idx, row_data in enumerate(rows):
+            self.order_table.insertRow(row_idx)
+            for col_idx, value in enumerate(row_data):
+                self.order_table.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+
+
+class StatisticsApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("대시보드")
+        self.setGeometry(100, 100, 1600, 900)
+
+        # 메인 위젯과 레이아웃 설정
+        self.main_widget = QWidget()
+        self.setCentralWidget(self.main_widget)
+        self.main_layout = QVBoxLayout(self.main_widget)
+        self.main_layout.setContentsMargins(10, 10, 10, 10)
+        self.main_layout.setSpacing(5)
+
+        # 탭 위젯 설정
+        self.tabs = QTabWidget()
+        self.main_layout.addWidget(self.tabs)
+
+        # 첫 번째 탭 (Tap1)
+        self.tap1 = Tap1(self)
+        self.tabs.addTab(self.tap1, "대시보드")
+
+        # 두 번째 탭 (Tap2)
+        self.tap2 = Tap2(self)
+        self.tabs.addTab(self.tap2, "추가 정보")
 
 
 class DatabaseNode(Node):
     def __init__(self):
         super().__init__('database_node')
-        qos_profile = QoSProfile(depth=5)  # QoS 프로필 정의
+        qos_profile = QoSProfile(
+            reliability=QoSReliabilityPolicy.RELIABLE,  # 신뢰성 보장
+            history=QoSHistoryPolicy.KEEP_LAST,  # 가장 최근 메시지만 유지
+            depth=1,  # 깊이 설정: 1
+            durability=QoSDurabilityPolicy.VOLATILE  # 휘발성 메시지
+        )
         self.subscription = self.create_subscription(
             DB,
             'order_db_message',
