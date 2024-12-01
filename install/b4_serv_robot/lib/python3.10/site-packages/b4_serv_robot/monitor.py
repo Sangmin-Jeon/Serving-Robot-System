@@ -129,7 +129,7 @@ class NODE(Node, QObject):
 
             # PyQt 신호로 전달
             self.message_received.emit(request)
-            self.info_received.emit(f"{request.order_time} [주문] {request.table_num} 테이블: {request.order_info} ")
+            self.info_received.emit(f"{request.order_time} [주문 접수] {request.table_num} 테이블: {request.order_info} ")
             self.get_logger().info(f"Order processed for table {request.table_num}.")
 
             response.is_order = True
@@ -153,7 +153,9 @@ class NODE(Node, QObject):
             future = self.cancel_client.call_async(request)
             future.add_done_callback(self.cancel_response_callback)
 
-            self.info_received.emit(f"{request.order_time} [주문 취소] {request.table_num} 테이블: {request.order_info} ")
+            current_time = datetime.now()
+            formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            self.info_received.emit(f"{formatted_time} [주문 취소] ")
 
         except Exception as e:
             self.get_logger().error(f"Error while sending cancel request: {e}")
@@ -195,11 +197,18 @@ class NODE(Node, QObject):
             self.get_logger().info(f'Published message to robot node: {msg.data}')
             self.table_num = ''
             self.move_table_received.emit(True)
-            self.info_received.emit(f"[로봇 이동중] {self.table_num} 테이블 ")
+
+            current_time = datetime.now()
+            formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            self.info_received.emit(f"{formatted_time} [로봇 이동중] {self.table_num} 테이블 ")
 
     def finished_goal_callback(self, msg):
         self.get_logger().info(f'Received finished goal: {msg.data}')
         self.move_table_finished_received.emit(True)
+
+        current_time = datetime.now()
+        formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+        self.info_received.emit(f"{formatted_time} [로봇 테이블 도착 완료] 음식 가져가는 중")
 
     def robot_come_back_call(self, is_call):
         try:
@@ -212,7 +221,10 @@ class NODE(Node, QObject):
             print(f"돌아와: {request.data}")
             future.add_done_callback(self.come_back_response_callback)
             self.come_back_received.emit(True)
-            self.info_received.emit(f"[로봇 복귀중] ")
+
+            current_time = datetime.now()
+            formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            self.info_received.emit(f"{formatted_time} [로봇 복귀중] ")
 
         except Exception as e:
             print(f"Error while sending robot comeback request: {e}")
@@ -234,7 +246,9 @@ class NODE(Node, QObject):
         self.get_logger().info(f'Completed finished robot comeback: {msg}')
         if msg.data:
             self.finished_received.emit(True)
-            self.info_received.emit(f"[로봇 복귀완료] 대기중 ")
+            current_time = datetime.now()
+            formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            self.info_received.emit(f"{formatted_time} [로봇 복귀완료] 대기중 ")
 
 
 
@@ -621,14 +635,25 @@ class MainDashboard(QWidget):
         # Create the label with the log text
         text_label = QLabel(log)
 
-        # Set the style for the label
-        text_label.setStyleSheet(
-            "background-color: lightblue;" 
-            "color: black;"  
-            "border: 1px solid #aaa;" 
-            "padding: 5px;"  
+        style = (
+            "background-color: lightgreen;"
+            "color: black;"
+            "border: 1px solid #aaa;"
+            "padding: 5px;"
             "font-size: 14px; font-weight: bold"
         )
+
+        if "취소" in log:
+            style = style.replace("background-color: lightgreen;" , "background-color: lightcoral;")
+        elif "[로봇 복귀완료]" in log:
+            style = style.replace("background-color: lightgreen;", "background-color: lightblue;")
+        elif "로봇" in log:
+            style = style.replace("background-color: lightgreen;" , "background-color: Lavender;")
+
+
+        text_label.setStyleSheet(style)
+
+
         text_label.setWordWrap(True)  # Enable word wrap to handle long text
         # text_label.setFixedWidth(int(self.width() * 0.28))  # Limit width to fit within the scroll view
 
