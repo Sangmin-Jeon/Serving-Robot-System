@@ -263,10 +263,11 @@ class Tab1Content(QWidget):
 
 
 class Cell(QWidget):
-    def __init__(self, table_number, order_details, order_time, node, dashboard):
+    def __init__(self, table_number, order_details, order_time, node, dashboard, index):
         super().__init__()
         self.node = node
 
+        self.cell_index = index
         self.table_number = table_number
         self.order_details = order_details
         self.order_time = order_time
@@ -327,25 +328,25 @@ class Cell(QWidget):
 
         self.move_robot_label = QLabel("로봇 이동중", self.wrapper)
         self.move_robot_label.setStyleSheet(
-            "background-color: #0d3383; color: white; font-size: 18px; font-weight: bold; padding: 10px;"
+            "background-color: green; color: white; font-size: 18px; font-weight: bold;"
         )
-        self.move_robot_label.setFixedSize(100, 50)
+        self.move_robot_label.setFixedSize(110, 50)
         self.move_robot_label.setAlignment(Qt.AlignCenter)
         self.move_robot_label.setVisible(False)
 
         self.goal_robot_label = QLabel("테이블 도착", self.wrapper)
         self.goal_robot_label.setStyleSheet(
-            "background-color: #0d3383; color: white; font-size: 18px; font-weight: bold; padding: 10px;"
+            "background-color: green; color: white; font-size: 18px; font-weight: bold;"
         )
-        self.goal_robot_label.setFixedSize(100, 50)  # 수정: .setFixedSize 부분 오류 수정
+        self.goal_robot_label.setFixedSize(110, 50)  # 수정: .setFixedSize 부분 오류 수정
         self.goal_robot_label.setAlignment(Qt.AlignCenter)
         self.goal_robot_label.setVisible(False)
 
         self.come_back_robot_label = QLabel("주방 복귀중", self.wrapper)
         self.come_back_robot_label.setStyleSheet(
-            "background-color: #0d3383; color: white; font-size: 18px; font-weight: bold; padding: 10px;"
+            "background-color: green; color: white; font-size: 18px; font-weight: bold;"
         )
-        self.come_back_robot_label.setFixedSize(100, 50)  # 수정: .setFixedSize 부분 오류 수정
+        self.come_back_robot_label.setFixedSize(110, 50)  # 수정: .setFixedSize 부분 오류 수정
         self.come_back_robot_label.setAlignment(Qt.AlignCenter)
         self.come_back_robot_label.setVisible(False)
 
@@ -488,8 +489,9 @@ class Cell(QWidget):
         self.node.move_table_finished_received.connect(self.move_table_finished_handler)
 
     def move_table_finished_handler(self):
-        self.move_robot_label.setVisible(False)
-        self.goal_robot_label.setVisible(True)
+        if self.dashboard.is_order_cell == self.cell_index:
+            self.move_robot_label.setVisible(False)
+            self.goal_robot_label.setVisible(True)
 
 
     def get_come_back_message(self):
@@ -497,8 +499,10 @@ class Cell(QWidget):
 
 
     def come_back_handler(self):
-        self.goal_robot_label.setVisible(False)
-        self.come_back_robot_label.setVisible(True)
+        if self.dashboard.is_order_cell == self.cell_index:
+            self.goal_robot_label.setVisible(False)
+            self.come_back_robot_label.setVisible(True)
+            print("돌아오는 중")
 
 
 class MainDashboard(QWidget):
@@ -506,6 +510,7 @@ class MainDashboard(QWidget):
         super().__init__()
         self.node = node
         self.is_order_cell = -1
+        self.cell_count = 0
 
         self.get_message()
         self.get_log()
@@ -591,8 +596,9 @@ class MainDashboard(QWidget):
         order_details = msg.order_info
         order_time = msg.order_time
 
-        cell = Cell(table_number, order_details, order_time, self.node, self)
+        cell = Cell(table_number, order_details, order_time, self.node, self, self.cell_count)
         self.cells.append(cell)
+        self.cell_count += 1
 
         col = len(self.cells) - 1
         row = 0
@@ -626,9 +632,10 @@ class MainDashboard(QWidget):
         self.extra_scroll_layout.addLayout(details_layout)
 
     def get_order_cell_index(self, cell):
-        if cell in self.cells:
-            self.is_order_cell = self.cells.index(cell)
-            print(f"Order button clicked in Cell {cell.table_number}, index: {self.is_order_cell}")
+        # if cell in self.cells:
+        #     self.is_order_cell = self.cells.index(cell)
+        self.is_order_cell = cell.cell_index
+        print(f"Order button clicked in Cell {cell.table_number}, click index: {self.is_order_cell}, index: {cell.cell_index}")
 
     # Cell widget 삭제
     def remove_cell(self, cell):
@@ -651,7 +658,7 @@ class MainDashboard(QWidget):
 
     def remove_finished_cell(self):
         for index, cell in enumerate(self.cells):
-            if self.is_order_cell >= 0 and self.is_order_cell == index:
+            if self.is_order_cell >= 0 and self.is_order_cell == cell.cell_index:
                 self.remove_cell(cell)
                 break
 
