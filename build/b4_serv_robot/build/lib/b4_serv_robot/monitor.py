@@ -129,7 +129,7 @@ class NODE(Node, QObject):
 
             # PyQt 신호로 전달
             self.message_received.emit(request)
-            self.info_received.emit(f"{request}")
+            self.info_received.emit(f"{request.order_time} [주문] {request.table_num} 테이블: {request.order_info} ")
             self.get_logger().info(f"Order processed for table {request.table_num}.")
 
             response.is_order = True
@@ -152,6 +152,8 @@ class NODE(Node, QObject):
             # 비동기 서비스 호출
             future = self.cancel_client.call_async(request)
             future.add_done_callback(self.cancel_response_callback)
+
+            self.info_received.emit(f"{request.order_time} [주문 취소] {request.table_num} 테이블: {request.order_info} ")
 
         except Exception as e:
             self.get_logger().error(f"Error while sending cancel request: {e}")
@@ -193,6 +195,7 @@ class NODE(Node, QObject):
             self.get_logger().info(f'Published message to robot node: {msg.data}')
             self.table_num = ''
             self.move_table_received.emit(True)
+            self.info_received.emit(f"[로봇 이동중] {self.table_num} 테이블 ")
 
     def finished_goal_callback(self, msg):
         self.get_logger().info(f'Received finished goal: {msg.data}')
@@ -209,6 +212,7 @@ class NODE(Node, QObject):
             print(f"돌아와: {request.data}")
             future.add_done_callback(self.come_back_response_callback)
             self.come_back_received.emit(True)
+            self.info_received.emit(f"[로봇 복귀중] ")
 
         except Exception as e:
             print(f"Error while sending robot comeback request: {e}")
@@ -230,6 +234,7 @@ class NODE(Node, QObject):
         self.get_logger().info(f'Completed finished robot comeback: {msg}')
         if msg.data:
             self.finished_received.emit(True)
+            self.info_received.emit(f"[로봇 복귀완료] 대기중 ")
 
 
 
@@ -557,11 +562,10 @@ class MainDashboard(QWidget):
 
         horizontal_layout.addWidget(self.scroll_area)
 
-        extra_layout_widget = QWidget()
-        extra_layout = QVBoxLayout(extra_layout_widget)
-
+        # Initialize layouts
         self.extra_scroll_layout = QVBoxLayout()
         self.extra_scroll_layout.setSpacing(0)
+        self.extra_scroll_layout.setAlignment(Qt.AlignTop)  # Align widgets to the top
 
         self.extra_scroll_widget = QWidget()
         self.extra_scroll_widget.setLayout(self.extra_scroll_layout)
@@ -570,10 +574,15 @@ class MainDashboard(QWidget):
         extra_scroll_area.setWidgetResizable(True)
         extra_scroll_area.setWidget(self.extra_scroll_widget)
 
+        # Set fixed size for the scroll area
         extra_scroll_area.setFixedHeight(window.height() - 300)
-        extra_scroll_area.setFixedWidth(int(window.width() * 0.3))
+        # extra_scroll_area.setFixedWidth(int(window.width() * 0.3))
 
+        extra_layout = QVBoxLayout()
         extra_layout.addWidget(extra_scroll_area)
+
+        extra_layout_widget = QWidget()
+        extra_layout_widget.setLayout(extra_layout)
 
         horizontal_layout.addWidget(extra_layout_widget)
 
@@ -609,27 +618,23 @@ class MainDashboard(QWidget):
     def add_new_info(self, log):
         print(f"Received log: {log}")
 
-        # Create a new layout for the order details
-        details_layout = QVBoxLayout()  # Create a layout for the order details
-        details_layout.setSpacing(5)  # Spacing between individual details
-        details_layout.setContentsMargins(0, 0, 0, 0)  # No additional margins for details
-        details_layout.setAlignment(Qt.AlignTop)  # Align details to the top
-
         # Create the label with the log text
         text_label = QLabel(log)
 
         # Set the style for the label
         text_label.setStyleSheet(
-            "background-color: lightblue;"  # Background color
-            "color: black;"  # Text color
-            "border: 1px solid #aaa;"  # Border around the label
+            "background-color: lightblue;" 
+            "color: black;"  
+            "border: 1px solid #aaa;" 
+            "padding: 5px;"  
+            "font-size: 14px; font-weight: bold"
         )
+        text_label.setWordWrap(True)  # Enable word wrap to handle long text
+        # text_label.setFixedWidth(int(self.width() * 0.28))  # Limit width to fit within the scroll view
 
-        # Add the label to the layout
-        details_layout.addWidget(text_label)
-        details_layout.setSpacing(0)
+        # Add the label to the scroll layout
+        self.extra_scroll_layout.addWidget(text_label)
 
-        self.extra_scroll_layout.addLayout(details_layout)
 
     def get_order_cell_index(self, cell):
         # if cell in self.cells:
