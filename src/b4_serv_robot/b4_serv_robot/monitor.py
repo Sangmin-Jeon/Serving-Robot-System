@@ -2,6 +2,7 @@ import sys
 import threading
 import queue
 from datetime import datetime
+import re
 
 # ROS 2 관련 라이브러리
 import rclpy
@@ -33,6 +34,7 @@ from PyQt5.QtWidgets import (
 class NODE(Node, QObject):
     message_received = pyqtSignal(Order.Request)  # 문자열 타입 신호 정의
     info_received = pyqtSignal(str)
+    finished_received = pyqtSignal(bool)
 
     def __init__(self):
         super().__init__('node')
@@ -94,15 +96,15 @@ class NODE(Node, QObject):
 
         self.robot_goal_send_sub = self.create_subscription(
             Bool,
-            'finished_goal',  # 구독할 토픽 이름
-            self.finished_goal_callback,  # 메시지를 처리할 콜백 함수
+            'finished_goal',
+            self.finished_goal_callback,
             qos_profile=qos_profile,
             callback_group=self.callback_group)
 
         self.robot_come_back_client = self.create_client(
             SetBool,
             'come_back_srv',
-            qos_profile=srv_qos_profile,  # 올바른 인자 사용
+            qos_profile=srv_qos_profile,
             callback_group=self.callback_group
         )
 
@@ -110,7 +112,7 @@ class NODE(Node, QObject):
             Bool,
             'come_back_finished',
             self.come_back_finished_callback,
-            qos_profile=qos_profile,  # 올바른 인자 사용
+            qos_profile=qos_profile,
             callback_group=self.callback_group
         )
 
@@ -124,6 +126,7 @@ class NODE(Node, QObject):
 
             # PyQt 신호로 전달
             self.message_received.emit(request)
+            self.info_received.emit(f"{request}")
             self.get_logger().info(f"Order processed for table {request.table_num}.")
 
             response.is_order = True
@@ -219,6 +222,9 @@ class NODE(Node, QObject):
 
     def come_back_finished_callback(self, msg):
         self.get_logger().info(f'Completed finished robot comeback: {msg}')
+        if msg.data:
+            self.finished_received.emit(True)
+
 
 
 
@@ -273,6 +279,7 @@ class Cell(QWidget):
         available_width = screen_width - 40  # Subtract margins and padding
         cell_width = available_width // 3  # Divide by 3 for 3 cells per row
         cell_height = available_height  # Adjust the height ratio (1.5 for taller cells)
+
 
         # Set fixed size for the cell
         self.setFixedSize(cell_width, cell_height)
@@ -349,7 +356,7 @@ class Cell(QWidget):
         self.order_time_label.setAlignment(Qt.AlignCenter)
 
         # Add the actual time
-        self.time_label = QLabel(self.order_time, self.wrapper)
+        self.time_label = QLabel(self.convert_date_format(self.order_time), self.wrapper)
         self.time_label.setStyleSheet(
             "background-color: gray; padding: 3px; font-size: 18px; font-weight: bold; color: white;"
             # Styling for the time
@@ -385,7 +392,9 @@ class Cell(QWidget):
         details_layout.setAlignment(Qt.AlignTop)  # Align details to the top
 
         for detail in self.order_details:
-            detail_label = QLabel(detail, self.wrapper)
+            _detail = detail.split("/")
+            conv_str = _detail[0] + "   " + _detail[1] + "개" + "   " + _detail[2] + "원"
+            detail_label = QLabel(conv_str, self.wrapper)
             detail_label.setFixedHeight(50)  # Fixed height for each detail
             detail_label.setStyleSheet(
                 "background-color: lightgray; font-size: 16px; color: black;"  # Styling for details
@@ -408,13 +417,11 @@ class Cell(QWidget):
         self.start_timer()
 
     def start_timer(self):
-        """Start a timer to update the timer label every second."""
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_timer)  # Connect timeout to update_timer method
         self.timer.start(1000)  # Start the timer with a 1-second interval
 
     def update_timer(self):
-        """Update the timer label every second."""
         self.elapsed_time = self.elapsed_time.addSecs(1)  # Increment time by 1 second
         self.timer_label.setText(f"경과시간              {self.elapsed_time.toString('mm:ss')}")  # Update label with "경과시간: MM:SS"
 
@@ -426,6 +433,7 @@ class Cell(QWidget):
 
         conv_msg = self._convert_order_msg(self.table_number, self.order_details, self.order_time, False)
         self.node.queue.put(conv_msg)
+        self.dashboard.get_order_cell_index(self)
 
     # 주문 취소
     def cancel_order(self):
@@ -446,73 +454,73 @@ class Cell(QWidget):
         return items
 
 
+    def convert_date_format(self, date_str):
+        # 정규식으로 날짜와 시간 부분을 찾고 변환
+        pattern = r'(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})'
+        replacement = r'\1년 \2월 \3일 \4시 \5분 \6초'
+
+        # 정규식을 사용하여 변환
+        result = re.sub(pattern, replacement, date_str)
+
+        return result
+
+
 class MainDashboard(QWidget):
     def __init__(self, node, window):
         super().__init__()
         self.node = node
+        self.is_order_cell = -1
 
-        # Main layout for the entire widget
+        self.get_message()
+        self.get_log()
+        self.finished_order()
+
         main_layout = QVBoxLayout(self)
 
-        # Title layout
         title_layout = QVBoxLayout()
 
-        # Add a title at the top
         title_label = QLabel("🐟 날로먹는집 주방 모니터 🐟")
-        title_label.setAlignment(Qt.AlignCenter)  # Center the title
+        title_label.setAlignment(Qt.AlignCenter)
         title_label.setStyleSheet("font-size: 24px; font-weight: bold; margin: 5px;")
-        title_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)  # Let the label expand vertically as needed
-        title_layout.addWidget(title_label)  # Add the title to the title_layout
+        title_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        title_layout.addWidget(title_label)
 
-        # Create a horizontal layout for the button
         button_layout = QHBoxLayout()
-        button_layout.addStretch(1)  # This will push the button to the right
+        button_layout.addStretch(1)
 
-        # Create the button
         button = QPushButton("로봇 호출")
         button.setStyleSheet("font-size: 24px; font-weight: bold; margin: 5px;")
-        # Add the button to the button layout
+
         button_layout.addWidget(button)
 
         button.clicked.connect(self.come_back_btn)
         title_layout.addLayout(button_layout)
 
-        # Add the title_layout to the main layout
         main_layout.addLayout(title_layout)
-        # Function to retrieve messages (implementation assumed elsewhere)
-        self.get_message()
 
-        # Create a QGridLayout for the cells
         self.grid_layout = QGridLayout()
 
-        # Set alignment for the entire grid layout to the top-left corner
         self.grid_layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
 
-        # Create a QWidget to hold the grid layout (for scrollable area)
         self.grid_widget = QWidget()
         self.grid_widget.setLayout(self.grid_layout)
 
-        # Create the QScrollArea to allow scrolling
         self.scroll_area = QScrollArea(self)
-        self.scroll_area.setWidgetResizable(True)  # Enable auto-resizing of widget
+        self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setWidget(self.grid_widget)
 
-        # Set height and width for the scroll area
         self.scroll_area.setFixedHeight(window.height() - 300)
         self.scroll_area.setFixedWidth(int(window.width() * 0.6))
 
-        # Create a horizontal layout to hold both scroll areas side by side
         horizontal_layout = QHBoxLayout()
 
-        # Add the main scroll area to the horizontal layout
         horizontal_layout.addWidget(self.scroll_area)
 
-        # Create a QWidget to hold both the button and extra_scroll_area
         extra_layout_widget = QWidget()
         extra_layout = QVBoxLayout(extra_layout_widget)
 
-        # Additional scroll view setup for extra content
         self.extra_scroll_layout = QVBoxLayout()
+        self.extra_scroll_layout.setSpacing(0)
 
         self.extra_scroll_widget = QWidget()
         self.extra_scroll_widget.setLayout(self.extra_scroll_layout)
@@ -521,47 +529,70 @@ class MainDashboard(QWidget):
         extra_scroll_area.setWidgetResizable(True)
         extra_scroll_area.setWidget(self.extra_scroll_widget)
 
-        # Fixed height and width for the additional scroll area
         extra_scroll_area.setFixedHeight(window.height() - 300)
-        extra_scroll_area.setFixedWidth(int(window.width() * 0.3))  # 30% of the window width
+        extra_scroll_area.setFixedWidth(int(window.width() * 0.3))
 
-        # Add extra_scroll_area to the extra layout (below the button)
         extra_layout.addWidget(extra_scroll_area)
 
-        # Add the QWidget holding the button and extra_scroll_area to the horizontal layout (on the right)
         horizontal_layout.addWidget(extra_layout_widget)
 
-        # Add the horizontal layout to the main layout
         main_layout.addLayout(horizontal_layout)
 
-        # Set the layout for the main widget
         self.setLayout(main_layout)
 
-        # Initialize cell list (empty at first)
         self.cells = []
 
     def get_message(self):
         self.node.message_received.connect(self.add_new_order)
 
+    def get_log(self):
+        self.node.info_received.connect(self.add_new_info)
+
     def add_new_order(self, msg):
         print(f"Received message: {msg}")
 
-        # Directly use the order_info as a list
         table_number = msg.table_num
-        order_details = msg.order_info  # msg.order_info is already a list
+        order_details = msg.order_info
         order_time = msg.order_time
 
-        # Create a new Cell widget and add it to the layout
         cell = Cell(table_number, order_details, order_time, self.node, self)
-        self.cells.append(cell)  # Add new cell to the list
+        self.cells.append(cell)
 
-        # Add the new cell to the grid layout (always in row 0)
-        col = len(self.cells) - 1  # Set the column to the current cell index
-        row = 0  # Always set row to 0 to keep adding in the same row
+        col = len(self.cells) - 1
+        row = 0
         self.grid_layout.addWidget(cell, row, col)
 
-        # Optionally, adjust the layout to ensure the grid is resized properly
         self.grid_layout.update()
+
+    def add_new_info(self, log):
+        print(f"Received log: {log}")
+
+        # Create a new layout for the order details
+        details_layout = QVBoxLayout()  # Create a layout for the order details
+        details_layout.setSpacing(5)  # Spacing between individual details
+        details_layout.setContentsMargins(0, 0, 0, 0)  # No additional margins for details
+        details_layout.setAlignment(Qt.AlignTop)  # Align details to the top
+
+        # Create the label with the log text
+        text_label = QLabel(log)
+
+        # Set the style for the label
+        text_label.setStyleSheet(
+            "background-color: lightblue;"  # Background color
+            "color: black;"  # Text color
+            "border: 1px solid #aaa;"  # Border around the label
+        )
+
+        # Add the label to the layout
+        details_layout.addWidget(text_label)
+        details_layout.setSpacing(0)
+
+        self.extra_scroll_layout.addLayout(details_layout)
+
+    def get_order_cell_index(self, cell):
+        if cell in self.cells:
+            self.is_order_cell = self.cells.index(cell)
+            print(f"Order button clicked in Cell {cell.table_number}, index: {self.is_order_cell}")
 
     # Cell widget 삭제
     def remove_cell(self, cell):
@@ -574,11 +605,20 @@ class MainDashboard(QWidget):
     # 로봇 호출
     def come_back_btn(self):
         try:
-            # Call the method robot_come_back_call with True
             self.node.robot_come_back_call(True)
 
         except Exception as e:
             self.get_logger().error(f"Error in button click callback: {e}")
+
+    def finished_order(self):
+        self.node.finished_received.connect(self.remove_finished_cell)
+
+    def remove_finished_cell(self):
+        for index, cell in enumerate(self.cells):
+            if self.is_order_cell >= 0 and self.is_order_cell == index:
+                self.remove_cell(cell)
+                break
+
 
 
 
