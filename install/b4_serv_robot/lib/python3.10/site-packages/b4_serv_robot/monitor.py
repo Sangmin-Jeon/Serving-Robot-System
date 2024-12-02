@@ -487,6 +487,8 @@ class Cell(QWidget):
         self.node.order_cancel(True)
         # 취소 버튼 클릭 시 해당 cell을 삭제
         self.dashboard.remove_cell(self)
+        conv_msg = self._convert_order_msg(self.table_number, self.order_details, self.order_time, True)
+        self.node.queue.put(conv_msg)
 
 
     def _convert_order_msg(self, table_num, order_details, order_time, is_cancel):
@@ -742,22 +744,17 @@ class RootView():
 
 
 def main():
-    # Initialize ROS 2
     rclpy.init()
     node = NODE()
 
-    # Initialize MultiThreadedExecutor
     executor = MultiThreadedExecutor()
     executor.add_node(node)
 
-    # Start the executor in a separate thread
     ros_thread = threading.Thread(target=executor.spin, daemon=True)
     ros_thread.start()
 
-    # Initialize PyQt Application
     app = QApplication(sys.argv)
 
-    # PyQt GUI 로직 (예시: RootView)
     root = RootView(node)  # RootView 클래스는 PyQt5 GUI 클래스
     root.window.show()
 
