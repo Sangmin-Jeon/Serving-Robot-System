@@ -98,7 +98,7 @@ class NODE(Node, QObject):
         self.timer = self.create_timer(0.1, self.publish_move_robot)
 
         self.robot_goal_send_sub = self.create_subscription(
-            Bool,
+            String,
             'finished_goal',
             self.finished_goal_callback,
             qos_profile=qos_profile,
@@ -204,11 +204,17 @@ class NODE(Node, QObject):
 
     def finished_goal_callback(self, msg):
         self.get_logger().info(f'Received finished goal: {msg.data}')
-        self.move_table_finished_received.emit(True)
+        if msg.data == "table":
+            self.move_table_finished_received.emit(True)
 
-        current_time = datetime.now()
-        formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
-        self.info_received.emit(f"{formatted_time} [로봇 테이블 도착 완료] 음식 가져가는 중")
+            current_time = datetime.now()
+            formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            self.info_received.emit(f"{formatted_time} [로봇 테이블 도착 완료] 음식 가져가는 중")
+        else:
+            self.finished_received.emit(True)
+            current_time = datetime.now()
+            formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            self.info_received.emit(f"{formatted_time} [로봇 복귀완료] 대기중 ")
 
     def robot_come_back_call(self, is_call):
         try:
