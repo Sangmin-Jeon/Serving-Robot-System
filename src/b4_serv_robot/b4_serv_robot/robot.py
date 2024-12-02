@@ -37,7 +37,7 @@ class Robot(Node, QObject):
                                                      callback_group=self.callback_group)
 
         # 목표 지점 도달 여부를 발행하기 위한 퍼블리셔 생성
-        self.publisher_ = self.create_publisher(Bool, 'finished_goal', qos_profile=topic_qos,
+        self.publisher_ = self.create_publisher(String, 'finished_goal', qos_profile=topic_qos,
                                                 callback_group=self.callback_group)
 
         # 로봇에게 네비게이션 목표를 전송하기 위한 액션 클라이언트 생성
@@ -127,12 +127,13 @@ class Robot(Node, QObject):
     def get_result_callback(self, future, publish_result):
         result = future.result()
         if publish_result:
-            finished_goal_msg = Bool()
+            finished_goal_msg = String()
             if result.status == 4:  # 목표가 성공적으로 완료되었는지 상태를 사용하여 확인
                 # 목표에 도달했음을 로그에 출력하고 결과를 발행
                 self.get_logger().info('Goal reached successfully')
-                finished_goal_msg.data = True
+
                 if self.returning_to_initial_position_from_sb:
+                    finished_goal_msg.data = "initial"
                     # 초기 위치로 돌아간 경우
                     self.status_update_signal.emit('resting', None)
                     app.return_button.setEnabled(False)
@@ -141,13 +142,14 @@ class Robot(Node, QObject):
                     self.returning_to_initial_position_from_sb = False
                 else:
                     # 테이블에 도착한 경우
+                    finished_goal_msg.data = "table"
                     self.status_update_signal.emit('goal_reached', '')
                     app.return_button.setEnabled(True)
                     app.return_button.setText('로봇 복귀')
             else:
                 # 목표 도달 실패를 로그에 출력하고 결과를 발행
                 self.get_logger().info('Failed to reach goal')
-                finished_goal_msg.data = False
+                finished_goal_msg.data = "Failed"
             self.publisher_.publish(finished_goal_msg)
         if result.status == 4 and self.returning_to_initial_position_from_sb:
             # 서비스 요청으로 초기 위치에 도착했을 때만 처리 결과 발행

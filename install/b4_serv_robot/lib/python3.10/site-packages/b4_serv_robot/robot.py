@@ -1,3 +1,8 @@
+# 1. ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
+# 2. ros2 launch turtlebot3_navigation2 navigation2.launch.py map:=$HOME/map.yaml
+# 3. ros2 run b4_serv_robot robot
+# 4. ros2 topic pub --once /table_no_msg std_msgs/String "data: 'B4'"
+
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
@@ -11,14 +16,17 @@ import threading
 from std_srvs.srv import SetBool
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout
 from PyQt5.QtGui import QMovie
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QObject
 import sys
 
 
 # rclpy의 Node 클래스를 상속받는 Robot 클래스 정의
-class Robot(Node):
+class Robot(Node, QObject):
+    status_update_signal = pyqtSignal(str, str)  # 상태 업데이트를 위한 시그널 정의
+
     def __init__(self):
-        super().__init__('robot')
+        Node.__init__(self, 'robot')
+        QObject.__init__(self)
 
         self.callback_group = ReentrantCallbackGroup()
 
@@ -72,8 +80,8 @@ class Robot(Node):
         if table_num_msg in self.goal_poses:
             # 테이블 번호가 알려진 경우 해당 목표 위치로 목표 전송
             self.send_goal(self.goal_poses[table_num_msg], publish_result=True)
-            # PyQt5 인터페이스에서 상태 업데이트 (goal_accepted)
-            app.update_status('goal_accepted', table_num_msg)
+            # 상태 업데이트 시그널 발행 (goal_accepted)
+            self.status_update_signal.emit('goal_accepted', table_num_msg)
             app.return_button.setEnabled(False)
             app.return_button.setText('로봇 이동중..')
         else:
@@ -131,14 +139,14 @@ class Robot(Node):
                 finished_goal_msg.data = True
                 if self.returning_to_initial_position_from_sb:
                     # 초기 위치로 돌아간 경우
-                    app.update_status('resting')
+                    self.status_update_signal.emit('resting', None)
                     app.return_button.setEnabled(False)
                     app.return_button.setText('로봇 쉬는중~')
                     # 플래그 초기화
                     self.returning_to_initial_position_from_sb = False
                 else:
                     # 테이블에 도착한 경우
-                    app.update_status('goal_reached')
+                    self.status_update_signal.emit('goal_reached', '')
                     app.return_button.setEnabled(True)
                     app.return_button.setText('로봇 복귀')
             else:
@@ -151,10 +159,8 @@ class Robot(Node):
             come_back_finished_msg = Bool()
             come_back_finished_msg.data = True
             self.come_back_finished_publisher.publish(come_back_finished_msg)
-            # 플래그 초기화
-            self.returning_to_initial_position_from_sb = False
-            # PyQt5 인터페이스에서 상태 업데이트 (resting)
-            app.update_status('resting')
+            # 초기 위치 도착 후 쉬고 있는 상태로 업데이트
+            self.status_update_signal.emit('resting', '')
             app.return_button.setEnabled(False)
             app.return_button.setText('로봇 쉬는중~')
 
@@ -163,8 +169,10 @@ class Robot(Node):
         self.get_logger().info('Returning to initial position...')
         self.returning_to_initial_position_from_sb = from_sb
         self.send_goal(self.initial_position, publish_result=publish_result)
-        # PyQt5 인터페이스에서 상태 업데이트 (return_to_initial)
-        app.update_status('return_to_initial')
+        # 상태 업데이트 시그널 발행 (return_to_initial)
+        self.status_update_signal.emit('return_to_initial', '')
+        app.return_button.setEnabled(False)
+        app.return_button.setText('로봇 복귀중..')
 
     def handle_come_back_request(self, request, response):
         # 로봇이 돌아오도록 요청 받았을 때
@@ -181,7 +189,7 @@ class RobotControlApp(QWidget):
     def __init__(self, node):
         super().__init__()
         self.node = node  # Node 객체를 인스턴스 변수로 저장
-        super().__init__()
+        self.node.status_update_signal.connect(self.update_status)  # ROS 노드와 시그널 연결
         self.initUI()
         self.is_moving = False  # 로봇이 이동 중인지 여부를 저장하는 변수
         self.is_resting = False  # 로봇이 쉬고 있는 상태인지 여부를 저장하는 변수
@@ -249,7 +257,7 @@ class RobotControlApp(QWidget):
         self.message_label.setText('로봇이 처음 위치로 돌아가고 있습니다.')
         self.set_movie_gif('src/b4_serv_robot/resource/return_robot.gif')
         self.return_button.setEnabled(False)
-        self.return_button.setText('로봇 이동중..')
+        self.return_button.setText('로봇 복귀중..')
         self.node.return_to_initial_position(publish_result=True, from_sb=True)
 
 
