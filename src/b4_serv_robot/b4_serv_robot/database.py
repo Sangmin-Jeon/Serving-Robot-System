@@ -435,9 +435,9 @@ class Tap1(QWidget):
         sales_amount = list(hourly_data.values())
 
         self.hourly_sales_ax.plot(hours, sales_amount, marker='o')
-        self.hourly_sales_ax.set_title("시간별 매출액액")
+        self.hourly_sales_ax.set_title("시간별 매출액")
         self.hourly_sales_ax.set_xlabel("시간")
-        self.hourly_sales_ax.set_ylabel("매출액액 (원)")
+        self.hourly_sales_ax.set_ylabel("매출액 (원)")
         self.hourly_sales_ax.ticklabel_format(style='plain', axis='y')  # y축 값 표시 형식을 기본값으로 변경 (과학적 표기법 사용 안 함)
         self.hourly_sales_ax.grid(True)
         self.hourly_sales_canvas.draw()
@@ -484,7 +484,7 @@ class Tap2(QWidget):
         self.order_table.setColumnCount(16)  # 총 15개의 열로 설정
         self.order_table.setHorizontalHeaderLabels([
             "주문번호", "방어회", "방어회*가격", "향어회", "향어회*가격", "광어우럭세트", "광어우럭세트*가격",
-            "매운탕", "매운탕*가격", "소주", "소주*가격", "주문취소여부", "주문받은날짜", "주문받은시간", "주문완료시간", "총결제금액"
+            "매운탕", "매운탕*가격", "소주", "소주*가격", "주문취소여부", "주문받은시간", "주문완료시간", "총결제금액"
         ])
         self.layout.addWidget(self.order_table)
 
@@ -600,7 +600,7 @@ class DatabaseNode(Node):
             completion_time TEXT
         )
         ''')
-        # 메뉴별 테이블 생성 (방어회, 향어회 등)
+        # 메뉴별 테이블 생성
         menu_list = ['방어회', '향어회', '광어우럭세트', '매운탕', '소주']
         for menu_name in menu_list:
             self.cursor.execute(f'''
@@ -633,7 +633,7 @@ class DatabaseNode(Node):
         if not data_list:
             return
         try:
-            # Define a dictionary to map incoming menu names to database table names
+            #메뉴이름 바꾸기
             menu_name_mapping = {
                 "방어회": "방어회",
                 "향어회": "향어회",
