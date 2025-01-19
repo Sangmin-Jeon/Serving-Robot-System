@@ -19,7 +19,7 @@
 | DB 저장 및 통계 시스템 | 주문 정보를 DB에 저장하고 통계자료 생성 |
 
 ## 시스템 구성도
-![Image](https://github.com/user-attachments/assets/e85c9882-98a7-44c6-bbc4-4d22aac16006)
+<img src="https://github.com/user-attachments/assets/e85c9882-98a7-44c6-bbc4-4d22aac16006" alt="Image 1" width="65%" />
 
 ## Tech / Skill
 -	Ros2 humble  
