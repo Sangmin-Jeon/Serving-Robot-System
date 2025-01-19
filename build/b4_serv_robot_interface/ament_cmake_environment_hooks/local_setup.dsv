@@ -1,4 +1,0 @@
-source;share/b4_serv_robot_interface/environment/ament_prefix_path.sh
-source;share/b4_serv_robot_interface/environment/library_path.sh
-source;share/b4_serv_robot_interface/environment/path.sh
-source;share/b4_serv_robot_interface/environment/pythonpath.sh
